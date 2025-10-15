@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useTina } from "@/contexts/TinaContext";
-import { Plus, Trash2, Edit2 } from "lucide-react";
 
 export const AdminPage = () => {
   const { content, updateContent } = useTina();
@@ -17,39 +16,6 @@ export const AdminPage = () => {
     setFormData((prev: any) => ({ ...prev, [field]: value }));
   };
 
-  const handleArrayItemChange = (index: number, field: string, value: string) => {
-    setFormData((prev: any) => {
-      const newArray = [...(prev || [])];
-      newArray[index] = { ...newArray[index], [field]: value };
-      return newArray;
-    });
-  };
-
-  const handleAddArrayItem = () => {
-    const newItem: any = { id: Date.now().toString() };
-    
-    if (activeTab === "demos") {
-      newItem.title = "New Demo";
-      newItem.href = "#";
-      newItem.imageUrl = "";
-      newItem.qrCodeUrl = "";
-    } else if (activeTab === "features") {
-      newItem.title = "New Feature";
-      newItem.description = "";
-      newItem.icon = "Star";
-    } else if (activeTab === "plugins") {
-      newItem.name = "New Plugin";
-      newItem.imageUrl = "";
-      newItem.showBadge = false;
-    }
-    
-    setFormData((prev: any) => [...(prev || []), newItem]);
-  };
-
-  const handleRemoveArrayItem = (index: number) => {
-    setFormData((prev: any) => prev.filter((_: any, i: number) => i !== index));
-  };
-
   const handleSave = () => {
     updateContent(activeTab, formData);
     alert("Content saved successfully!");
@@ -58,9 +24,6 @@ export const AdminPage = () => {
   const tabs = [
     { id: "hero", label: "Hero Section" },
     { id: "settings", label: "Site Settings" },
-    { id: "demos", label: "Demo Showcases" },
-    { id: "features", label: "Key Features" },
-    { id: "plugins", label: "Plugins" },
   ];
 
   return (
@@ -84,12 +47,12 @@ export const AdminPage = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="bg-white rounded-lg shadow">
           <div className="border-b border-gray-200">
-            <nav className="flex -mb-px overflow-x-auto">
+            <nav className="flex -mb-px">
               {tabs.map((tab) => (
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`py-4 px-6 text-sm font-medium border-b-2 whitespace-nowrap ${
+                  className={`py-4 px-6 text-sm font-medium border-b-2 ${
                     activeTab === tab.id
                       ? "border-blue-500 text-blue-600"
                       : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
@@ -215,246 +178,6 @@ export const AdminPage = () => {
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
                 </div>
-              </div>
-            )}
-
-            {activeTab === "demos" && (
-              <div className="space-y-6">
-                <div className="flex justify-between items-center mb-4">
-                  <h3 className="text-lg font-medium text-gray-900">Demo Showcases</h3>
-                  <button
-                    onClick={handleAddArrayItem}
-                    className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-                  >
-                    <Plus size={16} />
-                    Add Demo
-                  </button>
-                </div>
-
-                {Array.isArray(formData) && formData.map((demo: any, index: number) => (
-                  <div key={demo.id} className="p-4 border border-gray-200 rounded-lg space-y-4">
-                    <div className="flex justify-between items-center">
-                      <h4 className="font-medium text-gray-900">Demo {index + 1}</h4>
-                      <button
-                        onClick={() => handleRemoveArrayItem(index)}
-                        className="text-red-600 hover:text-red-800"
-                      >
-                        <Trash2 size={16} />
-                      </button>
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Title
-                      </label>
-                      <input
-                        type="text"
-                        value={demo.title || ""}
-                        onChange={(e) => handleArrayItemChange(index, "title", e.target.value)}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Link URL
-                      </label>
-                      <input
-                        type="url"
-                        value={demo.href || ""}
-                        onChange={(e) => handleArrayItemChange(index, "href", e.target.value)}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Screenshot URL
-                      </label>
-                      <input
-                        type="url"
-                        value={demo.imageUrl || ""}
-                        onChange={(e) => handleArrayItemChange(index, "imageUrl", e.target.value)}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        QR Code URL
-                      </label>
-                      <input
-                        type="url"
-                        value={demo.qrCodeUrl || ""}
-                        onChange={(e) => handleArrayItemChange(index, "qrCodeUrl", e.target.value)}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                      />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-
-            {activeTab === "features" && (
-              <div className="space-y-6">
-                <div className="flex justify-between items-center mb-4">
-                  <h3 className="text-lg font-medium text-gray-900">Key Features</h3>
-                  <button
-                    onClick={handleAddArrayItem}
-                    className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-                  >
-                    <Plus size={16} />
-                    Add Feature
-                  </button>
-                </div>
-
-                {Array.isArray(formData) && formData.map((feature: any, index: number) => (
-                  <div key={feature.id} className="p-4 border border-gray-200 rounded-lg space-y-4">
-                    <div className="flex justify-between items-center">
-                      <h4 className="font-medium text-gray-900">Feature {index + 1}</h4>
-                      <button
-                        onClick={() => handleRemoveArrayItem(index)}
-                        className="text-red-600 hover:text-red-800"
-                      >
-                        <Trash2 size={16} />
-                      </button>
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Title
-                      </label>
-                      <input
-                        type="text"
-                        value={feature.title || ""}
-                        onChange={(e) => handleArrayItemChange(index, "title", e.target.value)}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Description
-                      </label>
-                      <textarea
-                        value={feature.description || ""}
-                        onChange={(e) => handleArrayItemChange(index, "description", e.target.value)}
-                        rows={3}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Icon Name (Lucide)
-                      </label>
-                      <input
-                        type="text"
-                        value={feature.icon || ""}
-                        onChange={(e) => handleArrayItemChange(index, "icon", e.target.value)}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                        placeholder="e.g., Star, Heart, Zap"
-                      />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-
-            {activeTab === "plugins" && (
-              <div className="space-y-6">
-                <div className="flex justify-between items-center mb-4">
-                  <h3 className="text-lg font-medium text-gray-900">Plugins</h3>
-                  <button
-                    onClick={handleAddArrayItem}
-                    className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-                  >
-                    <Plus size={16} />
-                    Add Plugin
-                  </button>
-                </div>
-
-                {Array.isArray(formData) && formData.map((plugin: any, index: number) => (
-                  <div key={plugin.id} className="p-4 border border-gray-200 rounded-lg space-y-4">
-                    <div className="flex justify-between items-center">
-                      <h4 className="font-medium text-gray-900">Plugin {index + 1}</h4>
-                      <button
-                        onClick={() => handleRemoveArrayItem(index)}
-                        className="text-red-600 hover:text-red-800"
-                      >
-                        <Trash2 size={16} />
-                      </button>
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Plugin Name
-                      </label>
-                      <input
-                        type="text"
-                        value={plugin.name || ""}
-                        onChange={(e) => handleArrayItemChange(index, "name", e.target.value)}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Logo URL
-                      </label>
-                      <input
-                        type="url"
-                        value={plugin.imageUrl || ""}
-                        onChange={(e) => handleArrayItemChange(index, "imageUrl", e.target.value)}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                      />
-                    </div>
-
-                    <div className="flex items-center gap-2">
-                      <input
-                        type="checkbox"
-                        checked={plugin.showBadge || false}
-                        onChange={(e) => handleArrayItemChange(index, "showBadge", e.target.checked.toString())}
-                        className="w-4 h-4 text-blue-600 rounded focus:ring-blue-500"
-                      />
-                      <label className="text-sm font-medium text-gray-700">
-                        Show Badge
-                      </label>
-                    </div>
-
-                    {plugin.showBadge && (
-                      <>
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Badge Text
-                          </label>
-                          <input
-                            type="text"
-                            value={plugin.badgeText || ""}
-                            onChange={(e) => handleArrayItemChange(index, "badgeText", e.target.value)}
-                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                          />
-                        </div>
-
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Badge Style
-                          </label>
-                          <select
-                            value={plugin.badgeVariant || "bg-stone-500"}
-                            onChange={(e) => handleArrayItemChange(index, "badgeVariant", e.target.value)}
-                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                          >
-                            <option value="bg-stone-500">Dark</option>
-                            <option value="bg-rose-100">Light Pink</option>
-                            <option value="bg-blue-500">Blue</option>
-                            <option value="bg-green-500">Green</option>
-                          </select>
-                        </div>
-                      </>
-                    )}
-                  </div>
-                ))}
               </div>
             )}
 
