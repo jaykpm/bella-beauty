@@ -34,19 +34,57 @@ export const AdminPage = () => {
   const [formData, setFormData] = useState<any>({});
   const [commitMessage, setCommitMessage] = useState("");
   const [showCommitDialog, setShowCommitDialog] = useState(false);
+  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [lastSaved, setLastSaved] = useState<Date | null>(null);
 
   useEffect(() => {
     if (content[activeTab as keyof typeof content]) {
       setFormData(content[activeTab as keyof typeof content]);
+      setHasUnsavedChanges(false); // Reset unsaved changes when switching tabs
     }
   }, [activeTab, content]);
 
   const handleInputChange = (field: string, value: string) => {
     const newData = { ...formData, [field]: value };
     setFormData(newData);
-    // Auto-save for live preview
+    setHasUnsavedChanges(true);
+    // Auto-save for live preview (optional - can be disabled)
     updateContent(activeTab, newData);
   };
+
+  const handleManualSave = async () => {
+    setIsSaving(true);
+    try {
+      // Save current section data
+      updateContent(activeTab, formData);
+      setHasUnsavedChanges(false);
+      setLastSaved(new Date());
+      
+      // Optional: Show success feedback
+      setTimeout(() => {
+        setIsSaving(false);
+      }, 500);
+    } catch (error) {
+      console.error('Save failed:', error);
+      setIsSaving(false);
+    }
+  };
+
+  // Keyboard shortcut for save (Ctrl+S)
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.ctrlKey && e.key === 's') {
+        e.preventDefault();
+        if (hasUnsavedChanges) {
+          handleManualSave();
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [hasUnsavedChanges, formData, activeTab]);
 
   const handleCommitAndPush = async () => {
     if (!commitMessage.trim()) {
@@ -132,17 +170,47 @@ export const AdminPage = () => {
               <p className="text-sm text-gray-600 mt-1">
                 Edit content on the left, see live preview on the right
               </p>
-              {gitStatus && (
-                <div className="flex items-center gap-2 mt-2">
-                  <div className={`w-2 h-2 rounded-full ${gitStatus.hasChanges ? 'bg-orange-500' : 'bg-green-500'}`}></div>
+              <div className="flex items-center gap-4 mt-2">
+                {gitStatus && (
+                  <div className="flex items-center gap-2">
+                    <div className={`w-2 h-2 rounded-full ${gitStatus.hasChanges ? 'bg-orange-500' : 'bg-green-500'}`}></div>
+                    <span className="text-sm text-gray-500">
+                      {gitStatus.currentBranch && `Branch: ${gitStatus.currentBranch} • `}
+                      {gitStatus.hasChanges ? `${gitStatus.changedFiles?.length || 0} file(s) changed` : 'No changes'}
+                    </span>
+                  </div>
+                )}
+                
+                {/* Save Status */}
+                <div className="flex items-center gap-2">
+                  <div className={`w-2 h-2 rounded-full ${hasUnsavedChanges ? 'bg-yellow-500' : 'bg-blue-500'}`}></div>
                   <span className="text-sm text-gray-500">
-                    {gitStatus.currentBranch && `Branch: ${gitStatus.currentBranch} • `}
-                    {gitStatus.hasChanges ? `${gitStatus.changedFiles?.length || 0} file(s) changed` : 'No changes'}
+                    {hasUnsavedChanges ? 'Unsaved changes' : lastSaved ? `Saved ${lastSaved.toLocaleTimeString()}` : 'All saved'}
                   </span>
                 </div>
-              )}
+              </div>
             </div>
             <div className="flex items-center gap-3">
+              {/* Manual Save Button */}
+              <button
+                onClick={handleManualSave}
+                disabled={isSaving || !hasUnsavedChanges}
+                className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                title={hasUnsavedChanges ? "Save changes (Ctrl+S)" : "No changes to save"}
+              >
+                {isSaving ? (
+                  <>
+                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                    Saving...
+                  </>
+                ) : (
+                  <>
+                    <span>💾</span>
+                    Save
+                  </>
+                )}
+              </button>
+
               {gitStatus?.isGitRepo && gitStatus.hasChanges && (
                 <button
                   onClick={() => setShowCommitDialog(true)}
