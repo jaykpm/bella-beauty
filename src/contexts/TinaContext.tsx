@@ -149,8 +149,9 @@ export const TinaProvider: React.FC<{ children: React.ReactNode }> = ({
       return updated;
     });
 
-    // Try to save to local file (development only)
+    // Try different save methods based on environment
     try {
+      // First try local file save (development)
       const localResponse = await fetch('/api/content/save', {
         method: 'POST',
         headers: {
@@ -164,17 +165,34 @@ export const TinaProvider: React.FC<{ children: React.ReactNode }> = ({
 
       if (localResponse.ok) {
         console.log('✅ Content saved to file successfully');
-        // Note: Git commit happens separately via Deploy button
+        
+        // Automatically commit changes to Git (development)
+        await autoCommitToGit(section);
+        
         return; // Local save successful
       }
 
-      // If local save API doesn't exist (production), just save to localStorage
-      console.log('💾 Content saved to localStorage (production mode)');
-      console.log('ℹ️ Use Deploy button to push changes to production');
+      // If local save fails, try GitHub API (production)
+      const githubResponse = await fetch('/api/github/save-content', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          section,
+          data,
+          commitMessage: `Update ${section} content via admin panel - ${new Date().toLocaleString()}`,
+        }),
+      });
+
+      const result = await githubResponse.json();
+      if (!result.success) {
+        console.error('❌ Failed to save content:', result.error);
+      } else {
+        console.log('✅ Content saved to GitHub successfully - auto-deploy triggered');
+      }
     } catch (error) {
-      // In production, file save API won't exist - that's expected
-      console.log('💾 Content saved to localStorage');
-      console.log('ℹ️ Use Deploy button to commit and push to Git');
+      console.error('❌ Error saving content:', error);
     }
   };
 

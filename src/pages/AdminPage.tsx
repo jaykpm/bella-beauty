@@ -37,19 +37,6 @@ export const AdminPage = () => {
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [lastSaved, setLastSaved] = useState<Date | null>(null);
-  const [hasLocalStorageContent, setHasLocalStorageContent] = useState(false);
-
-  // Check if localStorage has content to deploy
-  useEffect(() => {
-    const checkContent = () => {
-      const content = localStorage.getItem('tinaContent');
-      setHasLocalStorageContent(!!content);
-    };
-    checkContent();
-    // Check after saves
-    const interval = setInterval(checkContent, 2000);
-    return () => clearInterval(interval);
-  }, []);
 
   useEffect(() => {
     if (content[activeTab as keyof typeof content]) {
@@ -93,6 +80,7 @@ export const AdminPage = () => {
         }
       }
     };
+
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [hasUnsavedChanges, formData, activeTab]);
@@ -112,42 +100,6 @@ export const AdminPage = () => {
       setTimeout(() => {
         checkGitStatus();
       }, 1000);
-    } else if (result.error?.includes('not available')) {
-      // Production mode - deploy via GitHub API
-      await deployToProductionViaGitHub();
-    }
-  };
-
-  // Deploy all localStorage content to production via GitHub API
-  const deployToProductionViaGitHub = async () => {
-    try {
-      const allContent = localStorage.getItem('tinaContent');
-      if (!allContent) {
-        alert('No content to deploy');
-        return;
-      }
-
-      const contentObj = JSON.parse(allContent);
-      const sections = Object.keys(contentObj);
-      
-      for (const section of sections) {
-        await fetch('/api/github/save-content', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            section,
-            data: contentObj[section],
-            commitMessage: `${commitMessage} (${section})`,
-          }),
-        });
-      }
-
-      alert('Deployed to production successfully!');
-      setCommitMessage("");
-      setShowCommitDialog(false);
-    } catch (error) {
-      alert('Production deployment failed');
-      console.error(error);
     }
   };
 
@@ -283,9 +235,19 @@ export const AdminPage = () => {
                 Content Management
               </h1>
               <p className="text-sm text-gray-600 mt-1">
-                Edit content → Save changes → Deploy to production
+                Edit content on the left, see live preview on the right
               </p>
               <div className="flex items-center gap-4 mt-2">
+                {gitStatus && (
+                  <div className="flex items-center gap-2">
+                    <div className={`w-2 h-2 rounded-full ${gitStatus.hasChanges ? 'bg-orange-500' : 'bg-green-500'}`}></div>
+                    <span className="text-sm text-gray-500">
+                      {gitStatus.currentBranch && `Branch: ${gitStatus.currentBranch} • `}
+                      {gitStatus.hasChanges ? `${gitStatus.changedFiles?.length || 0} file(s) changed` : 'No changes'}
+                    </span>
+                  </div>
+                )}
+                
                 {/* Save Status */}
                 <div className="flex items-center gap-2">
                   <div className={`w-2 h-2 rounded-full ${hasUnsavedChanges ? 'bg-yellow-500' : 'bg-blue-500'}`}></div>
@@ -293,24 +255,6 @@ export const AdminPage = () => {
                     {hasUnsavedChanges ? 'Unsaved changes' : lastSaved ? `Saved ${lastSaved.toLocaleTimeString()}` : 'All saved'}
                   </span>
                 </div>
-                
-                {/* Deploy Status */}
-                {gitStatus ? (
-                  <div className="flex items-center gap-2">
-                    <div className={`w-2 h-2 rounded-full ${gitStatus.hasChanges ? 'bg-orange-500' : 'bg-green-500'}`}></div>
-                    <span className="text-sm text-gray-500">
-                      {gitStatus.currentBranch && `Branch: ${gitStatus.currentBranch} • `}
-                      {gitStatus.hasChanges ? `${gitStatus.changedFiles?.length || 0} file(s) to deploy` : 'Deployed'}
-                    </span>
-                  </div>
-                ) : (
-                  <div className="flex items-center gap-2">
-                    <div className={`w-2 h-2 rounded-full ${hasLocalStorageContent ? 'bg-purple-500' : 'bg-gray-400'}`}></div>
-                    <span className="text-sm text-gray-500">
-                      {hasLocalStorageContent ? 'Production mode • Ready to deploy' : 'Production mode'}
-                    </span>
-                  </div>
-                )}
               </div>
             </div>
             <div className="flex items-center gap-3">
@@ -334,23 +278,21 @@ export const AdminPage = () => {
                 )}
               </button>
 
-              {/* Show Deploy button: in dev (Git changes) or production (localStorage content) */}
-              {((gitStatus?.isGitRepo && gitStatus.hasChanges) || (!gitStatus?.isGitRepo && hasLocalStorageContent)) && (
+              {gitStatus?.isGitRepo && gitStatus.hasChanges && (
                 <button
                   onClick={() => setShowCommitDialog(true)}
                   disabled={isCommitting}
                   className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
-                  title="Deploy changes to production"
                 >
                   {isCommitting ? (
                     <>
                       <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                      Deploying...
+                      Committing...
                     </>
                   ) : (
                     <>
-                      <span>🚀</span>
-                      Deploy
+                      <span>📤</span>
+                      Commit & Push
                     </>
                   )}
                 </button>
@@ -1048,13 +990,13 @@ export const AdminPage = () => {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg p-6 w-full max-w-md mx-4">
             <h3 className="text-lg font-semibold text-gray-900 mb-4">
-              Deploy Changes to Production
+              Commit & Push Changes
             </h3>
             
-            {gitStatus && gitStatus.changedFiles ? (
+            {gitStatus && gitStatus.changedFiles && (
               <div className="mb-4">
                 <p className="text-sm text-gray-600 mb-2">
-                  Files to be deployed ({gitStatus.changedFiles.length}):
+                  Files to be committed ({gitStatus.changedFiles.length}):
                 </p>
                 <div className="bg-gray-50 rounded p-2 max-h-32 overflow-y-auto">
                   {gitStatus.changedFiles.map((file, index) => (
@@ -1064,20 +1006,11 @@ export const AdminPage = () => {
                   ))}
                 </div>
               </div>
-            ) : (
-              <div className="mb-4">
-                <div className="bg-purple-50 border border-purple-200 rounded-lg p-3">
-                  <p className="text-sm text-purple-900 font-medium mb-1">🚀 Production Mode</p>
-                  <p className="text-xs text-purple-700">
-                    All content from localStorage will be deployed to GitHub and trigger an automatic rebuild.
-                  </p>
-                </div>
-              </div>
             )}
 
             <div className="mb-4">
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Deployment Message
+                Commit Message
               </label>
               <textarea
                 value={commitMessage}
@@ -1086,9 +1019,6 @@ export const AdminPage = () => {
                 rows={3}
                 placeholder="Describe your changes..."
               />
-              <p className="text-xs text-gray-500 mt-1">
-                Example: Updated hero section content - this will trigger a rebuild
-              </p>
               <button
                 type="button"
                 onClick={() => setCommitMessage(generateCommitMessage())}
@@ -1134,12 +1064,12 @@ export const AdminPage = () => {
                 {isCommitting ? (
                   <>
                     <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                    Deploying to Production...
+                    Committing...
                   </>
                 ) : (
                   <>
-                    <span>🚀</span>
-                    Deploy to Production
+                    <span>📤</span>
+                    Commit & Push
                   </>
                 )}
               </button>
