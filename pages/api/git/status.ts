@@ -24,7 +24,7 @@ export default async function handler(
       success: false,
       isGitRepo: false,
       hasChanges: false,
-      message: 'Git operations disabled in production',
+      message: 'Git features are not available in production mode',
       error: 'Git features are not available in production mode'
     });
   }
@@ -40,21 +40,42 @@ export default async function handler(
   }
 
   try {
-    // Check if we're in a git repository
-    await execAsync('git status');
+    // In production (especially serverless), Git may not be available
+    // Return a mock response that indicates no Git repository
+    if (process.env.NODE_ENV === 'production') {
+      return res.status(200).json({
+        success: true,
+        isGitRepo: false,
+        hasChanges: false,
+        message: 'Git not available in production environment'
+      });
+    }
+
+    // Check if we're in a Git repository (development only)
+    const isGitRepoResult = await execAsync('git rev-parse --is-inside-work-tree', { cwd: process.cwd() });
+    const isGitRepo = isGitRepoResult.stdout.trim() === 'true';
+
+    if (!isGitRepo) {
+      return res.status(200).json({
+        success: true,
+        isGitRepo: false,
+        hasChanges: false,
+        message: 'Not a Git repository'
+      });
+    }
 
     // Get current branch
-    const { stdout: branchOutput } = await execAsync('git branch --show-current');
-    const currentBranch = branchOutput.trim();
+    const branchResult = await execAsync('git branch --show-current', { cwd: process.cwd() });
+    const currentBranch = branchResult.stdout.trim();
 
     // Check for changes
-    const { stdout: statusOutput } = await execAsync('git status --porcelain');
-    const changedFiles = statusOutput
-      .split('\n')
-      .filter(line => line.trim())
-      .map(line => line.substring(3)); // Remove status indicators
-
-    const hasChanges = changedFiles.length > 0;
+    const statusResult = await execAsync('git status --porcelain', { cwd: process.cwd() });
+    const hasChanges = statusResult.stdout.trim().length > 0;
+    
+    // Get list of changed files
+    const changedFiles = hasChanges 
+      ? statusResult.stdout.trim().split('\n').map(line => line.substring(3))
+      : [];
 
     return res.status(200).json({
       success: true,
@@ -63,23 +84,23 @@ export default async function handler(
       currentBranch,
       changedFiles,
       message: hasChanges 
-        ? `${changedFiles.length} file(s) changed on branch '${currentBranch}'`
-        : `Working tree is clean on branch '${currentBranch}'`
+        ? `${changedFiles.length} file(s) changed`
+        : 'Working tree is clean'
     });
 
   } catch (error: any) {
-    console.error('Git status check failed:', error);
+    console.error('Git status failed:', error);
     
-    if (error.message.includes('not a git repository')) {
+    // In production, return a safe response instead of error
+    if (process.env.NODE_ENV === 'production') {
       return res.status(200).json({
         success: true,
         isGitRepo: false,
         hasChanges: false,
-        message: 'Not a Git repository',
-        error: 'This project is not initialized as a Git repository'
+        message: 'Git not available in production environment'
       });
     }
-
+    
     return res.status(500).json({
       success: false,
       isGitRepo: false,
