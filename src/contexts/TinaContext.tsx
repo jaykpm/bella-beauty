@@ -31,7 +31,7 @@ interface ContentData {
 
 interface TinaContextType {
   content: ContentData;
-  updateContent: (section: string, data: any) => void;
+  updateContent: (section: string, data: any) => Promise<void>;
   isLoading: boolean;
 }
 
@@ -115,12 +115,34 @@ export const TinaProvider: React.FC<{ children: React.ReactNode }> = ({
     loadContent();
   }, []);
 
-  const updateContent = (section: string, data: any) => {
+  const updateContent = async (section: string, data: any) => {
+    // Update local state immediately for UI responsiveness
     setContent((prev) => {
       const updated = { ...prev, [section]: data };
       localStorage.setItem("tinaContent", JSON.stringify(updated));
       return updated;
     });
+
+    // Save to actual file so Git can track changes
+    try {
+      const response = await fetch('/api/content/save', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          section,
+          data,
+        }),
+      });
+
+      const result = await response.json();
+      if (!result.success) {
+        console.error('Failed to save content to file:', result.error);
+      }
+    } catch (error) {
+      console.error('Error saving content to file:', error);
+    }
   };
 
   return (

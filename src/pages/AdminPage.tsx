@@ -45,12 +45,12 @@ export const AdminPage = () => {
     }
   }, [activeTab, content]);
 
-  const handleInputChange = (field: string, value: string) => {
+  const handleInputChange = async (field: string, value: string) => {
     const newData = { ...formData, [field]: value };
     setFormData(newData);
     setHasUnsavedChanges(true);
     // Auto-save for live preview (optional - can be disabled)
-    updateContent(activeTab, newData);
+    await updateContent(activeTab, newData);
   };
 
   const handleManualSave = async () => {
