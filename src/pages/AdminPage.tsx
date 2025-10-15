@@ -136,13 +136,81 @@ export const AdminPage = () => {
 
   const renderPreview = () => {
     const currentTab = tabs.find(tab => tab.id === activeTab);
+    
+    // Show preview for settings (special case)
+    if (activeTab === "settings") {
+      return (
+        <div className="p-8">
+          <div className="max-w-4xl mx-auto">
+            <div className="bg-gradient-to-r from-blue-500 to-purple-600 text-white p-8 rounded-lg shadow-lg">
+              <div className="flex items-center justify-between mb-6">
+                {formData.logo && (
+                  <img src={formData.logo} alt="Logo" className="h-12" />
+                )}
+                <div className="flex items-center gap-4">
+                  <button className="bg-white text-blue-600 px-4 py-2 rounded-lg font-medium hover:bg-blue-50 transition-colors">
+                    Purchase Now
+                  </button>
+                </div>
+              </div>
+              <h1 className="text-4xl font-bold mb-2">{formData.siteName || "Your Site Name"}</h1>
+              <p className="text-xl text-blue-100">{formData.siteDescription || "Your site description"}</p>
+            </div>
+            <div className="mt-6 p-6 bg-white rounded-lg shadow">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">Global Settings Preview</h3>
+              <div className="space-y-3 text-sm">
+                <div className="flex justify-between py-2 border-b">
+                  <span className="text-gray-600">Site Name:</span>
+                  <span className="font-medium text-gray-900">{formData.siteName || "Not set"}</span>
+                </div>
+                <div className="flex justify-between py-2 border-b">
+                  <span className="text-gray-600">Description:</span>
+                  <span className="font-medium text-gray-900">{formData.siteDescription || "Not set"}</span>
+                </div>
+                <div className="flex justify-between py-2 border-b">
+                  <span className="text-gray-600">Logo URL:</span>
+                  <span className="font-medium text-gray-900 truncate max-w-xs">{formData.logo || "Not set"}</span>
+                </div>
+                <div className="flex justify-between py-2">
+                  <span className="text-gray-600">Purchase Link:</span>
+                  <span className="font-medium text-gray-900 truncate max-w-xs">{formData.purchaseLink || "Not set"}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+    
+    // If no component exists, show a generic preview
     if (!currentTab?.component) {
       return (
-        <div className="flex items-center justify-center h-full text-gray-500">
-          <div className="text-center">
-            <div className="text-4xl mb-4">⚙️</div>
-            <p>Site Settings Preview</p>
-            <p className="text-sm">Global settings don't have a preview</p>
+        <div className="p-8">
+          <div className="max-w-4xl mx-auto">
+            <div className="bg-gradient-to-r from-blue-50 to-purple-50 p-8 rounded-lg">
+              <div className="text-center mb-6">
+                <div className="text-5xl mb-4">{currentTab?.icon || "📄"}</div>
+                <h2 className="text-3xl font-bold text-gray-900 mb-2">
+                  {formData.title || "Section Title"}
+                </h2>
+                {formData.subtitle && (
+                  <p className="text-xl text-gray-600 mb-4">{formData.subtitle}</p>
+                )}
+                {formData.description && (
+                  <p className="text-gray-700 max-w-2xl mx-auto">{formData.description}</p>
+                )}
+                {formData.buttonText && (
+                  <button className="mt-6 bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors">
+                    {formData.buttonText}
+                  </button>
+                )}
+              </div>
+            </div>
+            <div className="mt-6 p-6 bg-white rounded-lg shadow">
+              <p className="text-sm text-gray-600 text-center">
+                💡 This is a preview of your content. The actual component will render with these values.
+              </p>
+            </div>
           </div>
         </div>
       );
@@ -167,19 +235,9 @@ export const AdminPage = () => {
                 Content Management
               </h1>
               <p className="text-sm text-gray-600 mt-1">
-                Edit content on the left, see live preview on the right
+                Edit content → Save changes → Deploy to production
               </p>
               <div className="flex items-center gap-4 mt-2">
-                {gitStatus && (
-                  <div className="flex items-center gap-2">
-                    <div className={`w-2 h-2 rounded-full ${gitStatus.hasChanges ? 'bg-orange-500' : 'bg-green-500'}`}></div>
-                    <span className="text-sm text-gray-500">
-                      {gitStatus.currentBranch && `Branch: ${gitStatus.currentBranch} • `}
-                      {gitStatus.hasChanges ? `${gitStatus.changedFiles?.length || 0} file(s) changed` : 'No changes'}
-                    </span>
-                  </div>
-                )}
-                
                 {/* Save Status */}
                 <div className="flex items-center gap-2">
                   <div className={`w-2 h-2 rounded-full ${hasUnsavedChanges ? 'bg-yellow-500' : 'bg-blue-500'}`}></div>
@@ -187,6 +245,17 @@ export const AdminPage = () => {
                     {hasUnsavedChanges ? 'Unsaved changes' : lastSaved ? `Saved ${lastSaved.toLocaleTimeString()}` : 'All saved'}
                   </span>
                 </div>
+                
+                {/* Git Status */}
+                {gitStatus && (
+                  <div className="flex items-center gap-2">
+                    <div className={`w-2 h-2 rounded-full ${gitStatus.hasChanges ? 'bg-orange-500' : 'bg-green-500'}`}></div>
+                    <span className="text-sm text-gray-500">
+                      {gitStatus.currentBranch && `Branch: ${gitStatus.currentBranch} • `}
+                      {gitStatus.hasChanges ? `${gitStatus.changedFiles?.length || 0} file(s) to deploy` : 'Deployed'}
+                    </span>
+                  </div>
+                )}
               </div>
             </div>
             <div className="flex items-center gap-3">
@@ -215,16 +284,17 @@ export const AdminPage = () => {
                   onClick={() => setShowCommitDialog(true)}
                   disabled={isCommitting}
                   className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                  title="Commit changes to Git and push to repository"
                 >
                   {isCommitting ? (
                     <>
                       <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                      Committing...
+                      Deploying...
                     </>
                   ) : (
                     <>
-                      <span>📤</span>
-                      Commit & Push
+                      <span>🚀</span>
+                      Deploy
                     </>
                   )}
                 </button>
@@ -529,6 +599,368 @@ export const AdminPage = () => {
                   </div>
                 </div>
               )}
+
+              {/* Trust Badges Section */}
+              {activeTab === "trustBadges" && (
+                <div className="space-y-4">
+                  <div className="bg-blue-50 p-4 rounded-lg">
+                    <h3 className="font-medium text-blue-900 mb-2">🛡️ Trust Badges</h3>
+                    <p className="text-sm text-blue-700">Edit trust indicators and badges</p>
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Section Title
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.title || ""}
+                      onChange={(e) => handleInputChange("title", e.target.value)}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                      placeholder="e.g., Trusted by Thousands"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Description
+                    </label>
+                    <textarea
+                      value={formData.description || ""}
+                      onChange={(e) => handleInputChange("description", e.target.value)}
+                      rows={3}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                      placeholder="Describe your trust indicators..."
+                    />
+                  </div>
+
+                  <div className="bg-gray-50 p-4 rounded-lg">
+                    <p className="text-sm text-gray-600">
+                      💡 Individual badges are managed through the content files.
+                    </p>
+                  </div>
+                </div>
+              )}
+
+              {/* Demo Showcase Section */}
+              {activeTab === "demoShowcase" && (
+                <div className="space-y-4">
+                  <div className="bg-purple-50 p-4 rounded-lg">
+                    <h3 className="font-medium text-purple-900 mb-2">🖥️ Demo Showcase</h3>
+                    <p className="text-sm text-purple-700">Edit demo presentation section</p>
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Section Title
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.title || ""}
+                      onChange={(e) => handleInputChange("title", e.target.value)}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                      placeholder="e.g., Explore Demo Variations"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Subtitle
+                    </label>
+                    <textarea
+                      value={formData.subtitle || ""}
+                      onChange={(e) => handleInputChange("subtitle", e.target.value)}
+                      rows={2}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                      placeholder="Brief description..."
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Button Text
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.buttonText || ""}
+                      onChange={(e) => handleInputChange("buttonText", e.target.value)}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                      placeholder="e.g., View All Demos"
+                    />
+                  </div>
+                </div>
+              )}
+
+              {/* Cross Compatibility Section */}
+              {activeTab === "crossCompatibility" && (
+                <div className="space-y-4">
+                  <div className="bg-green-50 p-4 rounded-lg">
+                    <h3 className="font-medium text-green-900 mb-2">🔗 Cross Compatibility</h3>
+                    <p className="text-sm text-green-700">Edit compatibility information</p>
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Section Title
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.title || ""}
+                      onChange={(e) => handleInputChange("title", e.target.value)}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                      placeholder="e.g., Works With Everything"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Description
+                    </label>
+                    <textarea
+                      value={formData.description || ""}
+                      onChange={(e) => handleInputChange("description", e.target.value)}
+                      rows={3}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                      placeholder="Describe compatibility features..."
+                    />
+                  </div>
+                </div>
+              )}
+
+              {/* Refund Policy Section */}
+              {activeTab === "refundPolicy" && (
+                <div className="space-y-4">
+                  <div className="bg-yellow-50 p-4 rounded-lg">
+                    <h3 className="font-medium text-yellow-900 mb-2">💰 Refund Policy</h3>
+                    <p className="text-sm text-yellow-700">Edit refund policy details</p>
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Section Title
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.title || ""}
+                      onChange={(e) => handleInputChange("title", e.target.value)}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                      placeholder="e.g., 30-Day Money Back Guarantee"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Policy Details
+                    </label>
+                    <textarea
+                      value={formData.description || ""}
+                      onChange={(e) => handleInputChange("description", e.target.value)}
+                      rows={4}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                      placeholder="Describe your refund policy..."
+                    />
+                  </div>
+                </div>
+              )}
+
+              {/* Color Palettes Section */}
+              {activeTab === "colorPalettes" && (
+                <div className="space-y-4">
+                  <div className="bg-pink-50 p-4 rounded-lg">
+                    <h3 className="font-medium text-pink-900 mb-2">🎨 Color Palettes</h3>
+                    <p className="text-sm text-pink-700">Edit color scheme options</p>
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Section Title
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.title || ""}
+                      onChange={(e) => handleInputChange("title", e.target.value)}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                      placeholder="e.g., Beautiful Color Schemes"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Description
+                    </label>
+                    <textarea
+                      value={formData.description || ""}
+                      onChange={(e) => handleInputChange("description", e.target.value)}
+                      rows={2}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                      placeholder="Describe color customization..."
+                    />
+                  </div>
+                </div>
+              )}
+
+              {/* Performance Section */}
+              {activeTab === "performanceSection" && (
+                <div className="space-y-4">
+                  <div className="bg-orange-50 p-4 rounded-lg">
+                    <h3 className="font-medium text-orange-900 mb-2">⚡ Performance</h3>
+                    <p className="text-sm text-orange-700">Edit performance metrics</p>
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Section Title
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.title || ""}
+                      onChange={(e) => handleInputChange("title", e.target.value)}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                      placeholder="e.g., Lightning Fast Performance"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Description
+                    </label>
+                    <textarea
+                      value={formData.description || ""}
+                      onChange={(e) => handleInputChange("description", e.target.value)}
+                      rows={3}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                      placeholder="Describe performance features..."
+                    />
+                  </div>
+                </div>
+              )}
+
+              {/* Plugins Section */}
+              {activeTab === "pluginsSection" && (
+                <div className="space-y-4">
+                  <div className="bg-indigo-50 p-4 rounded-lg">
+                    <h3 className="font-medium text-indigo-900 mb-2">🔌 Plugins</h3>
+                    <p className="text-sm text-indigo-700">Edit plugins information</p>
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Section Title
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.sectionTitle || ""}
+                      onChange={(e) => handleInputChange("sectionTitle", e.target.value)}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                      placeholder="e.g., Included Premium Plugins"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Description
+                    </label>
+                    <textarea
+                      value={formData.description || ""}
+                      onChange={(e) => handleInputChange("description", e.target.value)}
+                      rows={2}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                      placeholder="Describe included plugins..."
+                    />
+                  </div>
+
+                  <div className="bg-gray-50 p-4 rounded-lg">
+                    <p className="text-sm text-gray-600">
+                      💡 Individual plugins are managed through the content files.
+                    </p>
+                  </div>
+                </div>
+              )}
+
+              {/* Remaining sections with generic forms */}
+              {["blocksGallery", "beforeAfterSection", "customizationSection", "postTypesSection", 
+                "detailsSection", "technicalSection", "elementorExtension", "layoutsGallery",
+                "installationWizard", "templateBuilder", "headerVariations", "mobileFirstSection"].includes(activeTab) && (
+                <div className="space-y-4">
+                  <div className="bg-gradient-to-r from-blue-50 to-purple-50 p-4 rounded-lg">
+                    <h3 className="font-medium text-gray-900 mb-2">
+                      {tabs.find(t => t.id === activeTab)?.icon} {tabs.find(t => t.id === activeTab)?.label}
+                    </h3>
+                    <p className="text-sm text-gray-700">Edit this section content</p>
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Section Title
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.title || ""}
+                      onChange={(e) => handleInputChange("title", e.target.value)}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                      placeholder="Enter section title..."
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Subtitle
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.subtitle || ""}
+                      onChange={(e) => handleInputChange("subtitle", e.target.value)}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                      placeholder="Enter subtitle..."
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Description
+                    </label>
+                    <textarea
+                      value={formData.description || ""}
+                      onChange={(e) => handleInputChange("description", e.target.value)}
+                      rows={4}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                      placeholder="Enter detailed description..."
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Button Text (optional)
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.buttonText || ""}
+                      onChange={(e) => handleInputChange("buttonText", e.target.value)}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                      placeholder="e.g., Learn More"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Button Link (optional)
+                    </label>
+                    <input
+                      type="url"
+                      value={formData.buttonLink || ""}
+                      onChange={(e) => handleInputChange("buttonLink", e.target.value)}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                      placeholder="https://..."
+                    />
+                  </div>
+
+                  <div className="bg-blue-50 p-4 rounded-lg">
+                    <p className="text-sm text-blue-700">
+                      💡 These are the basic fields. Additional customization options can be added through the content JSON files.
+                    </p>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -560,13 +992,13 @@ export const AdminPage = () => {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg p-6 w-full max-w-md mx-4">
             <h3 className="text-lg font-semibold text-gray-900 mb-4">
-              Commit & Push Changes
+              Deploy Changes to Production
             </h3>
             
             {gitStatus && gitStatus.changedFiles && (
               <div className="mb-4">
                 <p className="text-sm text-gray-600 mb-2">
-                  Files to be committed ({gitStatus.changedFiles.length}):
+                  Files to be deployed ({gitStatus.changedFiles.length}):
                 </p>
                 <div className="bg-gray-50 rounded p-2 max-h-32 overflow-y-auto">
                   {gitStatus.changedFiles.map((file, index) => (
@@ -580,7 +1012,7 @@ export const AdminPage = () => {
 
             <div className="mb-4">
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Commit Message
+                Deployment Message
               </label>
               <textarea
                 value={commitMessage}
@@ -589,6 +1021,9 @@ export const AdminPage = () => {
                 rows={3}
                 placeholder="Describe your changes..."
               />
+              <p className="text-xs text-gray-500 mt-1">
+                Example: Updated hero section content - this will trigger a rebuild
+              </p>
               <button
                 type="button"
                 onClick={() => setCommitMessage(generateCommitMessage())}
@@ -634,12 +1069,12 @@ export const AdminPage = () => {
                 {isCommitting ? (
                   <>
                     <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                    Committing...
+                    Deploying to Production...
                   </>
                 ) : (
                   <>
-                    <span>📤</span>
-                    Commit & Push
+                    <span>🚀</span>
+                    Deploy to Production
                   </>
                 )}
               </button>

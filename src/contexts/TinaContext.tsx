@@ -165,10 +165,7 @@ export const TinaProvider: React.FC<{ children: React.ReactNode }> = ({
 
       if (localResponse.ok) {
         console.log('✅ Content saved to file successfully');
-        
-        // Automatically commit changes to Git (development)
-        await autoCommitToGit(section);
-        
+        // Note: Git commit happens separately via Deploy button
         return; // Local save successful
       }
 
