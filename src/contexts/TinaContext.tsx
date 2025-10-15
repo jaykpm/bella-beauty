@@ -115,6 +115,32 @@ export const TinaProvider: React.FC<{ children: React.ReactNode }> = ({
     loadContent();
   }, []);
 
+  // Auto-commit changes to Git after file save
+  const autoCommitToGit = async (section: string) => {
+    try {
+      const response = await fetch('/api/git/commit-and-push', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          commitMessage: `Auto-update ${section} content - ${new Date().toLocaleString()}`,
+          branch: 'main',
+        }),
+      });
+
+      const result = await response.json();
+      if (result.success) {
+        console.log('✅ Changes automatically committed to Git:', result.message);
+      } else {
+        console.log('ℹ️ Auto-commit skipped:', result.message);
+      }
+    } catch (error) {
+      console.error('⚠️ Auto-commit failed:', error);
+      // Don't throw - let the save succeed even if commit fails
+    }
+  };
+
   const updateContent = async (section: string, data: any) => {
     // Update local state immediately for UI responsiveness
     setContent((prev) => {
@@ -138,6 +164,11 @@ export const TinaProvider: React.FC<{ children: React.ReactNode }> = ({
       });
 
       if (localResponse.ok) {
+        console.log('✅ Content saved to file successfully');
+        
+        // Automatically commit changes to Git (development)
+        await autoCommitToGit(section);
+        
         return; // Local save successful
       }
 
@@ -150,16 +181,18 @@ export const TinaProvider: React.FC<{ children: React.ReactNode }> = ({
         body: JSON.stringify({
           section,
           data,
-          commitMessage: `Update ${section} content via admin panel`,
+          commitMessage: `Update ${section} content via admin panel - ${new Date().toLocaleString()}`,
         }),
       });
 
       const result = await githubResponse.json();
       if (!result.success) {
-        console.error('Failed to save content:', result.error);
+        console.error('❌ Failed to save content:', result.error);
+      } else {
+        console.log('✅ Content saved to GitHub successfully - auto-deploy triggered');
       }
     } catch (error) {
-      console.error('Error saving content:', error);
+      console.error('❌ Error saving content:', error);
     }
   };
 
