@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { useTina } from "@/contexts/TinaContext";
 import Link from "next/link";
+import { useGit } from "@/hooks/useGit";
 import { Hero } from "@/sections/Hero";
 import { CTASection } from "@/sections/CTASection";
 import { KeyFeatures } from "@/sections/KeyFeatures";
@@ -28,8 +29,11 @@ import { MobileFirstSection } from "@/sections/MobileFirstSection";
 
 export const AdminPage = () => {
   const { content, updateContent } = useTina();
+  const { gitStatus, isCommitting, lastCommitResult, commitAndPush, checkGitStatus, clearLastResult } = useGit();
   const [activeTab, setActiveTab] = useState("hero");
   const [formData, setFormData] = useState<any>({});
+  const [commitMessage, setCommitMessage] = useState("");
+  const [showCommitDialog, setShowCommitDialog] = useState(false);
 
   useEffect(() => {
     if (content[activeTab as keyof typeof content]) {
@@ -42,6 +46,29 @@ export const AdminPage = () => {
     setFormData(newData);
     // Auto-save for live preview
     updateContent(activeTab, newData);
+  };
+
+  const handleCommitAndPush = async () => {
+    if (!commitMessage.trim()) {
+      alert("Please enter a commit message");
+      return;
+    }
+
+    const result = await commitAndPush(commitMessage, gitStatus?.currentBranch || 'main');
+    
+    if (result.success) {
+      setCommitMessage("");
+      setShowCommitDialog(false);
+      // Refresh git status
+      setTimeout(() => {
+        checkGitStatus();
+      }, 1000);
+    }
+  };
+
+  const generateCommitMessage = () => {
+    const timestamp = new Date().toLocaleString();
+    return `Update content via admin panel - ${timestamp}`;
   };
 
   const tabs = [
@@ -105,13 +132,43 @@ export const AdminPage = () => {
               <p className="text-sm text-gray-600 mt-1">
                 Edit content on the left, see live preview on the right
               </p>
+              {gitStatus && (
+                <div className="flex items-center gap-2 mt-2">
+                  <div className={`w-2 h-2 rounded-full ${gitStatus.hasChanges ? 'bg-orange-500' : 'bg-green-500'}`}></div>
+                  <span className="text-sm text-gray-500">
+                    {gitStatus.currentBranch && `Branch: ${gitStatus.currentBranch} • `}
+                    {gitStatus.hasChanges ? `${gitStatus.changedFiles?.length || 0} file(s) changed` : 'No changes'}
+                  </span>
+                </div>
+              )}
             </div>
-            <Link
-              href="/"
-              className="inline-flex items-center px-4 py-2 text-sm font-medium text-blue-600 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors"
-            >
-              ← Back to Site
-            </Link>
+            <div className="flex items-center gap-3">
+              {gitStatus?.isGitRepo && gitStatus.hasChanges && (
+                <button
+                  onClick={() => setShowCommitDialog(true)}
+                  disabled={isCommitting}
+                  className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                >
+                  {isCommitting ? (
+                    <>
+                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                      Committing...
+                    </>
+                  ) : (
+                    <>
+                      <span>📤</span>
+                      Commit & Push
+                    </>
+                  )}
+                </button>
+              )}
+              <Link
+                href="/"
+                className="inline-flex items-center px-4 py-2 text-sm font-medium text-blue-600 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors"
+              >
+                ← Back to Site
+              </Link>
+            </div>
           </div>
         </div>
       </div>
@@ -430,6 +487,99 @@ export const AdminPage = () => {
           </div>
         </div>
       </div>
+
+      {/* Commit Dialog Modal */}
+      {showCommitDialog && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-6 w-full max-w-md mx-4">
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">
+              Commit & Push Changes
+            </h3>
+            
+            {gitStatus && gitStatus.changedFiles && (
+              <div className="mb-4">
+                <p className="text-sm text-gray-600 mb-2">
+                  Files to be committed ({gitStatus.changedFiles.length}):
+                </p>
+                <div className="bg-gray-50 rounded p-2 max-h-32 overflow-y-auto">
+                  {gitStatus.changedFiles.map((file, index) => (
+                    <div key={index} className="text-xs text-gray-700 font-mono">
+                      {file}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Commit Message
+              </label>
+              <textarea
+                value={commitMessage}
+                onChange={(e) => setCommitMessage(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                rows={3}
+                placeholder="Describe your changes..."
+              />
+              <button
+                type="button"
+                onClick={() => setCommitMessage(generateCommitMessage())}
+                className="mt-2 text-xs text-blue-600 hover:text-blue-800"
+              >
+                Generate automatic message
+              </button>
+            </div>
+
+            {lastCommitResult && (
+              <div className={`mb-4 p-3 rounded-lg text-sm ${
+                lastCommitResult.success 
+                  ? 'bg-green-50 text-green-800 border border-green-200' 
+                  : 'bg-red-50 text-red-800 border border-red-200'
+              }`}>
+                <div className="font-medium">{lastCommitResult.message}</div>
+                {lastCommitResult.details && (
+                  <div className="mt-1 text-xs opacity-75">{lastCommitResult.details}</div>
+                )}
+                {lastCommitResult.error && (
+                  <div className="mt-1 text-xs opacity-75">{lastCommitResult.error}</div>
+                )}
+              </div>
+            )}
+
+            <div className="flex justify-end gap-3">
+              <button
+                onClick={() => {
+                  setShowCommitDialog(false);
+                  setCommitMessage("");
+                  clearLastResult();
+                }}
+                disabled={isCommitting}
+                className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors disabled:opacity-50"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleCommitAndPush}
+                disabled={isCommitting || !commitMessage.trim()}
+                className="px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-lg hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+              >
+                {isCommitting ? (
+                  <>
+                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                    Committing...
+                  </>
+                ) : (
+                  <>
+                    <span>📤</span>
+                    Commit & Push
+                  </>
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
