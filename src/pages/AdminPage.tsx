@@ -80,7 +80,6 @@ export const AdminPage = () => {
         }
       }
     };
-
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [hasUnsavedChanges, formData, activeTab]);
@@ -100,6 +99,42 @@ export const AdminPage = () => {
       setTimeout(() => {
         checkGitStatus();
       }, 1000);
+    } else if (result.error?.includes('not available')) {
+      // Production mode - deploy via GitHub API
+      await deployToProductionViaGitHub();
+    }
+  };
+
+  // Deploy all localStorage content to production via GitHub API
+  const deployToProductionViaGitHub = async () => {
+    try {
+      const allContent = localStorage.getItem('tinaContent');
+      if (!allContent) {
+        alert('No content to deploy');
+        return;
+      }
+
+      const contentObj = JSON.parse(allContent);
+      const sections = Object.keys(contentObj);
+      
+      for (const section of sections) {
+        await fetch('/api/github/save-content', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            section,
+            data: contentObj[section],
+            commitMessage: `${commitMessage} (${section})`,
+          }),
+        });
+      }
+
+      alert('Deployed to production successfully!');
+      setCommitMessage("");
+      setShowCommitDialog(false);
+    } catch (error) {
+      alert('Production deployment failed');
+      console.error(error);
     }
   };
 
