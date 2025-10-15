@@ -1,4 +1,11 @@
+"use client";
+
+import { useTina } from "@/contexts/TinaContext";
+
 export const HeroButton = () => {
+  const { content } = useTina();
+  const heroContent = content.hero || {};
+
   return (
     <div className="relative text-[15px] items-center box-border caret-transparent gap-x-0 flex flex-wrap justify-start leading-[21.75px] break-words gap-y-0 w-full mt-2.5 md:text-lg md:gap-x-[30px] md:flex-nowrap md:leading-[26.1px] md:gap-y-[30px] md:mt-0">
       <div className="relative text-[15px] box-border caret-transparent gap-x-0 leading-[21.75px] max-w-full break-words gap-y-0 md:text-lg md:gap-x-[30px] md:leading-[26.1px] md:gap-y-[30px]">
@@ -6,7 +13,7 @@ export const HeroButton = () => {
           <div className="relative text-[15px] box-border caret-transparent leading-[0px] break-words md:text-lg">
             <div className="relative text-[15px] box-border caret-transparent inline-block max-w-full break-words w-min md:text-lg">
               <a
-                href="https://1.envato.market/cmsmasters-bella-beauty"
+                href={heroContent.buttonLink || "https://1.envato.market/cmsmasters-bella-beauty"}
                 role="button"
                 className="text-white text-xs font-bold bg-stone-500 box-border caret-transparent inline-block tracking-[2px] leading-[19.2px] max-w-full break-words uppercase w-min px-[35px] py-3.5 rounded-lg md:text-sm md:leading-[22.4px] hover:text-neutral-800 hover:bg-rose-100"
               >
@@ -15,7 +22,7 @@ export const HeroButton = () => {
                     <i className="text-xs font-normal box-border caret-transparent block fill-white h-3 leading-3 break-words text-center normal-case w-3 font-cmsmasters_demo_icons md:text-sm md:h-3.5 md:leading-[14px] md:w-3.5 before:accent-auto before:box-border before:caret-transparent before:text-white before:fill-white before:text-xs before:not-italic before:normal-nums before:font-normal before:tracking-[1px] before:leading-3 before:list-outside before:list-disc before:break-words before:pointer-events-auto before:text-center before:indent-[0px] before:normal-case before:visible before:border-separate before:font-cmsmasters_demo_icons before:md:text-sm before:md:leading-[14px]"></i>
                   </span>
                   <span className="text-xs box-border caret-transparent block leading-[19.2px] order-10 break-words w-max mr-2.5 md:text-sm md:leading-[22.4px]">
-                    Purchase Now
+                    {heroContent.buttonText || "Purchase Now"}
                   </span>
                 </span>
               </a>

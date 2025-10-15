@@ -1,17 +1,24 @@
+"use client";
+
+import { useTina } from "@/contexts/TinaContext";
+
 export const HeroHeading = () => {
+  const { content } = useTina();
+  const heroContent = content.hero || {};
+
   return (
     <section className="relative text-[15px] backdrop-blur-[10px] bg-white/50 box-border caret-transparent gap-x-5 flex flex-col flex-wrap leading-[21.75px] break-words gap-y-5 w-full border pt-[60px] pb-10 px-5 rounded-[20px] border-solid border-white/30 md:text-lg md:flex-nowrap md:leading-[26.1px] md:w-[680px] md:px-[60px] md:py-20">
       <div className="relative text-[15px] box-border caret-transparent gap-x-5 leading-[21.75px] max-w-full break-words gap-y-5 md:text-lg md:leading-[26.1px]">
         <div className="text-[15px] box-border caret-transparent h-full leading-[21.75px] break-words md:text-lg md:leading-[26.1px]">
           <h1 className="text-neutral-800 text-[42px] box-border caret-transparent leading-[46.2px] break-words font-butler_local md:text-[76px] md:leading-[83.6px]">
-            Create your Aesthetic Medical Clinic website with Bella Beauty
+            {heroContent.title || "Create your Aesthetic Medical Clinic website with Bella Beauty"}
           </h1>
         </div>
       </div>
       <div className="relative text-[15px] box-border caret-transparent gap-x-5 leading-[21.75px] max-w-full break-words gap-y-5 md:text-lg md:leading-[26.1px]">
         <div className="text-[15px] box-border caret-transparent h-full leading-[21.75px] break-words mb-10 md:text-lg md:leading-[26.1px]">
           <p className="text-[15px] box-border caret-transparent leading-[21.75px] break-words md:text-lg md:leading-[26.1px]">
-            Elementor Based Beauty Clinic WordPress Theme
+            {heroContent.subtitle || "Elementor Based Beauty Clinic WordPress Theme"}
           </p>
         </div>
       </div>
