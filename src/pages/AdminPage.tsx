@@ -37,6 +37,19 @@ export const AdminPage = () => {
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [lastSaved, setLastSaved] = useState<Date | null>(null);
+  const [hasLocalStorageContent, setHasLocalStorageContent] = useState(false);
+
+  // Check if localStorage has content to deploy
+  useEffect(() => {
+    const checkContent = () => {
+      const content = localStorage.getItem('tinaContent');
+      setHasLocalStorageContent(!!content);
+    };
+    checkContent();
+    // Check after saves
+    const interval = setInterval(checkContent, 2000);
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     if (content[activeTab as keyof typeof content]) {
@@ -281,13 +294,20 @@ export const AdminPage = () => {
                   </span>
                 </div>
                 
-                {/* Git Status */}
-                {gitStatus && (
+                {/* Deploy Status */}
+                {gitStatus ? (
                   <div className="flex items-center gap-2">
                     <div className={`w-2 h-2 rounded-full ${gitStatus.hasChanges ? 'bg-orange-500' : 'bg-green-500'}`}></div>
                     <span className="text-sm text-gray-500">
                       {gitStatus.currentBranch && `Branch: ${gitStatus.currentBranch} • `}
                       {gitStatus.hasChanges ? `${gitStatus.changedFiles?.length || 0} file(s) to deploy` : 'Deployed'}
+                    </span>
+                  </div>
+                ) : (
+                  <div className="flex items-center gap-2">
+                    <div className={`w-2 h-2 rounded-full ${hasLocalStorageContent ? 'bg-purple-500' : 'bg-gray-400'}`}></div>
+                    <span className="text-sm text-gray-500">
+                      {hasLocalStorageContent ? 'Production mode • Ready to deploy' : 'Production mode'}
                     </span>
                   </div>
                 )}
@@ -314,12 +334,13 @@ export const AdminPage = () => {
                 )}
               </button>
 
-              {gitStatus?.isGitRepo && gitStatus.hasChanges && (
+              {/* Show Deploy button: in dev (Git changes) or production (localStorage content) */}
+              {((gitStatus?.isGitRepo && gitStatus.hasChanges) || (!gitStatus?.isGitRepo && hasLocalStorageContent)) && (
                 <button
                   onClick={() => setShowCommitDialog(true)}
                   disabled={isCommitting}
                   className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
-                  title="Commit changes to Git and push to repository"
+                  title="Deploy changes to production"
                 >
                   {isCommitting ? (
                     <>
@@ -1030,7 +1051,7 @@ export const AdminPage = () => {
               Deploy Changes to Production
             </h3>
             
-            {gitStatus && gitStatus.changedFiles && (
+            {gitStatus && gitStatus.changedFiles ? (
               <div className="mb-4">
                 <p className="text-sm text-gray-600 mb-2">
                   Files to be deployed ({gitStatus.changedFiles.length}):
@@ -1041,6 +1062,15 @@ export const AdminPage = () => {
                       {file}
                     </div>
                   ))}
+                </div>
+              </div>
+            ) : (
+              <div className="mb-4">
+                <div className="bg-purple-50 border border-purple-200 rounded-lg p-3">
+                  <p className="text-sm text-purple-900 font-medium mb-1">🚀 Production Mode</p>
+                  <p className="text-xs text-purple-700">
+                    All content from localStorage will be deployed to GitHub and trigger an automatic rebuild.
+                  </p>
                 </div>
               </div>
             )}
