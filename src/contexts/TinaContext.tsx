@@ -123,9 +123,10 @@ export const TinaProvider: React.FC<{ children: React.ReactNode }> = ({
       return updated;
     });
 
-    // Save to actual file so Git can track changes
+    // Try different save methods based on environment
     try {
-      const response = await fetch('/api/content/save', {
+      // First try local file save (development)
+      const localResponse = await fetch('/api/content/save', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -136,12 +137,29 @@ export const TinaProvider: React.FC<{ children: React.ReactNode }> = ({
         }),
       });
 
-      const result = await response.json();
+      if (localResponse.ok) {
+        return; // Local save successful
+      }
+
+      // If local save fails, try GitHub API (production)
+      const githubResponse = await fetch('/api/github/save-content', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          section,
+          data,
+          commitMessage: `Update ${section} content via admin panel`,
+        }),
+      });
+
+      const result = await githubResponse.json();
       if (!result.success) {
-        console.error('Failed to save content to file:', result.error);
+        console.error('Failed to save content:', result.error);
       }
     } catch (error) {
-      console.error('Error saving content to file:', error);
+      console.error('Error saving content:', error);
     }
   };
 

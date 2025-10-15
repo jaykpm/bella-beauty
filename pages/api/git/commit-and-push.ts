@@ -15,6 +15,15 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<GitResponse>
 ) {
+  // Disable Git operations in production unless explicitly enabled
+  if (process.env.NODE_ENV === 'production' && process.env.ENABLE_ADMIN !== 'true') {
+    return res.status(403).json({
+      success: false,
+      message: 'Git operations disabled in production',
+      error: 'Git features are not available in production mode'
+    });
+  }
+
   if (req.method !== 'POST') {
     return res.status(405).json({
       success: false,

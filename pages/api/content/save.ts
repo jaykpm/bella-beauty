@@ -17,6 +17,23 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<SaveContentResponse>
 ) {
+  // Allow content saving in production if GitHub config exists or explicitly enabled
+  const hasGitHubConfig = !!(
+    process.env.GITHUB_TOKEN && 
+    process.env.GITHUB_OWNER && 
+    process.env.GITHUB_REPO
+  );
+  
+  if (process.env.NODE_ENV === 'production' && 
+      process.env.ENABLE_ADMIN !== 'true' && 
+      !hasGitHubConfig) {
+    return res.status(403).json({
+      success: false,
+      message: 'Content editing disabled in production',
+      error: 'Admin features are not available in production mode'
+    });
+  }
+
   if (req.method !== 'POST') {
     return res.status(405).json({
       success: false,
