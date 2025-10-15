@@ -11,6 +11,8 @@ interface GitHubSaveResponse {
   success: boolean;
   message: string;
   error?: string;
+  hint?: string;
+  debug?: any;
 }
 
 export default async function handler(
@@ -26,6 +28,18 @@ export default async function handler(
 
   const { section, data, commitMessage }: GitHubSaveRequest = req.body;
 
+  // Map section to file path
+  const sectionFileMap: Record<string, string> = {
+    hero: 'public/content/hero/index.json',
+    settings: 'public/content/settings/index.json',
+    trustBadges: 'public/content/trust-badges/index.json',
+    keyFeatures: 'public/content/key-features/index.json',
+    ctaSection: 'public/content/cta-section/index.json',
+    pluginsSection: 'public/content/plugins-section/index.json',
+  };
+
+  const filePath = sectionFileMap[section];
+
   // Check for required environment variables
   if (!process.env.GITHUB_TOKEN || !process.env.GITHUB_OWNER || !process.env.GITHUB_REPO) {
     return res.status(500).json({
@@ -39,18 +53,6 @@ export default async function handler(
     const octokit = new Octokit({
       auth: process.env.GITHUB_TOKEN,
     });
-
-    // Map section to file path
-    const sectionFileMap: Record<string, string> = {
-      hero: 'public/content/hero/index.json',
-      settings: 'public/content/settings/index.json',
-      trustBadges: 'public/content/trust-badges/index.json',
-      keyFeatures: 'public/content/key-features/index.json',
-      ctaSection: 'public/content/cta-section/index.json',
-      pluginsSection: 'public/content/plugins-section/index.json',
-    };
-
-    const filePath = sectionFileMap[section];
     if (!filePath) {
       return res.status(400).json({
         success: false,
@@ -94,10 +96,30 @@ export default async function handler(
 
   } catch (error: any) {
     console.error('GitHub save failed:', error);
-    return res.status(500).json({
+    
+    // Provide detailed error information
+    let errorDetails = error.message;
+    let hint = '';
+    
+    if (error.status === 404) {
+      errorDetails = 'Repository not found or no access';
+      hint = `Check: 1) Repository '${process.env.GITHUB_OWNER}/${process.env.GITHUB_REPO}' exists, 2) Token has 'repo' scope, 3) Repository name is correct`;
+    } else if (error.status === 401 || error.status === 403) {
+      errorDetails = 'Authentication failed or insufficient permissions';
+      hint = 'Check: 1) GitHub token is valid, 2) Token has "repo" scope for private repos or "public_repo" for public repos';
+    }
+    
+    return res.status(error.status || 500).json({
       success: false,
       message: 'Failed to save to GitHub',
-      error: error.message
+      error: errorDetails,
+      hint,
+      debug: {
+        owner: process.env.GITHUB_OWNER,
+        repo: process.env.GITHUB_REPO,
+        path: filePath,
+        status: error.status,
+      }
     });
   }
 }

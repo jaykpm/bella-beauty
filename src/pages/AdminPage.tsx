@@ -45,12 +45,11 @@ export const AdminPage = () => {
     }
   }, [activeTab, content]);
 
-  const handleInputChange = async (field: string, value: string) => {
+  const handleInputChange = (field: string, value: string) => {
     const newData = { ...formData, [field]: value };
     setFormData(newData);
     setHasUnsavedChanges(true);
-    // Auto-save for live preview (optional - can be disabled)
-    await updateContent(activeTab, newData);
+    // Auto-save disabled - changes only save when you click Save button
   };
 
   const handleManualSave = async () => {
@@ -542,8 +541,8 @@ export const AdminPage = () => {
                 Live Preview - {tabs.find(t => t.id === activeTab)?.label}
               </h2>
               <div className="flex items-center space-x-2 text-sm text-gray-500">
-                <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                <span>Auto-saving</span>
+                <div className={`w-2 h-2 rounded-full ${hasUnsavedChanges ? 'bg-yellow-400' : 'bg-blue-400'}`}></div>
+                <span>{hasUnsavedChanges ? 'Unsaved changes' : 'Manual save mode'}</span>
               </div>
             </div>
           </div>
