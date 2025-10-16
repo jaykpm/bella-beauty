@@ -49,8 +49,12 @@ export default async function handler(
     mobileFirstSection: 'public/content/mobile-first-section/index.json',
     refundPolicy: 'public/content/refund-policy/index.json',
     colorPalettes: 'public/content/color-palettes/index.json',
-    performanceSection: 'public/content/performance-section/index.json',
+    performanceSection: 'public/content/performance/index.json',
     blocksGallery: 'public/content/blocks-gallery/index.json',
+    crossCompatibilitySection: 'public/content/cross-compatibility/index.json',
+    demoShowcase: 'public/content/demo-showcase/index.json',
+    performance: 'public/content/performance/index.json',
+
 
   };
 
