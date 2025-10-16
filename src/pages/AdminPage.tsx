@@ -818,38 +818,6 @@ export const AdminPage = () => {
                     </p>
                   </div>
 
-                  {/* Title */}
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Section Title
-                    </label>
-                    <input
-                      type="text"
-                      value={formData.title || ""}
-                      onChange={(e) =>
-                        handleInputChange("title", e.target.value)
-                      }
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                      placeholder="e.g., Trusted by Thousands"
-                    />
-                  </div>
-
-                  {/* Description */}
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Description
-                    </label>
-                    <textarea
-                      value={formData.description || ""}
-                      onChange={(e) =>
-                        handleInputChange("description", e.target.value)
-                      }
-                      rows={3}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                      placeholder="Describe your trust indicators..."
-                    />
-                  </div>
-
                   {/* Dynamic Badges List */}
                   <div className="space-y-3">
                     <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -864,10 +832,21 @@ export const AdminPage = () => {
                         >
                           <input
                             type="text"
-                            value={badge.text}
+                            value={badge.title}
                             onChange={(e) => {
                               const updatedBadges: any = [...formData.badges];
-                              updatedBadges[index].text = e.target.value;
+                              updatedBadges[index].title = e.target.value;
+                              handleInputChange("badges", updatedBadges);
+                            }}
+                            placeholder="Badge text (e.g., 100% Secure)"
+                            className="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          />
+                          <input
+                            type="text"
+                            value={badge.subtitle}
+                            onChange={(e) => {
+                              const updatedBadges: any = [...formData.badges];
+                              updatedBadges[index].subtitle = e.target.value;
                               handleInputChange("badges", updatedBadges);
                             }}
                             placeholder="Badge text (e.g., 100% Secure)"
@@ -876,13 +855,13 @@ export const AdminPage = () => {
 
                           <input
                             type="text"
-                            value={badge.icon || ""}
+                            value={badge.imageUrl || ""}
                             onChange={(e) => {
                               const updatedBadges: any = [...formData.badges];
-                              updatedBadges[index].icon = e.target.value;
+                              updatedBadges[index].imageUrl = e.target.value;
                               handleInputChange("badges", updatedBadges);
                             }}
-                            placeholder="Icon URL or name"
+                            placeholder="image URL or name"
                             className="w-1/3 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                           />
 
