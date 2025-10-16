@@ -11,7 +11,7 @@
     },
     {
       "id": "2",
-      "title": "Home Two",
+      "title": "Home One",
       "href": "https://bella-beauty.cmsmasters.studio/bella-beauty/home-2/",
       "imageUrl": "https://c.animaapp.com/mgrzhz36mRAJyZ/assets/home-2.webp",
       "qrCodeUrl": "https://c.animaapp.com/mgrzhz36mRAJyZ/assets/qrcode_bella-beauty.cmsmasters.studio-1.png"
@@ -37,5 +37,11 @@
       "imageUrl": "https://c.animaapp.com/mgrzhz36mRAJyZ/assets/home-5.webp",
       "qrCodeUrl": "https://c.animaapp.com/mgrzhz36mRAJyZ/assets/qrcode_bella-beauty.cmsmasters.studio-4.png"
     }
-  ]
+  ],
+  "image": "https://c.animaapp.com/mgrzhz36mRAJyZ/assets/number-1.svg",
+  "text2": "acascas",
+  "text1": "ascacasc",
+  "text3": "asccasacasc",
+  "text4": "wdwd",
+  "text5": "dwwdwd"
 }

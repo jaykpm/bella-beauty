@@ -12,11 +12,12 @@ export type DemoCardProps = {
 
 export const DemoCard = (props: DemoCardProps) => {
   return (
-    <div className={props.containerVariant || ""}>
-      {props.items.map((item, index) => (
+    // <div className={props.containerVariant || ""}>
+    <>
+      {props.items?.map((item, index) => (
         <div
           key={index}
-          className="text-[15px] box-border caret-transparent gap-x-[30px] leading-[21.75px] break-words gap-y-[30px] md:text-lg md:leading-[26.1px] relative flex flex-col flex-wrap w-full md:flex-nowrap md:w-6/12"
+          className="text-[15px] box-border caret-transparent  gap-x-[30px] leading-[21.75px] break-words gap-y-[30px] md:text-lg md:leading-[26.1px] relative flex flex-col flex-wrap w-6/12 md:flex-nowrap md:w-6/12"
         >
           <div className="relative text-[15px] box-border caret-transparent gap-x-[30px] leading-[21.75px] max-w-full break-words gap-y-[30px] md:text-lg md:leading-[26.1px]">
             <div className="text-[15px] box-border caret-transparent h-full leading-[21.75px] break-words md:text-lg md:leading-[26.1px]">
@@ -66,6 +67,6 @@ export const DemoCard = (props: DemoCardProps) => {
           </div>
         </div>
       ))}
-    </div>
+    </>
   );
 };

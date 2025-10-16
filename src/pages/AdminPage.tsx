@@ -27,6 +27,231 @@ import { TemplateBuilder } from "@/sections/TemplateBuilder";
 import { HeaderVariations } from "@/sections/HeaderVariations";
 import { MobileFirstSection } from "@/sections/MobileFirstSection";
 
+type Field = {
+  name: string;
+  label: string;
+  type: "text" | "url" | "textarea" | "list" | "object";
+  placeholder?: string;
+  rows?: number;
+  item?: {
+    type: "object";
+    fields: Field[];
+  };
+};
+
+type Schema = {
+  title: string;
+  description?: string;
+  fields: Field[];
+};
+
+type DynamicFormProps = {
+  schema: Schema;
+  formData: any;
+  onChange: (fieldName: string, value: any) => void;
+};
+
+export const DynamicForm: React.FC<DynamicFormProps> = ({
+  schema,
+  formData,
+  onChange,
+}) => {
+  const renderField = (
+    field: Field,
+    value: any,
+    onValueChange: (val: any) => void
+  ) => {
+    switch (field.type) {
+      case "textarea":
+        return (
+          <textarea
+            value={value || ""}
+            onChange={(e) => onValueChange(e.target.value)}
+            rows={field.rows || 3}
+            placeholder={field.placeholder}
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+          />
+        );
+      case "text":
+      case "url":
+        return (
+          <input
+            type={field.type}
+            value={value || ""}
+            onChange={(e) => onValueChange(e.target.value)}
+            placeholder={field.placeholder}
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+          />
+        );
+      case "list":
+        return (
+          <div className="space-y-3">
+            {(value || []).map((item: any, idx: number) => (
+              <div
+                key={idx}
+                className="border p-3 rounded-lg bg-gray-50 space-y-2"
+              >
+                {field.item?.fields.map((subField) => (
+                  <div key={subField.name}>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      {subField.label}
+                    </label>
+                    {renderField(subField, item[subField.name], (val) => {
+                      const updatedList = [...value];
+                      updatedList[idx][subField.name] = val;
+                      onValueChange(updatedList);
+                    })}
+                  </div>
+                ))}
+                <button
+                  type="button"
+                  className="text-red-600 text-sm mt-2"
+                  onClick={() => {
+                    const updatedList = value.filter(
+                      (_: any, i: number) => i !== idx
+                    );
+                    onValueChange(updatedList);
+                  }}
+                >
+                  ✕ Remove
+                </button>
+              </div>
+            ))}
+            <button
+              type="button"
+              className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm mt-2"
+              onClick={() => {
+                const newItem: any = {};
+                field.item?.fields.forEach((f) => (newItem[f.name] = ""));
+                onValueChange([...(value || []), newItem]);
+              }}
+            >
+              ➕ Add {field.label.slice(0, -1)}
+            </button>
+          </div>
+        );
+      default:
+        return null;
+    }
+  };
+
+  return (
+    <div className="space-y-4">
+      <div className="bg-blue-50 p-4 rounded-lg">
+        <h3 className="font-medium text-blue-900 mb-2">{schema.title}</h3>
+        {schema.description && (
+          <p className="text-sm text-blue-700">{schema.description}</p>
+        )}
+      </div>
+
+      {schema.fields.map((field) => (
+        <div key={field.name}>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            {field.label}
+          </label>
+          {renderField(field, formData[field.name], (val) =>
+            onChange(field.name, val)
+          )}
+        </div>
+      ))}
+    </div>
+  );
+};
+const schemas: any = {
+  hero: {
+    title: "Hero Section",
+    description: "Edit the main banner content",
+    fields: [
+      {
+        name: "title",
+        label: "Main Title",
+        type: "textarea",
+        placeholder: "Enter headline...",
+      },
+      { name: "subtitle", label: "Subtitle", type: "textarea" },
+      { name: "buttonText", label: "Primary Button Text", type: "text" },
+      { name: "buttonLink", label: "Primary Button Link", type: "url" },
+      { name: "backgroundImage", label: "Background Image", type: "url" },
+    ],
+  },
+  trustBadges: {
+    title: "Trust Badges",
+    description: "Edit trust indicators and badges",
+    fields: [
+      {
+        name: "badges",
+        label: "Badges",
+        type: "list",
+        item: {
+          type: "object",
+          fields: [
+            { name: "id", label: "ID", type: "text" },
+            { name: "title", label: "Title", type: "text" },
+            { name: "subtitle", label: "Subtitle", type: "text" },
+            { name: "text", label: "Text", type: "text" },
+            { name: "icon", label: "Icon", type: "text" },
+            { name: "imageUrl", label: "Image URL", type: "url" },
+            { name: "altText", label: "Alt Text", type: "text" },
+          ],
+        },
+      },
+    ],
+  },
+  demoShowcase: {
+    title: "Hero Section",
+    subtitle: "Hero Section",
+    image: "https://c.animaapp.com/mgrzhz36mRAJyZ/assets/home-1.webp",
+    fields: [
+      {
+        name: "image",
+        label: "Image",
+        type: "url",
+      },
+      {
+        name: "text1",
+        label: "text1",
+        type: "text",
+      },
+
+      {
+        name: "text2",
+        label: "text2",
+        type: "text",
+      },
+
+      {
+        name: "text3",
+        label: "text3",
+        type: "text",
+      },
+      {
+        name: "text4",
+        label: "text4",
+        type: "text",
+      },
+      {
+        name: "text5",
+        label: "text5",
+        type: "text",
+      },
+      {
+        name: "demos",
+        label: "demos",
+        type: "list",
+        item: {
+          type: "object",
+          fields: [
+            { name: "id", label: "ID", type: "text" },
+            { name: "title", label: "Title", type: "text" },
+            { name: "href", label: "Subtitle", type: "text" },
+            { name: "imageUrl", label: "Text", type: "text" },
+            { name: "qrCodeUrl", label: "Icon", type: "text" },
+          ],
+        },
+      },
+    ],
+  },
+};
 export const AdminPage = () => {
   const { content, updateContent } = useTina();
   const {
@@ -489,824 +714,17 @@ export const AdminPage = () => {
 
           {/* Content Editor Forms */}
           <div className="flex-1 overflow-y-auto">
-            <div className="space-y-6">
-              {activeTab === "hero" && (
-                <div className="space-y-4">
-                  <div className="bg-blue-50 p-4 rounded-lg">
-                    <h3 className="font-medium text-blue-900 mb-2">
-                      🏠 Hero Section
-                    </h3>
-                    <p className="text-sm text-blue-700">
-                      Edit the main banner content that visitors see first
-                    </p>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Main Title
-                    </label>
-                    <textarea
-                      value={formData.title || ""}
-                      onChange={(e) =>
-                        handleInputChange("title", e.target.value)
-                      }
-                      rows={3}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                      placeholder="Enter the main headline..."
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Subtitle
-                    </label>
-                    <textarea
-                      value={formData.subtitle || ""}
-                      onChange={(e) =>
-                        handleInputChange("subtitle", e.target.value)
-                      }
-                      rows={2}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                      placeholder="Enter the subtitle..."
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Primary Button Text
-                    </label>
-                    <input
-                      type="text"
-                      value={formData.buttonText || ""}
-                      onChange={(e) =>
-                        handleInputChange("buttonText", e.target.value)
-                      }
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                      placeholder="e.g., Purchase Now"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Primary Button Link
-                    </label>
-                    <input
-                      type="url"
-                      value={formData.buttonLink || ""}
-                      onChange={(e) =>
-                        handleInputChange("buttonLink", e.target.value)
-                      }
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                      placeholder="https://..."
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Secondary Text
-                    </label>
-                    <input
-                      type="text"
-                      value={formData.secondaryText || ""}
-                      onChange={(e) =>
-                        handleInputChange("secondaryText", e.target.value)
-                      }
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                      placeholder="e.g., Take your website to the next level"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Secondary Button Text
-                    </label>
-                    <input
-                      type="text"
-                      value={formData.secondaryButtonText || ""}
-                      onChange={(e) =>
-                        handleInputChange("secondaryButtonText", e.target.value)
-                      }
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                      placeholder="e.g., View Demos"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Background Image URL
-                    </label>
-                    <input
-                      type="url"
-                      value={formData.backgroundImage || ""}
-                      onChange={(e) =>
-                        handleInputChange("backgroundImage", e.target.value)
-                      }
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                      placeholder="https://..."
-                    />
-                  </div>
-                </div>
-              )}
-
-              {activeTab === "ctaSection" && (
-                <div className="space-y-4">
-                  <div className="bg-green-50 p-4 rounded-lg">
-                    <h3 className="font-medium text-green-900 mb-2">
-                      📢 Call to Action
-                    </h3>
-                    <p className="text-sm text-green-700">
-                      Edit the final conversion section
-                    </p>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      CTA Title
-                    </label>
-                    <input
-                      type="text"
-                      value={formData.title || ""}
-                      onChange={(e) =>
-                        handleInputChange("title", e.target.value)
-                      }
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                      placeholder="e.g., Ready to Transform Your Business?"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      CTA Subtitle
-                    </label>
-                    <textarea
-                      value={formData.subtitle || ""}
-                      onChange={(e) =>
-                        handleInputChange("subtitle", e.target.value)
-                      }
-                      rows={3}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                      placeholder="Enter compelling description..."
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Button Text
-                    </label>
-                    <input
-                      type="text"
-                      value={formData.buttonText || ""}
-                      onChange={(e) =>
-                        handleInputChange("buttonText", e.target.value)
-                      }
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                      placeholder="e.g., Get Started Now"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Button Link
-                    </label>
-                    <input
-                      type="url"
-                      value={formData.buttonLink || ""}
-                      onChange={(e) =>
-                        handleInputChange("buttonLink", e.target.value)
-                      }
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                      placeholder="https://..."
-                    />
-                  </div>
-                </div>
-              )}
-
-              {activeTab === "keyFeatures" && (
-                <div className="space-y-4">
-                  <div className="bg-purple-50 p-4 rounded-lg">
-                    <h3 className="font-medium text-purple-900 mb-2">
-                      ⭐ Key Features
-                    </h3>
-                    <p className="text-sm text-purple-700">
-                      Edit the main features section
-                    </p>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Section Title
-                    </label>
-                    <input
-                      type="text"
-                      value={formData.sectionTitle || ""}
-                      onChange={(e) =>
-                        handleInputChange("sectionTitle", e.target.value)
-                      }
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                      placeholder="e.g., Key Features"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Section Subtitle
-                    </label>
-                    <textarea
-                      value={formData.sectionSubtitle || ""}
-                      onChange={(e) =>
-                        handleInputChange("sectionSubtitle", e.target.value)
-                      }
-                      rows={2}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                      placeholder="Brief description of the features..."
-                    />
-                  </div>
-
-                  <div className="bg-gray-50 p-4 rounded-lg">
-                    <p className="text-sm text-gray-600">
-                      💡 Individual features are managed through the content
-                      files. This section controls the overall section title and
-                      subtitle.
-                    </p>
-                  </div>
-                </div>
-              )}
-
-              {activeTab === "settings" && (
-                <div className="space-y-4">
-                  <div className="bg-gray-50 p-4 rounded-lg">
-                    <h3 className="font-medium text-gray-900 mb-2">
-                      ⚙️ Site Settings
-                    </h3>
-                    <p className="text-sm text-gray-700">
-                      Global website settings
-                    </p>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Site Name
-                    </label>
-                    <input
-                      type="text"
-                      value={formData.siteName || ""}
-                      onChange={(e) =>
-                        handleInputChange("siteName", e.target.value)
-                      }
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                      placeholder="Your website name"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Site Description
-                    </label>
-                    <textarea
-                      value={formData.siteDescription || ""}
-                      onChange={(e) =>
-                        handleInputChange("siteDescription", e.target.value)
-                      }
-                      rows={3}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                      placeholder="Brief description for SEO..."
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Logo URL
-                    </label>
-                    <input
-                      type="url"
-                      value={formData.logo || ""}
-                      onChange={(e) =>
-                        handleInputChange("logo", e.target.value)
-                      }
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                      placeholder="https://..."
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Purchase Link
-                    </label>
-                    <input
-                      type="url"
-                      value={formData.purchaseLink || ""}
-                      onChange={(e) =>
-                        handleInputChange("purchaseLink", e.target.value)
-                      }
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                      placeholder="https://..."
-                    />
-                  </div>
-                </div>
-              )}
-
-              {/* Trust Badges Section */}
-              {activeTab === "trustBadges" && (
-                <div className="space-y-4">
-                  {/* Header */}
-                  <div className="bg-blue-50 p-4 rounded-lg">
-                    <h3 className="font-medium text-blue-900 mb-2">
-                      🛡️ Trust Badges
-                    </h3>
-                    <p className="text-sm text-blue-700">
-                      Edit trust indicators and badges
-                    </p>
-                  </div>
-
-                  {/* Dynamic Badges List */}
-                  <div className="space-y-3">
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Badges
-                    </label>
-
-                    {formData.badges?.length > 0 ? (
-                      formData.badges.map((badge: any, index: any) => (
-                        <div
-                          key={index}
-                          className="flex items-center gap-3 bg-gray-50 p-3 rounded-lg"
-                        >
-                          <input
-                            type="text"
-                            value={badge.title}
-                            onChange={(e) => {
-                              const updatedBadges: any = [...formData.badges];
-                              updatedBadges[index].title = e.target.value;
-                              handleInputChange("badges", updatedBadges);
-                            }}
-                            placeholder="Badge text (e.g., 100% Secure)"
-                            className="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                          />
-                          <input
-                            type="text"
-                            value={badge.subtitle}
-                            onChange={(e) => {
-                              const updatedBadges: any = [...formData.badges];
-                              updatedBadges[index].subtitle = e.target.value;
-                              handleInputChange("badges", updatedBadges);
-                            }}
-                            placeholder="Badge text (e.g., 100% Secure)"
-                            className="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                          />
-
-                          <input
-                            type="text"
-                            value={badge.imageUrl || ""}
-                            onChange={(e) => {
-                              const updatedBadges: any = [...formData.badges];
-                              updatedBadges[index].imageUrl = e.target.value;
-                              handleInputChange("badges", updatedBadges);
-                            }}
-                            placeholder="image URL or name"
-                            className="w-1/3 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                          />
-
-                          <button
-                            onClick={() => {
-                              const updatedBadges = formData.badges.filter(
-                                (_: any, i: any) => i !== index
-                              );
-                              handleInputChange("badges", updatedBadges);
-                            }}
-                            className="text-red-600 hover:text-red-800 text-sm"
-                          >
-                            ✕
-                          </button>
-                        </div>
-                      ))
-                    ) : (
-                      <p className="text-sm text-gray-500">
-                        No badges added yet.
-                      </p>
-                    )}
-
-                    {/* Add new badge */}
-                    <button
-                      onClick={() => {
-                        const newBadges: any = [
-                          ...(formData.badges || []),
-                          { text: "", icon: "" },
-                        ];
-                        handleInputChange("badges", newBadges);
-                      }}
-                      className="px-4 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700"
-                    >
-                      ➕ Add Badge
-                    </button>
-                  </div>
-
-                  {/* Save */}
-                  <div className="pt-4 border-t mt-4">
-                    {/* <button
-                      onClick={handleSave}
-                      className="px-6 py-2 bg-green-600 text-white text-sm font-medium rounded-lg hover:bg-green-700"
-                    >
-                      💾 Save Changes
-                    </button> */}
-                  </div>
-                </div>
-              )}
-
-              {/* Demo Showcase Section */}
-              {activeTab === "demoShowcase" && (
-                <div className="space-y-4">
-                  <div className="bg-purple-50 p-4 rounded-lg">
-                    <h3 className="font-medium text-purple-900 mb-2">
-                      🖥️ Demo Showcase
-                    </h3>
-                    <p className="text-sm text-purple-700">
-                      Edit demo presentation section
-                    </p>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Section Title
-                    </label>
-                    <input
-                      type="text"
-                      value={formData.title || ""}
-                      onChange={(e) =>
-                        handleInputChange("title", e.target.value)
-                      }
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                      placeholder="e.g., Explore Demo Variations"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Subtitle
-                    </label>
-                    <textarea
-                      value={formData.subtitle || ""}
-                      onChange={(e) =>
-                        handleInputChange("subtitle", e.target.value)
-                      }
-                      rows={2}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                      placeholder="Brief description..."
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Button Text
-                    </label>
-                    <input
-                      type="text"
-                      value={formData.buttonText || ""}
-                      onChange={(e) =>
-                        handleInputChange("buttonText", e.target.value)
-                      }
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                      placeholder="e.g., View All Demos"
-                    />
-                  </div>
-                </div>
-              )}
-
-              {/* Cross Compatibility Section */}
-              {activeTab === "crossCompatibility" && (
-                <div className="space-y-4">
-                  <div className="bg-green-50 p-4 rounded-lg">
-                    <h3 className="font-medium text-green-900 mb-2">
-                      🔗 Cross Compatibility
-                    </h3>
-                    <p className="text-sm text-green-700">
-                      Edit compatibility information
-                    </p>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Section Title
-                    </label>
-                    <input
-                      type="text"
-                      value={formData.title || ""}
-                      onChange={(e) =>
-                        handleInputChange("title", e.target.value)
-                      }
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                      placeholder="e.g., Works With Everything"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Description
-                    </label>
-                    <textarea
-                      value={formData.description || ""}
-                      onChange={(e) =>
-                        handleInputChange("description", e.target.value)
-                      }
-                      rows={3}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                      placeholder="Describe compatibility features..."
-                    />
-                  </div>
-                </div>
-              )}
-
-              {/* Refund Policy Section */}
-              {activeTab === "refundPolicy" && (
-                <div className="space-y-4">
-                  <div className="bg-yellow-50 p-4 rounded-lg">
-                    <h3 className="font-medium text-yellow-900 mb-2">
-                      💰 Refund Policy
-                    </h3>
-                    <p className="text-sm text-yellow-700">
-                      Edit refund policy details
-                    </p>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Section Title
-                    </label>
-                    <input
-                      type="text"
-                      value={formData.title || ""}
-                      onChange={(e) =>
-                        handleInputChange("title", e.target.value)
-                      }
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                      placeholder="e.g., 30-Day Money Back Guarantee"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Policy Details
-                    </label>
-                    <textarea
-                      value={formData.description || ""}
-                      onChange={(e) =>
-                        handleInputChange("description", e.target.value)
-                      }
-                      rows={4}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                      placeholder="Describe your refund policy..."
-                    />
-                  </div>
-                </div>
-              )}
-
-              {/* Color Palettes Section */}
-              {activeTab === "colorPalettes" && (
-                <div className="space-y-4">
-                  <div className="bg-pink-50 p-4 rounded-lg">
-                    <h3 className="font-medium text-pink-900 mb-2">
-                      🎨 Color Palettes
-                    </h3>
-                    <p className="text-sm text-pink-700">
-                      Edit color scheme options
-                    </p>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Section Title
-                    </label>
-                    <input
-                      type="text"
-                      value={formData.title || ""}
-                      onChange={(e) =>
-                        handleInputChange("title", e.target.value)
-                      }
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                      placeholder="e.g., Beautiful Color Schemes"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Description
-                    </label>
-                    <textarea
-                      value={formData.description || ""}
-                      onChange={(e) =>
-                        handleInputChange("description", e.target.value)
-                      }
-                      rows={2}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                      placeholder="Describe color customization..."
-                    />
-                  </div>
-                </div>
-              )}
-
-              {/* Performance Section */}
-              {activeTab === "performanceSection" && (
-                <div className="space-y-4">
-                  <div className="bg-orange-50 p-4 rounded-lg">
-                    <h3 className="font-medium text-orange-900 mb-2">
-                      ⚡ Performance
-                    </h3>
-                    <p className="text-sm text-orange-700">
-                      Edit performance metrics
-                    </p>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Section Title
-                    </label>
-                    <input
-                      type="text"
-                      value={formData.title || ""}
-                      onChange={(e) =>
-                        handleInputChange("title", e.target.value)
-                      }
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                      placeholder="e.g., Lightning Fast Performance"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Description
-                    </label>
-                    <textarea
-                      value={formData.description || ""}
-                      onChange={(e) =>
-                        handleInputChange("description", e.target.value)
-                      }
-                      rows={3}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                      placeholder="Describe performance features..."
-                    />
-                  </div>
-                </div>
-              )}
-
-              {/* Plugins Section */}
-              {activeTab === "pluginsSection" && (
-                <div className="space-y-4">
-                  <div className="bg-indigo-50 p-4 rounded-lg">
-                    <h3 className="font-medium text-indigo-900 mb-2">
-                      🔌 Plugins
-                    </h3>
-                    <p className="text-sm text-indigo-700">
-                      Edit plugins information
-                    </p>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Section Title
-                    </label>
-                    <input
-                      type="text"
-                      value={formData.sectionTitle || ""}
-                      onChange={(e) =>
-                        handleInputChange("sectionTitle", e.target.value)
-                      }
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                      placeholder="e.g., Included Premium Plugins"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Description
-                    </label>
-                    <textarea
-                      value={formData.description || ""}
-                      onChange={(e) =>
-                        handleInputChange("description", e.target.value)
-                      }
-                      rows={2}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                      placeholder="Describe included plugins..."
-                    />
-                  </div>
-
-                  <div className="bg-gray-50 p-4 rounded-lg">
-                    <p className="text-sm text-gray-600">
-                      💡 Individual plugins are managed through the content
-                      files.
-                    </p>
-                  </div>
-                </div>
-              )}
-
-              {/* Remaining sections with generic forms */}
-              {[
-                "blocksGallery",
-                "beforeAfterSection",
-                "customizationSection",
-                "postTypesSection",
-                "detailsSection",
-                "technicalSection",
-                "elementorExtension",
-                "layoutsGallery",
-                "installationWizard",
-                "templateBuilder",
-                "headerVariations",
-                "mobileFirstSection",
-              ].includes(activeTab) && (
-                <div className="space-y-4">
-                  <div className="bg-gradient-to-r from-blue-50 to-purple-50 p-4 rounded-lg">
-                    <h3 className="font-medium text-gray-900 mb-2">
-                      {tabs.find((t) => t.id === activeTab)?.icon}{" "}
-                      {tabs.find((t) => t.id === activeTab)?.label}
-                    </h3>
-                    <p className="text-sm text-gray-700">
-                      Edit this section content
-                    </p>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Section Title
-                    </label>
-                    <input
-                      type="text"
-                      value={formData.title || ""}
-                      onChange={(e) =>
-                        handleInputChange("title", e.target.value)
-                      }
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                      placeholder="Enter section title..."
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Subtitle
-                    </label>
-                    <input
-                      type="text"
-                      value={formData.subtitle || ""}
-                      onChange={(e) =>
-                        handleInputChange("subtitle", e.target.value)
-                      }
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                      placeholder="Enter subtitle..."
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Description
-                    </label>
-                    <textarea
-                      value={formData.description || ""}
-                      onChange={(e) =>
-                        handleInputChange("description", e.target.value)
-                      }
-                      rows={4}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                      placeholder="Enter detailed description..."
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Button Text (optional)
-                    </label>
-                    <input
-                      type="text"
-                      value={formData.buttonText || ""}
-                      onChange={(e) =>
-                        handleInputChange("buttonText", e.target.value)
-                      }
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                      placeholder="e.g., Learn More"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Button Link (optional)
-                    </label>
-                    <input
-                      type="url"
-                      value={formData.buttonLink || ""}
-                      onChange={(e) =>
-                        handleInputChange("buttonLink", e.target.value)
-                      }
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                      placeholder="https://..."
-                    />
-                  </div>
-
-                  <div className="bg-blue-50 p-4 rounded-lg">
-                    <p className="text-sm text-blue-700">
-                      💡 These are the basic fields. Additional customization
-                      options can be added through the content JSON files.
-                    </p>
-                  </div>
-                </div>
-              )}
-            </div>
+            {schemas[activeTab] ? (
+              <DynamicForm
+                schema={schemas[activeTab]}
+                formData={formData}
+                onChange={handleInputChange}
+              />
+            ) : (
+              <div className="p-6 text-gray-500 text-center">
+                No schema defined.
+              </div>
+            )}
           </div>
         </div>
 

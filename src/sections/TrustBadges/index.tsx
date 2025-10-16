@@ -2,7 +2,7 @@ import { useTina } from "@/contexts/TinaContext";
 
 export const TrustBadges = () => {
   const { content } = useTina();
-  const badges = content.trustBadges.badges || [];
+  const badges = content?.trustBadges?.badges || [];
   console.log({ badges });
 
   return (

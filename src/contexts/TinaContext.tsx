@@ -52,43 +52,66 @@ export const TinaProvider: React.FC<{ children: React.ReactNode }> = ({
           setContent(JSON.parse(savedContent));
         } else {
           // Load default content from JSON files
-          const [heroRes, settingsRes, trustBadgesRes, keyFeaturesRes, ctaSectionRes, pluginsSectionRes] = await Promise.all([
-            fetch('/content/hero/index.json').catch(() => null),
-            fetch('/content/settings/index.json').catch(() => null),
-            fetch('/content/trust-badges/index.json').catch(() => null),
-            fetch('/content/key-features/index.json').catch(() => null),
-            fetch('/content/cta-section/index.json').catch(() => null),
-            fetch('/content/plugins-section/index.json').catch(() => null),
+          const [
+            heroRes,
+            settingsRes,
+            trustBadgesRes,
+            keyFeaturesRes,
+            ctaSectionRes,
+            pluginsSectionRes,
+          ] = await Promise.all([
+            fetch("/content/hero/index.json").catch(() => null),
+            fetch("/content/settings/index.json").catch(() => null),
+            fetch("/content/trust-badges/index.json").catch(() => null),
+            fetch("/content/key-features/index.json").catch(() => null),
+            fetch("/content/cta-section/index.json").catch(() => null),
+            fetch("/content/plugins-section/index.json").catch(() => null),
           ]);
 
           const defaultContent: ContentData = {
-            hero: heroRes ? await heroRes.json() : {
-              title: "Create your Aesthetic Medical Clinic website with Bella Beauty",
-              subtitle: "Elementor Based Beauty Clinic WordPress Theme",
-              buttonText: "Purchase Now",
-              buttonLink: "https://1.envato.market/cmsmasters-bella-beauty",
-              secondaryText: "Take your website to the next level.",
-              secondaryButtonText: "View Demos",
-              secondaryButtonLink: "#demos",
-              backgroundImage: "https://bella-beauty.cmsmasters.studio/wp-content/uploads/2024/03/landing-1.webp"
-            },
-            settings: settingsRes ? await settingsRes.json() : {
-              siteName: "Bella Beauty",
-              siteDescription: "Elementor Based Beauty Clinic WordPress Theme",
-              logo: "https://c.animaapp.com/mgrzhz36mRAJyZ/assets/logo.svg",
-              purchaseLink: "https://1.envato.market/cmsmasters-bella-beauty",
-            },
-            trustBadges: trustBadgesRes ? await trustBadgesRes.json() : { badges: [] },
-            keyFeatures: keyFeaturesRes ? await keyFeaturesRes.json() : { sectionTitle: "Key Features", features: [] },
-            ctaSection: ctaSectionRes ? await ctaSectionRes.json() : {
-              title: "Ready to Transform Your Beauty Clinic?",
-              subtitle: "Get started today with Bella Beauty theme",
-              buttonText: "Purchase Now",
-              buttonLink: "https://1.envato.market/cmsmasters-bella-beauty"
-            },
-            pluginsSection: pluginsSectionRes ? await pluginsSectionRes.json() : { sectionTitle: "Included Plugins", plugins: [] },
+            hero: heroRes
+              ? await heroRes.json()
+              : {
+                  title:
+                    "Create your Aesthetic Medical Clinic website with Bella Beauty",
+                  subtitle: "Elementor Based Beauty Clinic WordPress Theme",
+                  buttonText: "Purchase Now",
+                  buttonLink: "https://1.envato.market/cmsmasters-bella-beauty",
+                  secondaryText: "Take your website to the next level.",
+                  secondaryButtonText: "View Demos",
+                  secondaryButtonLink: "#demos",
+                  backgroundImage:
+                    "https://bella-beauty.cmsmasters.studio/wp-content/uploads/2024/03/landing-1.webp",
+                },
+            settings: settingsRes
+              ? await settingsRes.json()
+              : {
+                  siteName: "Bella Beauty",
+                  siteDescription:
+                    "Elementor Based Beauty Clinic WordPress Theme",
+                  logo: "https://c.animaapp.com/mgrzhz36mRAJyZ/assets/logo.svg",
+                  purchaseLink:
+                    "https://1.envato.market/cmsmasters-bella-beauty",
+                },
+            trustBadges: trustBadgesRes
+              ? await trustBadgesRes.json()
+              : { badges: [] },
+            keyFeatures: keyFeaturesRes
+              ? await keyFeaturesRes.json()
+              : { sectionTitle: "Key Features", features: [] },
+            ctaSection: ctaSectionRes
+              ? await ctaSectionRes.json()
+              : {
+                  title: "Ready to Transform Your Beauty Clinic?",
+                  subtitle: "Get started today with Bella Beauty theme",
+                  buttonText: "Purchase Now",
+                  buttonLink: "https://1.envato.market/cmsmasters-bella-beauty",
+                },
+            pluginsSection: pluginsSectionRes
+              ? await pluginsSectionRes.json()
+              : { sectionTitle: "Included Plugins", plugins: [] },
           };
-          
+
           setContent(defaultContent);
           localStorage.setItem("tinaContent", JSON.stringify(defaultContent));
         }
@@ -97,7 +120,8 @@ export const TinaProvider: React.FC<{ children: React.ReactNode }> = ({
         // Fallback to minimal content
         setContent({
           hero: {
-            title: "Create your Aesthetic Medical Clinic website with Bella Beauty",
+            title:
+              "Create your Aesthetic Medical Clinic website with Bella Beauty",
             subtitle: "Elementor Based Beauty Clinic WordPress Theme",
             buttonText: "Purchase Now",
             buttonLink: "https://1.envato.market/cmsmasters-bella-beauty",
@@ -118,25 +142,28 @@ export const TinaProvider: React.FC<{ children: React.ReactNode }> = ({
   // Auto-commit changes to Git after file save
   const autoCommitToGit = async (section: string) => {
     try {
-      const response = await fetch('/api/git/commit-and-push', {
-        method: 'POST',
+      const response = await fetch("/api/git/commit-and-push", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           commitMessage: `Auto-update ${section} content - ${new Date().toLocaleString()}`,
-          branch: 'main',
+          branch: "main",
         }),
       });
 
       const result = await response.json();
       if (result.success) {
-        console.log('✅ Changes automatically committed to Git:', result.message);
+        console.log(
+          "✅ Changes automatically committed to Git:",
+          result.message
+        );
       } else {
-        console.log('ℹ️ Auto-commit skipped:', result.message);
+        console.log("ℹ️ Auto-commit skipped:", result.message);
       }
     } catch (error) {
-      console.error('⚠️ Auto-commit failed:', error);
+      console.error("⚠️ Auto-commit failed:", error);
       // Don't throw - let the save succeed even if commit fails
     }
   };
@@ -152,10 +179,10 @@ export const TinaProvider: React.FC<{ children: React.ReactNode }> = ({
     // Try different save methods based on environment
     try {
       // First try local file save (development)
-      const localResponse = await fetch('/api/content/save', {
-        method: 'POST',
+      const localResponse = await fetch("/api/content/save", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           section,
@@ -164,19 +191,19 @@ export const TinaProvider: React.FC<{ children: React.ReactNode }> = ({
       });
 
       if (localResponse.ok) {
-        console.log('✅ Content saved to file successfully');
-        
+        console.log("✅ Content saved to file successfully");
+
         // Automatically commit changes to Git (development)
-        await autoCommitToGit(section);
-        
+        // await autoCommitToGit(section);
+
         return; // Local save successful
       }
 
       // If local save fails, try GitHub API (production)
-      const githubResponse = await fetch('/api/github/save-content', {
-        method: 'POST',
+      const githubResponse = await fetch("/api/github/save-content", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           section,
@@ -187,12 +214,14 @@ export const TinaProvider: React.FC<{ children: React.ReactNode }> = ({
 
       const result = await githubResponse.json();
       if (!result.success) {
-        console.error('❌ Failed to save content:', result.error);
+        console.error("❌ Failed to save content:", result.error);
       } else {
-        console.log('✅ Content saved to GitHub successfully - auto-deploy triggered');
+        console.log(
+          "✅ Content saved to GitHub successfully - auto-deploy triggered"
+        );
       }
     } catch (error) {
-      console.error('❌ Error saving content:', error);
+      console.error("❌ Error saving content:", error);
     }
   };
 
