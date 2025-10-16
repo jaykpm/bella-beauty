@@ -144,7 +144,7 @@ export const DynamicForm: React.FC<DynamicFormProps> = ({
         )}
       </div>
 
-      {schema.fields.map((field) => (
+      {schema.fields?.map((field) => (
         <div key={field.name}>
           <label className="block text-sm font-medium text-gray-700 mb-2">
             {field.label}
@@ -249,6 +249,167 @@ const schemas: any = {
           ],
         },
       },
+    ],
+  },
+  crossCompatibility: {
+    title: "Cross-Compatibility",
+
+    fields: [
+      {
+        name: "line1",
+        label: "Line 1",
+        type: "url",
+      },
+      {
+        name: "heading",
+        label: "Heading",
+        type: "text",
+      },
+      {
+        name: "description",
+        label: "Description",
+        type: "text",
+      },
+      {
+        name: "buttonText",
+        label: "Button Text",
+        type: "text",
+      },
+      {
+        name: "buttonLink",
+        label: "Button Link",
+        type: "url",
+      },
+    ],
+  },
+  refundPolicy: {
+    title: "Refund Policy",
+    fields: [
+      {
+        name: "line1",
+        label: "Line 1",
+        type: "url",
+      },
+      {
+        name: "heading",
+        label: "Heading",
+        type: "text",
+      },
+      {
+        name: "description",
+        label: "Description",
+        type: "text",
+      },
+    ],
+  },
+  performanceSection: {
+    title: "Performance Section",
+    fields: [
+      {
+        name: "title",
+        label: "Title",
+        type: "text",
+      },
+      {
+        name: "description",
+        label: "Description",
+        type: "text",
+      },
+      {
+        name: "features",
+        label: "Features",
+        type: "list",
+        item: {
+          type: "object",
+          fields: [
+            { name: "id", label: "ID", type: "text" },
+            { name: "title", label: "Title", type: "text" },
+          ],
+        },
+      },
+      {
+        name: "line1",
+        label: "Line 1",
+        type: "url",
+      },
+    ],
+  },
+
+  keyFeatures: {
+    title: "Key Features",
+    fields: [
+      {
+        name: "title",
+        label: "Title",
+        type: "text",
+      },
+      {
+        name: "subtitle",
+        label: "subtitle",
+        type: "text",
+      },
+      {
+        name: "keyFeatures1",
+        label: "Key Features 1",
+        type: "list",
+        item: {
+          type: "object",
+          fields: [
+            { name: "id", label: "ID", type: "text" },
+            { name: "title", label: "Title", type: "text" },
+            { name: "description", label: "Description", type: "text" },
+          ],
+        },
+      },
+      {
+        name: "keyFeatures2",
+        label: "Key Features 2",
+        type: "list",
+        item: {
+          type: "object",
+          fields: [
+            { name: "id", label: "ID", type: "text" },
+            { name: "title", label: "Title", type: "text" },
+            { name: "description", label: "Description", type: "text" },
+          ],
+        },
+      },
+    ],
+  },
+  blocksGallery: {
+    title: "Blocks Gallery",
+    fields: [
+      {
+        name: "title",
+        label: "Title",
+        type: "text",
+      },
+      {
+        name: "subtitle",
+        label: "subtitle",
+        type: "text",
+      },
+      {
+        name: "images",
+        label: "Images",
+        type: "list",
+        item: {
+          type: "object",
+          fields: [{ name: "url", label: "URL", type: "url" }],
+        },
+      },
+    ],
+  },
+  beforeAfterSection: {
+    title: "Before After",
+    fields: [
+      { name: "title", label: "Title", type: "text" },
+      { name: "subtitle", label: "Subtitle", type: "text" },
+      { name: "description", label: "Description", type: "text" },
+      { name: "image1", label: "Image 1", type: "url" },
+      { name: "image2", label: "Image 2", type: "url" },
+      { name: "image3", label: "Image 3", type: "url" },
+      { name: "image4", label: "Image 4", type: "url" },
     ],
   },
 };
@@ -582,6 +743,7 @@ export const AdminPage = () => {
       </div>
     );
   };
+  console.log({ activeTab });
 
   return (
     <div className="min-h-screen bg-gray-50">

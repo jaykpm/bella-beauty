@@ -1,4 +1,4 @@
-export const ImageComparison = () => {
+export const ImageComparison = ({ beforeAfterSection }: any) => {
   return (
     <div className="relative text-[15px] box-border caret-transparent gap-x-2.5 flex flex-wrap leading-[21.75px] break-words gap-y-2.5 w-full m-[0%] pl-0 md:text-lg md:gap-x-5 md:flex-nowrap md:leading-[26.1px] md:gap-y-5 md:m-0 md:pl-[100px]">
       <div className="relative text-[15px] box-border caret-transparent gap-x-2.5 leading-[21.75px] max-w-full break-words gap-y-2.5 md:text-lg md:gap-x-5 md:leading-[26.1px] md:gap-y-5">
@@ -7,13 +7,13 @@ export const ImageComparison = () => {
             <div className="relative text-[15px] box-border caret-transparent flex leading-[21.75px] break-words w-full z-0 overflow-hidden rounded-[30px] md:text-lg md:leading-[26.1px]">
               <div className="relative text-[15px] box-border caret-transparent flex leading-[21.75px] break-words w-full z-[1] md:text-lg md:leading-[26.1px]">
                 <img
-                  src="https://c.animaapp.com/mgrzhz36mRAJyZ/assets/before-3.webp"
+                  src={beforeAfterSection?.image1}
                   alt=""
                   sizes="(max-width: 428px) 100vw, 428px"
                   className="relative text-[15px] aspect-[auto_428_/_300] box-border caret-transparent leading-[21.75px] max-w-full break-words w-full md:text-lg md:leading-[26.1px]"
                 />
                 <img
-                  src="https://c.animaapp.com/mgrzhz36mRAJyZ/assets/after-3.webp"
+                  src={beforeAfterSection?.image2}
                   alt=""
                   sizes="(max-width: 428px) 100vw, 428px"
                   className="absolute text-[15px] aspect-[auto_428_/_300] box-border caret-transparent h-full leading-[21.75px] max-w-full break-words w-full top-0 md:text-lg md:leading-[26.1px]"
@@ -30,13 +30,13 @@ export const ImageComparison = () => {
             <div className="relative text-[15px] box-border caret-transparent flex leading-[21.75px] break-words w-full z-0 overflow-hidden rounded-[20px] md:text-lg md:leading-[26.1px]">
               <div className="relative text-[15px] box-border caret-transparent flex leading-[21.75px] break-words w-full z-[1] md:text-lg md:leading-[26.1px]">
                 <img
-                  src="https://c.animaapp.com/mgrzhz36mRAJyZ/assets/after-1.webp"
+                  src={beforeAfterSection?.image3}
                   alt=""
                   sizes="(max-width: 258px) 100vw, 258px"
                   className="relative text-[15px] aspect-[auto_258_/_300] box-border caret-transparent leading-[21.75px] max-w-full break-words w-full md:text-lg md:leading-[26.1px]"
                 />
                 <img
-                  src="https://c.animaapp.com/mgrzhz36mRAJyZ/assets/before-1.webp"
+                  src={beforeAfterSection?.image4}
                   alt=""
                   sizes="(max-width: 258px) 100vw, 258px"
                   className="absolute text-[15px] aspect-[auto_258_/_300] box-border caret-transparent h-full leading-[21.75px] max-w-full break-words w-full top-0 md:text-lg md:leading-[26.1px]"

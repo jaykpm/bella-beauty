@@ -1,4 +1,9 @@
+import { useTina } from "@/contexts/TinaContext";
+
 export const RefundPolicy = () => {
+  const { content } = useTina();
+  const refundPolicy = content.refundPolicy || [];
+
   return (
     <div className="relative text-[15px] box-border caret-transparent flex flex-col leading-[21.75px] max-w-full break-words text-start w-full mb-20 px-5 md:text-lg md:leading-[26.1px] md:mb-[120px] md:px-10">
       <div className="text-[15px] items-stretch box-border caret-transparent gap-x-2.5 flex grow flex-wrap h-full leading-[21.75px] max-w-[min(100%,767px)] break-words gap-y-2.5 w-full mx-auto md:text-lg md:flex-nowrap md:leading-[26.1px] md:max-w-[min(100%,1280px)]">
@@ -17,10 +22,10 @@ export const RefundPolicy = () => {
                         </span>
                         <span className="text-neutral-800 text-[26px] box-border caret-transparent flex flex-col leading-[31.2px] max-w-full break-words w-fit pl-[30px] md:text-[42px] md:leading-[50.4px]">
                           <span className="text-[26px] box-border caret-transparent block leading-[31.2px] break-words md:text-[42px] md:leading-[50.4px]">
-                            72 Hours{" "}
+                            {refundPolicy.line1} {refundPolicy.heading}
                           </span>
                           <span className="text-[15px] font-normal box-border caret-transparent block leading-[21.75px] min-w-fit break-words text-left font-karla_local md:text-xl md:leading-[29px]">
-                            to Decide if You Like It
+                            {refundPolicy.line2}
                           </span>
                         </span>
                       </span>
@@ -33,8 +38,7 @@ export const RefundPolicy = () => {
               <div className="relative text-[15px] box-border caret-transparent gap-x-5 leading-[21.75px] max-w-full break-words gap-y-5 md:text-lg md:leading-[26.1px]">
                 <div className="text-[15px] box-border caret-transparent h-full leading-[21.75px] break-words md:text-lg md:leading-[26.1px]">
                   <p className="text-[15px] box-border caret-transparent leading-[21.75px] break-words md:text-lg md:leading-[26.1px]">
-                    Not what you expected? We offer quick and easy refunds
-                    within 72 hours. If we can&#39;t help, we&#39;ll refund you.
+                    {refundPolicy.description}
                   </p>
                 </div>
               </div>

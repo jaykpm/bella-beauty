@@ -59,6 +59,11 @@ export const TinaProvider: React.FC<{ children: React.ReactNode }> = ({
             keyFeaturesRes,
             ctaSectionRes,
             pluginsSectionRes,
+            crossCompatibilityRes,
+            refundPolicyRes,
+            performanceSectionRes,
+            blocksGalleryRes,
+            beforeAfterSectionRes,
           ] = await Promise.all([
             fetch("/content/hero/index.json").catch(() => null),
             fetch("/content/settings/index.json").catch(() => null),
@@ -66,6 +71,11 @@ export const TinaProvider: React.FC<{ children: React.ReactNode }> = ({
             fetch("/content/key-features/index.json").catch(() => null),
             fetch("/content/cta-section/index.json").catch(() => null),
             fetch("/content/plugins-section/index.json").catch(() => null),
+            fetch("/content/cross-compatibility/index.json").catch(() => null),
+            fetch("/content/refund-policy/index.json").catch(() => null),
+            fetch("/content/performance-section/index.json").catch(() => null),
+            fetch("/content/blocks-gallery/index.json").catch(() => null),
+            fetch("/content/before-after/index.json").catch(() => null),
           ]);
 
           const defaultContent: ContentData = {
@@ -98,7 +108,7 @@ export const TinaProvider: React.FC<{ children: React.ReactNode }> = ({
               : { badges: [] },
             keyFeatures: keyFeaturesRes
               ? await keyFeaturesRes.json()
-              : { sectionTitle: "Key Features", features: [] },
+              : { title: "Key Features", features: [] },
             ctaSection: ctaSectionRes
               ? await ctaSectionRes.json()
               : {
@@ -110,6 +120,59 @@ export const TinaProvider: React.FC<{ children: React.ReactNode }> = ({
             pluginsSection: pluginsSectionRes
               ? await pluginsSectionRes.json()
               : { sectionTitle: "Included Plugins", plugins: [] },
+            crossCompatibility: crossCompatibilityRes
+              ? await crossCompatibilityRes.json()
+              : {
+                  title: "Cross-Compatibility",
+                  description: "Cross-Compatibility",
+                  buttonText: "Purchase Now",
+                  buttonLink: "https://1.envato.market/cmsmasters-bella-beauty",
+                },
+            refundPolicy: refundPolicyRes
+              ? await refundPolicyRes.json()
+              : {
+                  line1: "",
+                  heading: "",
+                  description: "",
+                },
+            performanceSection: performanceSectionRes
+              ? await performanceSectionRes.json()
+              : {
+                  title: "Google PageSpeed Insights Performance Score 80+",
+                  description: "Get an impressive performance score with:",
+                  features: [
+                    {
+                      title: "Pre-optimised widgets;",
+                    },
+                    {
+                      title: "Lazy loading widgets;",
+                    },
+                    {
+                      title: "Local fonts included;",
+                    },
+                  ],
+                  line1:
+                    "Improve your page load time even further by using WordPress caching plugins and optimising your images.",
+                },
+            blocksGallery: blocksGalleryRes
+              ? await blocksGalleryRes.json()
+              : {
+                  title: "Blocks Gallery",
+                  subtitle: "subtitle",
+                  images: [],
+                },
+            beforeAfterSection: beforeAfterSectionRes
+              ? await beforeAfterSectionRes.json()
+              : {
+                  title: "Before After",
+                  subtitle: "Image Comparison Widget",
+                  description:
+                    "Showcase your expertise by comparing two images using the before after widget. See the transformation in a glance, whether it’s beauty procedures, photos, designs and more.",
+                  image1: "",
+                  image2: "",
+                  image3: "",
+                  image4: "",
+                },
           };
 
           setContent(defaultContent);

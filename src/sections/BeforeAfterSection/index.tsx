@@ -1,6 +1,10 @@
 import { ImageComparison } from "@/sections/BeforeAfterSection/components/ImageComparison";
+import { useTina } from "@/contexts/TinaContext";
 
 export const BeforeAfterSection = () => {
+  const { content } = useTina();
+  const beforeAfterSection = content.beforeAfterSection || [];
+
   return (
     <div className="relative text-[15px] box-border caret-transparent flex flex-col leading-[21.75px] max-w-full break-words text-start w-full mb-20 px-5 md:text-lg md:leading-[26.1px] md:mb-[120px] md:px-10">
       <div className="text-[15px] items-stretch box-border caret-transparent gap-x-5 flex grow flex-wrap h-full leading-[21.75px] max-w-[min(100%,767px)] break-words gap-y-5 w-full mx-auto md:text-lg md:flex-nowrap md:leading-[26.1px] md:max-w-screen-xl">
@@ -17,29 +21,27 @@ export const BeforeAfterSection = () => {
           <div className="relative text-[15px] box-border caret-transparent gap-x-2.5 leading-[21.75px] max-w-full break-words gap-y-2.5 md:text-lg md:leading-[26.1px]">
             <div className="text-[15px] box-border caret-transparent h-full leading-[21.75px] break-words mt-5 md:text-lg md:leading-[26.1px]">
               <h2 className="text-neutral-800 text-[32px] box-border caret-transparent leading-[36.8px] break-words font-butler_local md:text-[56px] md:leading-[64.4px]">
-                Before After
+                {beforeAfterSection.title}
               </h2>
             </div>
           </div>
           <div className="relative text-[15px] box-border caret-transparent gap-x-2.5 leading-[21.75px] max-w-full break-words gap-y-2.5 md:text-lg md:leading-[26.1px]">
             <div className="text-[15px] box-border caret-transparent h-full leading-[21.75px] break-words mb-[30px] md:text-lg md:leading-[26.1px]">
               <h4 className="text-neutral-800 text-xl box-border caret-transparent leading-[25px] break-words font-butler_local md:text-3xl md:leading-[37.5px]">
-                Image Comparison Widget
+                {beforeAfterSection.subtitle}
               </h4>
             </div>
           </div>
           <div className="relative text-[15px] box-border caret-transparent gap-x-2.5 leading-[21.75px] max-w-full break-words gap-y-2.5 md:text-lg md:leading-[26.1px]">
             <div className="text-[15px] box-border caret-transparent h-full leading-[21.75px] break-words md:text-lg md:leading-[26.1px]">
               <p className="text-[15px] box-border caret-transparent leading-[21.75px] break-words mb-[22.5px] md:text-lg md:leading-[26.1px] md:mb-[27px]">
-                Showcase your expertise by comparing two images using the before
-                after widget. See the transformation in a glance, whether it’s
-                beauty procedures, photos, designs and more.
+                {beforeAfterSection.description}
               </p>
             </div>
           </div>
         </div>
         <div className="relative text-[15px] box-border caret-transparent gap-x-2.5 flex flex-col flex-wrap leading-[21.75px] break-words gap-y-2.5 w-full md:text-lg md:flex-nowrap md:leading-[26.1px] md:w-[62%]">
-          <ImageComparison />
+          <ImageComparison beforeAfterSection={beforeAfterSection} />
           <div className="relative text-[15px] items-stretch box-border caret-transparent gap-x-2.5 flex flex-wrap leading-[21.75px] break-words gap-y-2.5 w-full m-[0%] pr-0 md:text-lg md:gap-x-5 md:flex-nowrap md:leading-[26.1px] md:gap-y-5 md:m-0 md:pr-[100px]">
             <div className="relative text-[15px] box-border caret-transparent gap-x-2.5 leading-[21.75px] max-w-full break-words gap-y-2.5 w-full md:text-lg md:gap-x-5 md:leading-[26.1px] md:gap-y-5 md:w-auto">
               <div className="text-[15px] box-border caret-transparent h-full leading-[21.75px] break-words md:text-lg md:leading-[26.1px]">
@@ -47,13 +49,13 @@ export const BeforeAfterSection = () => {
                   <div className="relative text-[15px] box-border caret-transparent flex leading-[21.75px] break-words w-full z-0 overflow-hidden rounded-[20px] md:text-lg md:leading-[26.1px]">
                     <div className="relative text-[15px] box-border caret-transparent flex leading-[21.75px] break-words w-full z-[1] md:text-lg md:leading-[26.1px]">
                       <img
-                        src="https://c.animaapp.com/mgrzhz36mRAJyZ/assets/before-2.webp"
+                        src={beforeAfterSection.image1}
                         alt=""
                         sizes="(max-width: 258px) 100vw, 258px"
                         className="relative text-[15px] aspect-[auto_258_/_300] box-border caret-transparent leading-[21.75px] max-w-full break-words w-full md:text-lg md:leading-[26.1px]"
                       />
                       <img
-                        src="https://c.animaapp.com/mgrzhz36mRAJyZ/assets/after-2-1.webp"
+                        src={beforeAfterSection.image2}
                         alt=""
                         sizes="(max-width: 258px) 100vw, 258px"
                         className="absolute text-[15px] aspect-[auto_258_/_300] box-border caret-transparent h-full leading-[21.75px] max-w-full break-words w-full top-0 md:text-lg md:leading-[26.1px]"
@@ -86,13 +88,13 @@ export const BeforeAfterSection = () => {
                   <div className="relative text-[15px] box-border caret-transparent flex leading-[21.75px] break-words w-full z-0 overflow-hidden rounded-[30px] md:text-lg md:leading-[26.1px]">
                     <div className="relative text-[15px] box-border caret-transparent flex leading-[21.75px] break-words w-full z-[1] md:text-lg md:leading-[26.1px]">
                       <img
-                        src="https://c.animaapp.com/mgrzhz36mRAJyZ/assets/after-4.webp"
+                        src={beforeAfterSection.image3}
                         alt=""
                         sizes="(max-width: 428px) 100vw, 428px"
                         className="relative text-[15px] aspect-[auto_428_/_300] box-border caret-transparent leading-[21.75px] max-w-full break-words w-full md:text-lg md:leading-[26.1px]"
                       />
                       <img
-                        src="https://c.animaapp.com/mgrzhz36mRAJyZ/assets/before-4.webp"
+                        src={beforeAfterSection.image4}
                         alt=""
                         sizes="(max-width: 428px) 100vw, 428px"
                         className="absolute text-[15px] aspect-[auto_428_/_300] box-border caret-transparent h-full leading-[21.75px] max-w-full break-words w-full top-0 md:text-lg md:leading-[26.1px]"
