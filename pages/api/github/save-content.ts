@@ -36,6 +36,22 @@ export default async function handler(
     keyFeatures: 'public/content/key-features/index.json',
     ctaSection: 'public/content/cta-section/index.json',
     pluginsSection: 'public/content/plugins-section/index.json',
+    beforeAfterSection: 'public/content/before-after-section/index.json',
+    customizationSection: 'public/content/customization-section/index.json',
+    postTypesSection: 'public/content/post-types-section/index.json',
+    detailsSection: 'public/content/details-section/index.json',
+    technicalSection: 'public/content/technical-section/index.json',
+    elementorExtension: 'public/content/elementor-extension/index.json',
+    layoutsGallery: 'public/content/layouts-gallery/index.json',
+    installationWizard: 'public/content/installation-wizard/index.json',
+    templateBuilder: 'public/content/template-builder/index.json',
+    headerVariations: 'public/content/header-variations/index.json',
+    mobileFirstSection: 'public/content/mobile-first-section/index.json',
+    refundPolicy: 'public/content/refund-policy/index.json',
+    colorPalettes: 'public/content/color-palettes/index.json',
+    performanceSection: 'public/content/performance-section/index.json',
+    blocksGallery: 'public/content/blocks-gallery/index.json',
+
   };
 
   const filePath = sectionFileMap[section];
@@ -96,11 +112,11 @@ export default async function handler(
 
   } catch (error: any) {
     console.error('GitHub save failed:', error);
-    
+
     // Provide detailed error information
     let errorDetails = error.message;
     let hint = '';
-    
+
     if (error.status === 404) {
       errorDetails = 'Repository not found or no access';
       hint = `Check: 1) Repository '${process.env.GITHUB_OWNER}/${process.env.GITHUB_REPO}' exists, 2) Token has 'repo' scope, 3) Repository name is correct`;
@@ -108,7 +124,7 @@ export default async function handler(
       errorDetails = 'Authentication failed or insufficient permissions';
       hint = 'Check: 1) GitHub token is valid, 2) Token has "repo" scope for private repos or "public_repo" for public repos';
     }
-    
+
     return res.status(error.status || 500).json({
       success: false,
       message: 'Failed to save to GitHub',
