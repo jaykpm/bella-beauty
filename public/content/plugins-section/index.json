@@ -1,48 +1,40 @@
 {
-  "sectionTitle": "Save money with already included plugins",
-  "sectionSubtitle": "Get premium plugins worth $200+ included for free with your theme purchase",
+  "backgroundImage": "https://bella-beauty.cmsmasters.studio/wp-content/uploads/2024/03/landing-1.webp",
+  "overlayOpacity": 0.1,
+  "overlayColor": "#000000",
+  "title": "DQWDQWD  DWDWD DWD dwd  WD  hbh",
+  "subtitle": "wefwfwefwf efwef fwefewf dwdqwd f dqwd efefwefwe dwdwd ",
+  "buttonText": "button",
+  "buttonLink": "https://1.envato.market/cmsmasters-bella-beau",
+  "viewDemosText": "View Demos",
+  "viewDemosLink": "#demos",
+  "additionalText": "Take your website to the next level.",
+  "secondaryText": " ffwefwefwefrfr",
+  "secondaryButtonText": "rfrfrf",
+  "sectionTitle": "dqwad",
+  "sectionSubtitle": "dwqdqd",
+  "description": "dqwdqwd",
   "plugins": [
     {
-      "name": "Elementor Pro",
-      "imageUrl": "https://c.animaapp.com/mgrzhz36mRAJyZ/assets/plugin-elementor.png",
-      "showBadge": true,
-      "badgeText": "Premium",
-      "badgeVariant": "bg-stone-500"
+      "name": "dqwdqwd",
+      "imageUrl": "https://bella-beauty.cmsmasters.studio/wp-content/uploads/2024/02/landing-32.webp",
+      "showBadge": "",
+      "badgeText": "ddqwd",
+      "badgeVariant": "qwdqwdqwd"
     },
     {
-      "name": "Slider Revolution",
-      "imageUrl": "https://c.animaapp.com/mgrzhz36mRAJyZ/assets/plugin-slider.png",
-      "showBadge": true,
-      "badgeText": "Included",
-      "badgeVariant": "bg-rose-100"
+      "name": "wedqwdqd",
+      "imageUrl": "https://bella-beauty.cmsmasters.studio/wp-content/uploads/2024/02/landing-32.webp",
+      "showBadge": "",
+      "badgeText": "wqdqwd",
+      "badgeVariant": "qwdqwd"
     },
     {
-      "name": "Contact Form 7",
-      "imageUrl": "https://c.animaapp.com/mgrzhz36mRAJyZ/assets/plugin-cf7.png",
-      "showBadge": false,
-      "badgeText": "",
-      "badgeVariant": "bg-stone-500"
-    },
-    {
-      "name": "WooCommerce",
-      "imageUrl": "https://c.animaapp.com/mgrzhz36mRAJyZ/assets/plugin-woo.png",
-      "showBadge": true,
-      "badgeText": "Compatible",
-      "badgeVariant": "bg-stone-500"
-    },
-    {
-      "name": "Yoast SEO",
-      "imageUrl": "https://c.animaapp.com/mgrzhz36mRAJyZ/assets/plugin-yoast.png",
-      "showBadge": false,
-      "badgeText": "",
-      "badgeVariant": "bg-stone-500"
-    },
-    {
-      "name": "WPML",
-      "imageUrl": "https://c.animaapp.com/mgrzhz36mRAJyZ/assets/plugin-wpml.png",
-      "showBadge": true,
-      "badgeText": "Ready",
-      "badgeVariant": "bg-rose-100"
+      "name": "dqwdqwd",
+      "imageUrl": "https://bella-beauty.cmsmasters.studio/wp-content/uploads/2024/02/landing-32.webp",
+      "showBadge": "",
+      "badgeText": "dqwdqwd",
+      "badgeVariant": "qwdqwdqd"
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "title": "Dynamic &amp; fully customizable post types",
+  "description": "Services &amp; Doctor Profiles, along with Blog Posts templates - all set up for you!",
+  "posts": [
+    {
+      "title": "Services Post Type",
+      "description": "Ready to use templates for Beauty Services will simplify your website setup and make it easy and fast.",
+      "image": "https://bella-beauty.cmsmasters.studio/wp-content/uploads/2024/02/landing-13-1.webp"
+    },
+    {
+      "title": "Doctor Profiles Post Type",
+      "description": "Ready to use templates for Beauty Services will simplify your website setup and make it easy and fast.",
+      "image": "https://bella-beauty.cmsmasters.studio/wp-content/uploads/2024/02/landing-13-1.webp"
+    },
+    {
+      "title": "Blog Posts Post Type",
+      "description": "Ready to use templates for Beauty Services will simplify your website setup and make it easy and fast.",
+      "image": "https://bella-beauty.cmsmasters.studio/wp-content/uploads/2024/02/landing-13-1.webp"
+    }
+  ]
+}

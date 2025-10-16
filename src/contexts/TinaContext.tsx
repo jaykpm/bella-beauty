@@ -64,6 +64,15 @@ export const TinaProvider: React.FC<{ children: React.ReactNode }> = ({
             performanceSectionRes,
             blocksGalleryRes,
             beforeAfterSectionRes,
+            customizationSectionRes,
+            postTypesSectionRes,
+            detailsSectionRes,
+            technicalSectionRes,
+            elementorExtensionRes,
+            layoutsGalleryRes,
+            installationWizardRes,
+            templateBuilderRes,
+            headerVariationsRes,
           ] = await Promise.all([
             fetch("/content/hero/index.json").catch(() => null),
             fetch("/content/settings/index.json").catch(() => null),
@@ -76,6 +85,15 @@ export const TinaProvider: React.FC<{ children: React.ReactNode }> = ({
             fetch("/content/performance-section/index.json").catch(() => null),
             fetch("/content/blocks-gallery/index.json").catch(() => null),
             fetch("/content/before-after/index.json").catch(() => null),
+            fetch("/content/customization/index.json").catch(() => null),
+            fetch("/content/post-types/index.json").catch(() => null),
+            fetch("/content/details/index.json").catch(() => null),
+            fetch("/content/technical/index.json").catch(() => null),
+            fetch("/content/elementor/index.json").catch(() => null),
+            fetch("/content/layouts-gallery/index.json").catch(() => null),
+            fetch("/content/installation-wizard/index.json").catch(() => null),
+            fetch("/content/template-builder/index.json").catch(() => null),
+            fetch("/content/header-variations/index.json").catch(() => null),
           ]);
 
           const defaultContent: ContentData = {
@@ -112,14 +130,51 @@ export const TinaProvider: React.FC<{ children: React.ReactNode }> = ({
             ctaSection: ctaSectionRes
               ? await ctaSectionRes.json()
               : {
-                  title: "Ready to Transform Your Beauty Clinic?",
-                  subtitle: "Get started today with Bella Beauty theme",
-                  buttonText: "Purchase Now",
+                  sectionId: "ctaSection",
+                  backgroundImage:
+                    "https://c.animaapp.com/mgrzhz36mRAJyZ/assets/landing-bg.webp",
+                  overlayColor: "rgba(38, 38, 38, 0.5)",
+                  title: "Get started with Bella Beauty",
+                  buttonLabel: "Purchase Now",
                   buttonLink: "https://1.envato.market/cmsmasters-bella-beauty",
+                  features: [
+                    {
+                      icon: "https://c.animaapp.com/mgrzhz36mRAJyZ/assets/icon-15.svg",
+                      text: "Super friendly support",
+                    },
+                    {
+                      icon: "https://c.animaapp.com/mgrzhz36mRAJyZ/assets/icon-15.svg",
+                      text: "Lifetime updates",
+                    },
+                    {
+                      icon: "https://c.animaapp.com/mgrzhz36mRAJyZ/assets/icon-15.svg",
+                      text: "Online documentation",
+                    },
+                  ],
+                  mainImage:
+                    "https://c.animaapp.com/mgrzhz36mRAJyZ/assets/landing-33.webp",
+                  overlayImage:
+                    "https://c.animaapp.com/mgrzhz36mRAJyZ/assets/landing-34.webp",
                 },
             pluginsSection: pluginsSectionRes
               ? await pluginsSectionRes.json()
-              : { sectionTitle: "Included Plugins", plugins: [] },
+              : {
+                  sectionTitle: "Save money with already included plugins",
+                  sectionSubtitle:
+                    "Get premium plugins worth $200+ included for free with your theme purchase",
+                  description:
+                    "Not just a theme, but a full pack of premium plugins inside!",
+                  plugins: [
+                    {
+                      name: "Elementor Pro",
+                      imageUrl:
+                        "https://c.animaapp.com/mgrzhz36mRAJyZ/assets/plugin-elementor.png",
+                      showBadge: true,
+                      badgeText: "Premium",
+                      badgeVariant: "bg-stone-500",
+                    },
+                  ],
+                },
             crossCompatibility: crossCompatibilityRes
               ? await crossCompatibilityRes.json()
               : {
@@ -172,6 +227,112 @@ export const TinaProvider: React.FC<{ children: React.ReactNode }> = ({
                   image2: "",
                   image3: "",
                   image4: "",
+                },
+            customizationSection: customizationSectionRes
+              ? await customizationSectionRes.json()
+              : {
+                  title:
+                    "Customize the whole website in few clicks with global settings",
+                  description:
+                    "Enjoy intuitive interface and flexibility of one of the most user-friendly page builders for WordPress.",
+                },
+            postTypesSection: postTypesSectionRes
+              ? await postTypesSectionRes.json()
+              : {
+                  title: "Dynamic &amp; fully customizable post types",
+                  description:
+                    "Services &amp; Doctor Profiles, along with Blog Posts templates - all set up for you!",
+                  posts: [],
+                },
+            detailsSection: detailsSectionRes
+              ? await detailsSectionRes.json()
+              : {
+                  title: "Details, not only in home pages",
+                  description:
+                    "Powerful theme, thoroughly designed to the finest details",
+                  description2:
+                    "Not just some dummy templates, but fully functional ready-to-go websites!",
+                },
+            technicalSection: technicalSectionRes
+              ? await technicalSectionRes.json()
+              : {
+                  title: "Technically speaking",
+                  description: "We’ve made Elementor even better",
+                  description2: "World’s most popular builder used as a core",
+                  description3: "+ Premium custom extention",
+                  description4: "Included for FREE",
+                  image1: "",
+                  image2: "",
+                  image3: "",
+                },
+            elementorExtension: elementorExtensionRes
+              ? await elementorExtensionRes.json()
+              : {
+                  titleSmall: "Custom elementor extension",
+                  titleLarge: "CmsMasters addon bundled for FREE",
+                  list: [
+                    "Header and Footer builder with unlimited layout options.",
+                    "Archives builder - any imaginable design is possible.",
+                    "Endless layouts and design options for any Post Types.",
+                    "Blog Entry template builder.",
+                  ],
+                  image: "/images/addon-free.webp",
+                },
+            layoutsGallery: layoutsGalleryRes
+              ? await layoutsGalleryRes.json()
+              : {
+                  title: "Layouts Gallery",
+                  description:
+                    "Ready variety of layouts for products pages, lookbook, blog posts and other pages.",
+                  images: [],
+                },
+            installationWizard: installationWizardRes
+              ? await installationWizardRes.json()
+              : {
+                  sectionId: "installationWizard",
+                  smallTitle: "easy & one-click install",
+                  mainTitle:
+                    "Install demos in just a single click with Installation Wizard",
+                  description:
+                    "Installation Wizard will walk you through theme and demo content installation, just click “install”.",
+                  image: {
+                    src: "https://c.animaapp.com/mgrzhz36mRAJyZ/assets/landing-28.webp",
+                    alt: "Installation Wizard screenshot",
+                  },
+                },
+            templateBuilder: templateBuilderRes
+              ? await templateBuilderRes.json()
+              : {
+                  title: "Template Builder",
+                  description:
+                    "Ready variety of layouts for products pages, lookbook, blog posts and other pages.",
+                  posts: [],
+                },
+            headerVariations: headerVariationsRes
+              ? await headerVariationsRes.json()
+              : {
+                  sectionId: "headerVariations",
+                  backgroundColor: "bg-stone-500",
+                  smallTitle: "HEADER CUSTOMIZATION",
+                  mainTitle: "Unlimited Header Variations",
+                  description:
+                    "The vast array of Header options makes this cutting-edge responsive WordPress theme perfect for websites of all kinds.",
+                  images: [
+                    {
+                      src: "https://c.animaapp.com/mgrzhz36mRAJyZ/assets/header-variation-1.webp",
+                      alt: "Header variation 1",
+                    },
+                    {
+                      src: "https://c.animaapp.com/mgrzhz36mRAJyZ/assets/header-variation-2.webp",
+                      alt: "Header variation 2",
+                    },
+                    {
+                      src: "https://c.animaapp.com/mgrzhz36mRAJyZ/assets/header-variation-3.webp",
+                      alt: "Header variation 3",
+                    },
+                  ],
+                  footerNote:
+                    "and probably any other layout you can imagine...",
                 },
           };
 

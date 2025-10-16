@@ -1,0 +1,76 @@
+{
+  "backgroundImage": "https://bella-beauty.cmsmasters.studio/wp-content/uploads/2024/03/landing-1.webp",
+  "overlayOpacity": 0.1,
+  "overlayColor": "#000000",
+  "title": "DQWDQWD  DWDWD DWD dwd  WD  hbh",
+  "subtitle": "wefwfwefwf efwef fwefewf dwdqwd f dqwd efefwefwe dwdwd ",
+  "buttonText": "button",
+  "buttonLink": "https://1.envato.market/cmsmasters-bella-beau",
+  "viewDemosText": "View Demos",
+  "viewDemosLink": "#demos",
+  "additionalText": "Take your website to the next level.",
+  "secondaryText": " ffwefwefwefrfr",
+  "secondaryButtonText": "rfrfrf",
+  "elementor": [
+    {
+      "titleSmall": "dqwdwqd",
+      "titleLarge": "dqwdqwd",
+      "list": [
+        {
+          "text": "qwdqwd"
+        },
+        {
+          "text": "dqwdqwdqw"
+        }
+      ],
+      "image": "qwdqwdqwd"
+    }
+  ],
+  "elementors": [
+    {
+      "titleSmall": "dedwe",
+      "titleLarge": "wedwedwed",
+      "list": [
+        {
+          "text": "wedwedwed"
+        },
+        {
+          "text": "wdwdwd"
+        },
+        {
+          "text": "dwdwdwdw"
+        },
+        {
+          "text": "wdwdwdw"
+        }
+      ],
+      "image": "dweewdwedwed"
+    },
+    {
+      "titleSmall": "ddwqdqd",
+      "titleLarge": "qwdqqd",
+      "list": [
+        {
+          "text": "qwdqdqwdd"
+        },
+        {
+          "text": "dqwdqwdd"
+        }
+      ],
+      "image": "qwddqwdd"
+    },
+    {
+      "titleSmall": "dqdqwdd",
+      "titleLarge": "qwdqwd",
+      "list": [
+        {
+          "text": "qwdqwd"
+        },
+        {
+          "text": "dqwdqwd"
+        }
+      ],
+      "image": "dqwdqwd"
+    }
+  ]
+}

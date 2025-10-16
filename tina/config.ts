@@ -685,7 +685,7 @@ export default defineConfig({
       {
         name: "customizationSection",
         label: "Customization Section",
-        path: "content/customization-section",
+        path: "content/customization",
         format: "json",
         ui: {
           allowedActions: {
@@ -735,7 +735,7 @@ export default defineConfig({
       {
         name: "postTypesSection",
         label: "Post Types Section",
-        path: "content/post-types-section",
+        path: "content/post-types",
         format: "json",
         ui: {
           allowedActions: {
@@ -888,7 +888,7 @@ export default defineConfig({
       {
         name: "elementorExtension",
         label: "Elementor Extension",
-        path: "content/elementor-extension",
+        path: "content/elementor",
         format: "json",
         ui: {
           allowedActions: {

@@ -412,6 +412,196 @@ const schemas: any = {
       { name: "image4", label: "Image 4", type: "url" },
     ],
   },
+  customizationSection: {
+    title: "Customization",
+    fields: [
+      { name: "title", label: "Title", type: "text" },
+      { name: "description", label: "Description", type: "text" },
+    ],
+  },
+  postTypesSection: {
+    title: "Post Types",
+    fields: [
+      { name: "title", label: "Title", type: "text" },
+      { name: "description", label: "Description", type: "text" },
+      {
+        name: "posts",
+        label: "Posts",
+        type: "list",
+        item: {
+          type: "object",
+          fields: [
+            { name: "title", label: "Title", type: "text" },
+            { name: "description", label: "Description", type: "text" },
+            { name: "image", label: "Image", type: "url" },
+          ],
+        },
+      },
+    ],
+  },
+  detailsSection: {
+    title: "Details",
+    fields: [
+      { name: "title", label: "Title", type: "text" },
+      { name: "description", label: "Description", type: "text" },
+      { name: "description2", label: "Description 2", type: "text" },
+    ],
+  },
+  technicalSection: {
+    title: "Technical Section",
+    fields: [
+      { name: "title", label: "Title", type: "text" },
+      { name: "description", label: "Description", type: "text" },
+      { name: "description2", label: "Description 2", type: "text" },
+      { name: "description3", label: "Description 3", type: "text" },
+      { name: "description4", label: "Description 4", type: "text" },
+      { name: "image1", label: "Image 1", type: "url" },
+      { name: "image2", label: "Image 2", type: "url" },
+      { name: "image3", label: "Image 3", type: "url" },
+    ],
+  },
+  elementorExtension: {
+    title: "Elementor Extension",
+    fields: [
+      {
+        name: "elementors",
+        label: "Elementor",
+        type: "list",
+        item: {
+          type: "object",
+          fields: [
+            { name: "titleSmall", label: "Title Small", type: "text" },
+            { name: "titleLarge", label: "Title Large", type: "text" },
+            {
+              name: "list",
+              label: "List",
+              type: "list",
+              item: {
+                type: "object",
+                fields: [{ name: "text", label: "Text", type: "text" }],
+              },
+            },
+            { name: "image", label: "Image", type: "url" },
+          ],
+        },
+      },
+    ],
+  },
+  layoutsGallery: {
+    title: "Layouts Gallery",
+    fields: [
+      { name: "title", label: "Title", type: "text" },
+      { name: "description", label: "Description", type: "text" },
+      {
+        name: "images",
+        label: "Images",
+        type: "list",
+        item: {
+          type: "object",
+          fields: [{ name: "url", label: "URL", type: "url" }],
+        },
+      },
+    ],
+  },
+  installationWizard: {
+    title: "Installation Wizard",
+    fields: [
+      { name: "sectionId", label: "Section ID", type: "text" },
+      { name: "smallTitle", label: "Small Title", type: "text" },
+      { name: "mainTitle", label: "Main Title", type: "text" },
+      { name: "description", label: "Description", type: "text" },
+      { name: "image", label: "Image", type: "url" },
+    ],
+  },
+  templateBuilder: {
+    title: "Template Builder",
+    fields: [
+      { name: "title", label: "Title", type: "text" },
+      { name: "description", label: "Description", type: "text" },
+      {
+        name: "posts",
+        label: "Posts",
+        type: "list",
+        item: {
+          type: "object",
+          fields: [
+            { name: "title", label: "Title", type: "text" },
+            { name: "description", label: "Description", type: "text" },
+            { name: "image", label: "Image", type: "url" },
+          ],
+        },
+      },
+    ],
+  },
+  headerVariations: {
+    title: "Header Variations",
+    fields: [
+      { name: "sectionId", label: "Section ID", type: "text" },
+      { name: "backgroundColor", label: "Background Color", type: "text" },
+      { name: "smallTitle", label: "Small Title", type: "text" },
+      { name: "mainTitle", label: "Main Title", type: "text" },
+      { name: "description", label: "Description", type: "text" },
+      {
+        name: "images",
+        label: "Images",
+        type: "list",
+        item: {
+          type: "object",
+          fields: [{ name: "url", label: "URL", type: "url" }],
+        },
+      },
+      { name: "footerNote", label: "Footer Note", type: "text" },
+    ],
+  },
+  ctaSection: {
+    title: "CTA Section",
+    fields: [
+      { name: "sectionId", label: "Section ID", type: "text" },
+      { name: "backgroundImage", label: "Background Image", type: "url" },
+      { name: "overlayColor", label: "Overlay Color", type: "text" },
+      { name: "title", label: "Title", type: "text" },
+      { name: "buttonLabel", label: "Button Label", type: "text" },
+      { name: "buttonLink", label: "Button Link", type: "url" },
+      {
+        name: "features",
+        label: "Features",
+        type: "list",
+        item: {
+          type: "object",
+          fields: [
+            { name: "icon", label: "Icon", type: "url" },
+            { name: "text", label: "Text", type: "text" },
+          ],
+        },
+      },
+      { name: "mainImage", label: "Main Image", type: "url" },
+      { name: "overlayImage", label: "Overlay Image", type: "url" },
+    ],
+  },
+
+  pluginsSection: {
+    title: "Plugins Section",
+    fields: [
+      { name: "sectionTitle", label: "Section Title", type: "text" },
+      { name: "sectionSubtitle", label: "Section Subtitle", type: "text" },
+      { name: "description", label: "Description", type: "text" },
+      {
+        name: "plugins",
+        label: "Plugins",
+        type: "list",
+        item: {
+          type: "object",
+          fields: [
+            { name: "name", label: "Name", type: "text" },
+            { name: "imageUrl", label: "Image URL", type: "url" },
+            { name: "showBadge", label: "Show Badge", type: "boolean" },
+            { name: "badgeText", label: "Badge Text", type: "text" },
+            { name: "badgeVariant", label: "Badge Variant", type: "text" },
+          ],
+        },
+      },
+    ],
+  },
 };
 export const AdminPage = () => {
   const { content, updateContent } = useTina();

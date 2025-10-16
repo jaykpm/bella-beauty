@@ -19,14 +19,14 @@ export default async function handler(
 ) {
   // Allow content saving in production if GitHub config exists or explicitly enabled
   const hasGitHubConfig = !!(
-    process.env.GITHUB_TOKEN && 
-    process.env.GITHUB_OWNER && 
+    process.env.GITHUB_TOKEN &&
+    process.env.GITHUB_OWNER &&
     process.env.GITHUB_REPO
   );
-  
-  if (process.env.NODE_ENV === 'production' && 
-      process.env.ENABLE_ADMIN !== 'true' && 
-      !hasGitHubConfig) {
+
+  if (process.env.NODE_ENV === 'production' &&
+    process.env.ENABLE_ADMIN !== 'true' &&
+    !hasGitHubConfig) {
     return res.status(403).json({
       success: false,
       message: 'Content editing disabled in production',
@@ -68,11 +68,11 @@ export default async function handler(
       performanceSection: 'public/content/performance-section/index.json',
       blocksGallery: 'public/content/blocks-gallery/index.json',
       beforeAfterSection: 'public/content/before-after-section/index.json',
-      customizationSection: 'public/content/customization-section/index.json',
-      postTypesSection: 'public/content/post-types-section/index.json',
+      customizationSection: 'public/content/customization/index.json',
+      postTypesSection: 'public/content/post-types/index.json',
       detailsSection: 'public/content/details-section/index.json',
-      technicalSection: 'public/content/technical-section/index.json',
-      elementorExtension: 'public/content/elementor-extension/index.json',
+      technicalSection: 'public/content/technical/index.json',
+      elementorExtension: 'public/content/elementor/index.json',
       layoutsGallery: 'public/content/layouts-gallery/index.json',
       installationWizard: 'public/content/installation-wizard/index.json',
       templateBuilder: 'public/content/template-builder/index.json',
@@ -91,7 +91,7 @@ export default async function handler(
 
     // Get the absolute path
     const absolutePath = path.join(process.cwd(), filePath);
-    
+
     // Ensure directory exists
     const dir = path.dirname(absolutePath);
     if (!fs.existsSync(dir)) {
@@ -109,7 +109,7 @@ export default async function handler(
 
   } catch (error: any) {
     console.error('Failed to save content:', error);
-    
+
     return res.status(500).json({
       success: false,
       message: 'Failed to save content',
