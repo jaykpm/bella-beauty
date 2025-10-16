@@ -828,13 +828,13 @@ const ModernAdminPage = () => {
     return <Component />;
   };
 
-  const filteredTabs = tabs.filter((tab) => {
+  const filteredTabs = tabs.filter((tab: any) => {
     if (!searchQuery) return true;
     const query = searchQuery.toLowerCase();
     return (
-      tab.label.toLowerCase().includes(query) ||
-      tab.id.toLowerCase().includes(query) ||
-      tab.category.toLowerCase().includes(query)
+      tab?.label.toLowerCase().includes(query) ||
+      tab?.id.toLowerCase().includes(query) ||
+      tab?.category.toLowerCase().includes(query)
     );
   });
 
