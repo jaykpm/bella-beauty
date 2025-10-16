@@ -1,39 +1,61 @@
 {
-  "backgroundImage": "https://bella-beauty.cmsmasters.studio/wp-content/uploads/2024/03/landing-1.webp",
-  "overlayOpacity": 0.1,
-  "overlayColor": "#000000",
-  "title": "dwdwd",
-  "subtitle": "wefwfwefwf efwef fwefewf dwdqwd f dqwd efefwefwe dwdwd ",
-  "buttonText": "button",
-  "buttonLink": "https://1.envato.market/cmsmasters-bella-beau",
-  "viewDemosText": "View Demos",
-  "viewDemosLink": "#demos",
-  "additionalText": "Take your website to the next level.",
-  "secondaryText": " ffwefwefwefrfr",
-  "secondaryButtonText": "rfrfrf",
-  "description": "dwdwdw",
-  "keyFeatures1": [
+  "sectionTitle": "Key Features",
+  "sectionSubtitle": "Everything you need to create a stunning beauty clinic website",
+  "features": [
     {
-      "id": "qwd",
-      "title": "dwqdqw dwqdqwdqwdqwdd",
-      "description": "qdwqwd"
+      "title": "Responsive Design",
+      "description": "Fully responsive design that works perfectly on all devices and screen sizes",
+      "icon": "responsive",
+      "image": "https://c.animaapp.com/mgrzhz36mRAJyZ/assets/feature-responsive.jpg"
     },
     {
-      "id": "fwef",
-      "title": "wefwe",
-      "description": "wefwef"
+      "title": "Elementor Compatible",
+      "description": "Built with Elementor page builder for easy drag-and-drop customization",
+      "icon": "elementor",
+      "image": "https://c.animaapp.com/mgrzhz36mRAJyZ/assets/feature-elementor.jpg"
+    },
+    {
+      "title": "SEO Optimized",
+      "description": "Optimized for search engines to help your clinic rank higher in search results",
+      "icon": "seo",
+      "image": "https://c.animaapp.com/mgrzhz36mRAJyZ/assets/feature-seo.jpg"
+    },
+    {
+      "title": "Fast Performance",
+      "description": "Lightweight and optimized code ensures fast loading times for better user experience",
+      "icon": "performance",
+      "image": "https://c.animaapp.com/mgrzhz36mRAJyZ/assets/feature-performance.jpg"
+    },
+    {
+      "title": "Multiple Demos",
+      "description": "5 different homepage layouts to choose from, each designed for different clinic types",
+      "icon": "demos",
+      "image": "https://c.animaapp.com/mgrzhz36mRAJyZ/assets/feature-demos.jpg"
+    },
+    {
+      "title": "Premium Support",
+      "description": "Dedicated support team to help you with any questions or customization needs",
+      "icon": "support",
+      "image": "https://c.animaapp.com/mgrzhz36mRAJyZ/assets/feature-support.jpg"
     }
   ],
-  "keyFeatures2": [
+  "title": "key features",
+  "subtitle": "What niche functionality is inside?",
+  "keyFeatures1": [
     {
-      "id": "qdwdewf",
-      "title": "qwdqfef",
-      "description": "qwddwef"
+      "id": "",
+      "title": "Services Post",
+      "description": ""
     },
     {
-      "id": "wefwfef",
-      "title": "wefw",
-      "description": "wfewf"
+      "id": "",
+      "title": " Type Doctor Profiles ",
+      "description": ""
+    },
+    {
+      "id": "",
+      "title": "Post Type Fully Customizable Templates",
+      "description": ""
     }
   ]
 }
