@@ -243,8 +243,8 @@ const schemas: any = {
           fields: [
             { name: "id", label: "ID", type: "text" },
             { name: "title", label: "Title", type: "text" },
-            { name: "href", label: "Image", type: "text" },
-            { name: "imageUrl", label: "Text", type: "text" },
+            { name: "href", label: "Subtitle", type: "text" },
+            { name: "imageUrl", label: "Image", type: "text" },
             { name: "qrCodeUrl", label: "Icon", type: "text" },
           ],
         },
