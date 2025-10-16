@@ -38,7 +38,7 @@ export const TemplateBuilder = () => {
           </div>
         </div>
         <div className="relative text-[15px] box-border caret-transparent gap-x-[50px] flex flex-col flex-wrap leading-[21.75px] break-words gap-y-[50px] w-full md:text-lg md:gap-x-20 md:flex-nowrap md:leading-[26.1px] md:gap-y-20 md:w-3/5">
-          {TemplateBuilder?.posts.map((post: any, index: any) => (
+          {TemplateBuilder?.posts?.map((post: any, index: any) => (
             <div
               key={index}
               className="relative text-[15px] box-border caret-transparent flex flex-col leading-[21.75px] break-words w-full md:text-lg md:leading-[26.1px]"

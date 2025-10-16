@@ -37,7 +37,7 @@ export const PluginsSection = () => {
           </div>
         </div>
         <div className="relative text-[15px] items-stretch box-border caret-transparent gap-x-[25px] flex flex-wrap leading-[21.75px] break-words gap-y-[25px] w-full md:text-lg md:flex-nowrap md:leading-[26.1px]">
-          {pluginsSection?.plugins.map((plugin: any, index: number) => (
+          {pluginsSection?.plugins?.map((plugin: any, index: number) => (
             <PluginCard
               key={index}
               imageUrl={plugin.imageUrl}

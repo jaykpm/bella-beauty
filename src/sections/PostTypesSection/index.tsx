@@ -44,13 +44,13 @@ export const PostTypesSection = () => {
           </div>
         </div>
         <div className="relative text-[15px] box-border caret-transparent gap-x-[50px] flex flex-col flex-wrap leading-[21.75px] break-words gap-y-[50px] w-full md:text-lg md:gap-x-20 md:flex-nowrap md:leading-[26.1px] md:gap-y-20 md:w-3/5">
-          {postTypesSection?.posts.map((post: any, index: number) => (
+          {postTypesSection?.posts?.map((post: any, index: number) => (
             <div className="relative text-[15px] box-border caret-transparent flex flex-col leading-[21.75px] break-words w-full md:text-lg md:leading-[26.1px]">
               <div className="text-[15px] box-border caret-transparent gap-x-5 flex flex-col grow flex-wrap h-full leading-[21.75px] max-w-[min(100%,767px)] break-words gap-y-5 w-full mx-auto md:text-lg md:flex-nowrap md:leading-[26.1px] md:max-w-[min(100%,1280px)]">
                 <div className="relative text-[15px] box-border caret-transparent gap-x-5 leading-[21.75px] max-w-full break-words gap-y-5 text-center md:text-lg md:leading-[26.1px]">
                   <div className="text-[15px] box-border caret-transparent h-full leading-[21.75px] break-words mb-2.5 md:text-lg md:leading-[26.1px]">
                     <img
-                      src={post.image}
+                      src={post?.image}
                       alt=""
                       sizes="(max-width: 716px) 100vw, 716px"
                       className="text-[15px] aspect-[auto_716_/_449] box-border caret-transparent inline-block leading-[21.75px] max-w-full break-words w-full md:text-lg md:leading-[26.1px]"
@@ -60,14 +60,14 @@ export const PostTypesSection = () => {
                 <div className="relative text-[15px] box-border caret-transparent gap-x-5 leading-[21.75px] max-w-full break-words gap-y-5 text-center w-[680px] md:text-lg md:leading-[26.1px]">
                   <div className="text-[15px] box-border caret-transparent h-full leading-[21.75px] break-words md:text-lg md:leading-[26.1px]">
                     <h3 className="text-neutral-800 text-[26px] box-border caret-transparent leading-[31.2px] break-words font-butler_local md:text-[42px] md:leading-[50.4px]">
-                      {post.title}
+                      {post?.title}
                     </h3>
                   </div>
                 </div>
                 <div className="relative text-[15px] self-center box-border caret-transparent gap-x-5 leading-[21.75px] max-w-full break-words gap-y-5 text-center w-[90%] md:text-lg md:leading-[26.1px]">
                   <div className="text-[15px] box-border caret-transparent h-full leading-[21.75px] break-words md:text-lg md:leading-[26.1px]">
                     <p className="text-[15px] box-border caret-transparent leading-[21.75px] break-words md:text-lg md:leading-[26.1px]">
-                      {post.description}
+                      {post?.description}
                     </p>
                   </div>
                 </div>

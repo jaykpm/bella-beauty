@@ -42,13 +42,13 @@ export const CTASection = () => {
         <div className="relative text-[15px] box-border caret-transparent gap-x-10 leading-[21.75px] max-w-full break-words gap-y-10 w-[900px] md:text-lg md:leading-[26.1px]">
           <div className="text-[15px] box-border caret-transparent h-full leading-[21.75px] break-words mb-2.5 md:text-lg md:leading-[26.1px] md:mb-10">
             <ul className="text-[15px] box-border caret-transparent columns-1 gap-x-0 leading-[21.75px] list-none break-words pl-0 md:text-lg md:columns-3 md:gap-x-2.5 md:leading-[26.1px]">
-              {ctaSection?.features.map((feature: any, index: number) => (
+              {ctaSection?.features?.map((feature: any, index: number) => (
                 <li className="relative text-[15px] font-normal items-center box-border caret-transparent flex flex-col justify-start leading-[21.75px] break-words pb-[7.5px] md:text-xl md:leading-[29px] md:pb-0">
                   <span className="text-[15px] items-center box-border caret-transparent flex leading-[21.75px] break-words md:text-xl md:leading-[29px]">
                     <span className="text-sm self-stretch box-border caret-transparent flex shrink-0 leading-[21.75px] break-words md:text-base md:leading-[29px]">
                       <span className="text-rose-100 text-sm self-center box-border caret-transparent block leading-[21.75px] break-words md:text-base md:leading-[29px]">
                         <img
-                          src={feature.icon}
+                          src={feature?.icon}
                           alt="Icon"
                           className="text-sm box-border caret-transparent leading-[21.75px] w-3.5 md:text-base md:leading-[29px] md:w-4"
                         />
@@ -56,7 +56,7 @@ export const CTASection = () => {
                     </span>
                     <span className="text-white text-[15px] box-border caret-transparent flex flex-col leading-[21.75px] max-w-full break-words text-center w-fit pl-[15px] md:text-xl md:leading-[29px]">
                       <span className="text-[15px] box-border caret-transparent block leading-[21.75px] break-words md:text-xl md:leading-[29px]">
-                        {feature.text}
+                        {feature?.text}
                       </span>
                     </span>
                   </span>
