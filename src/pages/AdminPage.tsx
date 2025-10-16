@@ -61,39 +61,79 @@ export const DynamicForm: React.FC<DynamicFormProps> = ({
     value: any,
     onValueChange: (val: any) => void
   ) => {
+    const charCount = value ? value.length : 0;
+    const isImageUrl = field.type === "url" && field.name.toLowerCase().includes("image");
+
     switch (field.type) {
       case "textarea":
         return (
-          <textarea
-            value={value || ""}
-            onChange={(e) => onValueChange(e.target.value)}
-            rows={field.rows || 3}
-            placeholder={field.placeholder}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-          />
+          <div className="relative">
+            <textarea
+              value={value || ""}
+              onChange={(e) => onValueChange(e.target.value)}
+              rows={field.rows || 3}
+              placeholder={field.placeholder}
+              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm transition-all duration-200 shadow-sm hover:shadow-md"
+            />
+            {charCount > 0 && (
+              <span className="absolute bottom-2 right-3 text-xs text-gray-400 bg-white px-2 rounded">
+                {charCount} chars
+              </span>
+            )}
+          </div>
         );
       case "text":
+        return (
+          <div className="relative">
+            <input
+              type={field.type}
+              value={value || ""}
+              onChange={(e) => onValueChange(e.target.value)}
+              placeholder={field.placeholder}
+              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm transition-all duration-200 shadow-sm hover:shadow-md"
+            />
+            {charCount > 0 && (
+              <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-xs text-gray-400 bg-white px-2 rounded">
+                {charCount}
+              </span>
+            )}
+          </div>
+        );
       case "url":
         return (
-          <input
-            type={field.type}
-            value={value || ""}
-            onChange={(e) => onValueChange(e.target.value)}
-            placeholder={field.placeholder}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-          />
+          <div className="space-y-2">
+            <input
+              type={field.type}
+              value={value || ""}
+              onChange={(e) => onValueChange(e.target.value)}
+              placeholder={field.placeholder}
+              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm transition-all duration-200 shadow-sm hover:shadow-md"
+            />
+            {isImageUrl && value && (
+              <div className="mt-2 p-2 bg-gray-50 rounded-lg border border-gray-200">
+                <img
+                  src={value}
+                  alt="Preview"
+                  className="max-h-32 rounded-lg object-cover"
+                  onError={(e) => {
+                    e.currentTarget.style.display = "none";
+                  }}
+                />
+              </div>
+            )}
+          </div>
         );
       case "list":
         return (
-          <div className="space-y-3">
+          <div className="space-y-4">
             {(value || []).map((item: any, idx: number) => (
               <div
                 key={idx}
-                className="border p-3 rounded-lg bg-gray-50 space-y-2"
+                className="border border-gray-200 p-4 rounded-xl bg-gradient-to-br from-white to-gray-50 space-y-3 shadow-sm hover:shadow-md transition-all duration-200"
               >
                 {field.item?.fields.map((subField) => (
                   <div key={subField.name}>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">
                       {subField.label}
                     </label>
                     {renderField(subField, item[subField.name], (val) => {
@@ -105,7 +145,7 @@ export const DynamicForm: React.FC<DynamicFormProps> = ({
                 ))}
                 <button
                   type="button"
-                  className="text-red-600 text-sm mt-2"
+                  className="text-red-600 hover:text-red-700 text-sm mt-2 font-medium flex items-center gap-1 transition-colors"
                   onClick={() => {
                     const updatedList = value.filter(
                       (_: any, i: number) => i !== idx
@@ -119,7 +159,7 @@ export const DynamicForm: React.FC<DynamicFormProps> = ({
             ))}
             <button
               type="button"
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm mt-2"
+              className="px-5 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl text-sm mt-2 font-medium shadow-md hover:shadow-lg hover:from-blue-700 hover:to-indigo-700 transition-all duration-200 flex items-center gap-2"
               onClick={() => {
                 const newItem: any = {};
                 field.item?.fields.forEach((f) => (newItem[f.name] = ""));
@@ -136,17 +176,17 @@ export const DynamicForm: React.FC<DynamicFormProps> = ({
   };
 
   return (
-    <div className="space-y-4">
-      <div className="bg-blue-50 p-4 rounded-lg">
-        <h3 className="font-medium text-blue-900 mb-2">{schema.title}</h3>
+    <div className="space-y-6 p-6">
+      <div className="bg-gradient-to-br from-blue-50 to-indigo-50 p-6 rounded-xl border border-blue-100 shadow-sm">
+        <h3 className="font-semibold text-blue-900 mb-2 text-lg">{schema.title}</h3>
         {schema.description && (
           <p className="text-sm text-blue-700">{schema.description}</p>
         )}
       </div>
 
       {schema.fields?.map((field) => (
-        <div key={field.name}>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+        <div key={field.name} className="animate-fadeIn">
+          <label className="block text-sm font-semibold text-gray-800 mb-2">
             {field.label}
           </label>
           {renderField(field, formData[field.name], (val) =>
@@ -620,19 +660,29 @@ export const AdminPage = () => {
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [lastSaved, setLastSaved] = useState<Date | null>(null);
-
+  const [searchQuery, setSearchQuery] = useState("");
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
+  const [toastType, setToastType] = useState<"success" | "error" | "info">("success");
+  const [isCompactMode, setIsCompactMode] = useState(false);
   useEffect(() => {
     if (content[activeTab as keyof typeof content]) {
       setFormData(content[activeTab as keyof typeof content]);
       setHasUnsavedChanges(false); // Reset unsaved changes when switching tabs
     }
   }, [activeTab, content]);
-
   const handleInputChange = (field: string, value: string) => {
     const newData = { ...formData, [field]: value };
     setFormData(newData);
     setHasUnsavedChanges(true);
     // Auto-save disabled - changes only save when you click Save button
+  };
+
+  const showNotification = (message: string, type: "success" | "error" | "info" = "success") => {
+    setToastMessage(message);
+    setToastType(type);
+    setShowToast(true);
+    setTimeout(() => setShowToast(false), 3000);
   };
 
   const handleManualSave = async () => {
@@ -642,6 +692,7 @@ export const AdminPage = () => {
       updateContent(activeTab, formData);
       setHasUnsavedChanges(false);
       setLastSaved(new Date());
+      showNotification("Changes saved successfully! ✓", "success");
 
       // Optional: Show success feedback
       setTimeout(() => {
@@ -649,6 +700,7 @@ export const AdminPage = () => {
       }, 500);
     } catch (error) {
       console.error("Save failed:", error);
+      showNotification("Failed to save changes", "error");
       setIsSaving(false);
     }
   };
@@ -695,7 +747,7 @@ export const AdminPage = () => {
   };
 
   const tabs = [
-    { id: "hero", label: "Hero Section", component: Hero, icon: "🏠" },
+    { id: "hero", label: "Hero Section", component: Hero, icon: "🏠", keywords: ["banner", "header", "main"] },
     {
       id: "trustBadges",
       label: "Trust Badges",
@@ -825,6 +877,17 @@ export const AdminPage = () => {
     { id: "settings", label: "Site Settings", component: null, icon: "⚙️" },
   ];
 
+  // Filter tabs based on search query
+  const filteredTabs = tabs.filter((tab) => {
+    if (!searchQuery) return true;
+    const query = searchQuery.toLowerCase();
+    return (
+      tab.label.toLowerCase().includes(query) ||
+      tab.id.toLowerCase().includes(query) ||
+      (tab.keywords && tab.keywords.some((kw: string) => kw.toLowerCase().includes(query)))
+    );
+  });
+
   const renderPreview = () => {
     const currentTab = tabs.find((tab) => tab.id === activeTab);
 
@@ -936,27 +999,35 @@ export const AdminPage = () => {
   console.log({ activeTab });
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-gray-50">
       {/* Header */}
-      <div className="bg-white shadow-sm border-b">
-        <div className="px-6 py-4">
-          <div className="flex justify-between items-center">
-            <div>
-              <h1 className="text-2xl font-bold text-gray-900">
+      <div className="bg-white shadow-lg border-b border-gray-200 backdrop-blur-sm bg-white/95 sticky top-0 z-40">
+        <div className="px-4 sm:px-6 lg:px-8 py-4">
+          <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-4">
+            <div className="flex-1">
+              <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
                 Content Management
               </h1>
-              <p className="text-sm text-gray-600 mt-1">
-                Edit content on the left, see live preview on the right
-              </p>
-              <div className="flex items-center gap-4 mt-2">
+              <div className="flex items-center gap-3 flex-wrap">
+                <p className="text-xs sm:text-sm text-gray-600">
+                  Edit content on the left, see live preview on the right
+                </p>
+                <div className="hidden lg:flex items-center gap-1 text-xs text-gray-500 bg-white px-2 py-1 rounded-lg border border-gray-200">
+                  <kbd className="px-1.5 py-0.5 bg-gray-100 rounded text-xs font-mono">Ctrl</kbd>
+                  <span>+</span>
+                  <kbd className="px-1.5 py-0.5 bg-gray-100 rounded text-xs font-mono">S</kbd>
+                  <span className="ml-1">to save</span>
+                </div>
+              </div>
+              <div className="flex flex-wrap items-center gap-3 sm:gap-4 mt-3">
                 {gitStatus && (
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 bg-gray-50 px-3 py-1.5 rounded-full">
                     <div
-                      className={`w-2 h-2 rounded-full ${
+                      className={`w-2 h-2 rounded-full animate-pulse ${
                         gitStatus.hasChanges ? "bg-orange-500" : "bg-green-500"
                       }`}
                     ></div>
-                    <span className="text-sm text-gray-500">
+                    <span className="text-xs sm:text-sm text-gray-600 font-medium">
                       {gitStatus.currentBranch &&
                         `Branch: ${gitStatus.currentBranch} • `}
                       {gitStatus.hasChanges
@@ -969,13 +1040,13 @@ export const AdminPage = () => {
                 )}
 
                 {/* Save Status */}
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 bg-gradient-to-r from-blue-50 to-indigo-50 px-3 py-1.5 rounded-full">
                   <div
-                    className={`w-2 h-2 rounded-full ${
+                    className={`w-2 h-2 rounded-full animate-pulse ${
                       hasUnsavedChanges ? "bg-yellow-500" : "bg-blue-500"
                     }`}
                   ></div>
-                  <span className="text-sm text-gray-500">
+                  <span className="text-xs sm:text-sm text-gray-700 font-medium">
                     {hasUnsavedChanges
                       ? "Unsaved changes"
                       : lastSaved
@@ -985,12 +1056,12 @@ export const AdminPage = () => {
                 </div>
               </div>
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex flex-wrap items-center gap-2 sm:gap-3">
               {/* Manual Save Button */}
               <button
                 onClick={handleManualSave}
                 disabled={isSaving || !hasUnsavedChanges}
-                className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-4 sm:px-5 py-2 sm:py-2.5 rounded-xl hover:from-blue-700 hover:to-indigo-700 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 shadow-md hover:shadow-lg font-medium text-sm"
                 title={
                   hasUnsavedChanges
                     ? "Save changes (Ctrl+S)"
@@ -1014,58 +1085,86 @@ export const AdminPage = () => {
                 <button
                   onClick={() => setShowCommitDialog(true)}
                   disabled={isCommitting}
-                  className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                  className="bg-gradient-to-r from-green-600 to-emerald-600 text-white px-4 sm:px-5 py-2 sm:py-2.5 rounded-xl hover:from-green-700 hover:to-emerald-700 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 shadow-md hover:shadow-lg font-medium text-sm"
                 >
                   {isCommitting ? (
                     <>
                       <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                      Committing...
+                      <span className="hidden sm:inline">Committing...</span>
                     </>
                   ) : (
                     <>
                       <span>📤</span>
-                      Commit & Push
+                      <span className="hidden sm:inline">Commit & Push</span>
                     </>
                   )}
                 </button>
               )}
               <Link
                 href="/"
-                className="inline-flex items-center px-4 py-2 text-sm font-medium text-blue-600 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors"
+                className="inline-flex items-center px-4 sm:px-5 py-2 sm:py-2.5 text-sm font-medium text-blue-700 bg-blue-50 rounded-xl hover:bg-blue-100 transition-all duration-200 shadow-sm hover:shadow-md"
               >
-                ← Back to Site
+                <span className="hidden sm:inline">← Back to Site</span>
+                <span className="sm:hidden">← Back</span>
               </Link>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="flex h-[calc(100vh-120px)]">
+      <div className="flex flex-col lg:flex-row h-[calc(100vh-140px)] sm:h-[calc(100vh-120px)]">
         {/* Left Sidebar - Content Editor */}
-        <div className="w-1/3 bg-white border-r border-gray-200 flex flex-col">
+        <div className="w-full lg:w-1/3 bg-white border-r border-gray-200 flex flex-col shadow-lg">
+          {/* Search Bar */}
+          <div className="p-4 border-b border-gray-200 bg-gradient-to-r from-blue-50 to-indigo-50">
+            <div className="relative">
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="🔍 Search sections..."
+                className="w-full px-4 py-2.5 pl-10 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm transition-all duration-200 shadow-sm bg-white"
+              />
+              {searchQuery && (
+                <button
+                  onClick={() => setSearchQuery("")}
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                  title="Clear search"
+                >
+                  ✕
+                </button>
+              )}
+            </div>
+            {searchQuery && (
+              <p className="text-xs text-gray-600 mt-2">
+                {filteredTabs.length} section{filteredTabs.length !== 1 ? 's' : ''} found
+              </p>
+            )}
+          </div>
+
           {/* Section Tabs */}
-          <div className="border-b border-gray-200 bg-gray-50">
-            <nav className="flex flex-wrap -mb-px px-2 max-h-32 overflow-y-auto">
-              {tabs.map((tab) => (
+          <div className="border-b border-gray-200 bg-gradient-to-r from-gray-50 to-gray-100">
+            <nav className="flex flex-wrap -mb-px px-2 max-h-32 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
+              {filteredTabs.map((tab) => (
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`py-2 px-2 text-xs font-medium border-b-2 whitespace-nowrap flex items-center gap-1 ${
+                  className={`py-2.5 px-3 text-xs font-semibold border-b-2 whitespace-nowrap flex items-center gap-1.5 transition-all duration-200 ${
                     activeTab === tab.id
-                      ? "border-blue-500 text-blue-600 bg-white"
-                      : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+                      ? "border-blue-600 text-blue-700 bg-white shadow-sm"
+                      : "border-transparent text-gray-600 hover:text-gray-800 hover:border-gray-300 hover:bg-white/50"
                   }`}
                   title={tab.label}
                 >
-                  <span className="text-sm">{tab.icon}</span>
-                  <span className="hidden lg:inline">{tab.label}</span>
+                  <span className="text-base">{tab.icon}</span>
+                  <span className="hidden xl:inline">{tab.label}</span>
                 </button>
               ))}
             </nav>
           </div>
 
           {/* Content Editor Forms */}
-          <div className="flex-1 overflow-y-auto">
+          <div className="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-blue-300 scrollbar-track-gray-100">
             {schemas[activeTab] ? (
               <DynamicForm
                 schema={schemas[activeTab]}
@@ -1073,35 +1172,37 @@ export const AdminPage = () => {
                 onChange={handleInputChange}
               />
             ) : (
-              <div className="p-6 text-gray-500 text-center">
-                No schema defined.
+              <div className="p-6 text-gray-500 text-center bg-gradient-to-br from-gray-50 to-blue-50 rounded-xl m-6">
+                <div className="text-4xl mb-3">📝</div>
+                <p className="font-medium">No schema defined for this section.</p>
               </div>
             )}
           </div>
         </div>
 
         {/* Right Side - Live Preview */}
-        <div className="flex-1 bg-gray-100 flex flex-col">
-          <div className="bg-white border-b border-gray-200 px-6 py-3">
-            <div className="flex items-center justify-between">
-              <h2 className="text-lg font-medium text-gray-900">
-                Live Preview - {tabs.find((t) => t.id === activeTab)?.label}
+        <div className="flex-1 bg-gradient-to-br from-gray-100 to-blue-50 flex flex-col">
+          <div className="bg-white border-b border-gray-200 px-4 sm:px-6 py-3 shadow-sm">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+              <h2 className="text-base sm:text-lg font-semibold text-gray-900">
+                <span className="hidden sm:inline">Live Preview - </span>
+                {tabs.find((t) => t.id === activeTab)?.label}
               </h2>
-              <div className="flex items-center space-x-2 text-sm text-gray-500">
+              <div className="flex items-center space-x-2 text-xs sm:text-sm text-gray-500 bg-gray-50 px-3 py-1.5 rounded-full">
                 <div
-                  className={`w-2 h-2 rounded-full ${
+                  className={`w-2 h-2 rounded-full animate-pulse ${
                     hasUnsavedChanges ? "bg-yellow-400" : "bg-blue-400"
                   }`}
                 ></div>
-                <span>
+                <span className="font-medium">
                   {hasUnsavedChanges ? "Unsaved changes" : "Manual save mode"}
                 </span>
               </div>
             </div>
           </div>
 
-          <div className="flex-1 overflow-auto p-6">
-            <div className="bg-white rounded-lg shadow-sm border min-h-full">
+          <div className="flex-1 overflow-auto p-4 sm:p-6">
+            <div className="bg-white rounded-2xl shadow-lg border border-gray-200 min-h-full">
               {renderPreview()}
             </div>
           </div>
@@ -1110,18 +1211,18 @@ export const AdminPage = () => {
 
       {/* Commit Dialog Modal */}
       {showCommitDialog && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 w-full max-w-md mx-4">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">
+        <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-fadeIn">
+          <div className="bg-white rounded-2xl p-6 sm:p-8 w-full max-w-md mx-4 shadow-2xl transform transition-all duration-200 scale-100">
+            <h3 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent mb-6">
               Commit & Push Changes
             </h3>
 
             {gitStatus && gitStatus.changedFiles && (
-              <div className="mb-4">
-                <p className="text-sm text-gray-600 mb-2">
+              <div className="mb-6">
+                <p className="text-sm font-semibold text-gray-700 mb-2">
                   Files to be committed ({gitStatus.changedFiles.length}):
                 </p>
-                <div className="bg-gray-50 rounded p-2 max-h-32 overflow-y-auto">
+                <div className="bg-gray-50 rounded-xl p-3 max-h-32 overflow-y-auto border border-gray-200 scrollbar-thin scrollbar-thumb-gray-300">
                   {gitStatus.changedFiles.map((file, index) => (
                     <div
                       key={index}
@@ -1134,32 +1235,32 @@ export const AdminPage = () => {
               </div>
             )}
 
-            <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+            <div className="mb-6">
+              <label className="block text-sm font-semibold text-gray-800 mb-2">
                 Commit Message
               </label>
               <textarea
                 value={commitMessage}
                 onChange={(e) => setCommitMessage(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 text-sm transition-all duration-200 shadow-sm"
                 rows={3}
                 placeholder="Describe your changes..."
               />
               <button
                 type="button"
                 onClick={() => setCommitMessage(generateCommitMessage())}
-                className="mt-2 text-xs text-blue-600 hover:text-blue-800"
+                className="mt-2 text-xs text-blue-600 hover:text-blue-800 font-medium transition-colors"
               >
-                Generate automatic message
+                ✨ Generate automatic message
               </button>
             </div>
 
             {lastCommitResult && (
               <div
-                className={`mb-4 p-3 rounded-lg text-sm ${
+                className={`mb-6 p-4 rounded-xl text-sm shadow-sm ${
                   lastCommitResult.success
-                    ? "bg-green-50 text-green-800 border border-green-200"
-                    : "bg-red-50 text-red-800 border border-red-200"
+                    ? "bg-gradient-to-br from-green-50 to-emerald-50 text-green-800 border border-green-200"
+                    : "bg-gradient-to-br from-red-50 to-rose-50 text-red-800 border border-red-200"
                 }`}
               >
                 <div className="font-medium">{lastCommitResult.message}</div>
@@ -1184,14 +1285,14 @@ export const AdminPage = () => {
                   clearLastResult();
                 }}
                 disabled={isCommitting}
-                className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors disabled:opacity-50"
+                className="px-5 py-2.5 text-sm font-semibold text-gray-700 bg-gray-100 rounded-xl hover:bg-gray-200 transition-all duration-200 disabled:opacity-50 shadow-sm hover:shadow-md"
               >
                 Cancel
               </button>
               <button
                 onClick={handleCommitAndPush}
                 disabled={isCommitting || !commitMessage.trim()}
-                className="px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-lg hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                className="px-5 py-2.5 text-sm font-semibold text-white bg-gradient-to-r from-green-600 to-emerald-600 rounded-xl hover:from-green-700 hover:to-emerald-700 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 shadow-md hover:shadow-lg"
               >
                 {isCommitting ? (
                   <>
@@ -1206,6 +1307,26 @@ export const AdminPage = () => {
                 )}
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Toast Notification */}
+      {showToast && (
+        <div className="fixed bottom-6 right-6 z-50 animate-fadeIn">
+          <div
+            className={`px-6 py-4 rounded-xl shadow-2xl flex items-center gap-3 min-w-[280px] backdrop-blur-sm border ${
+              toastType === "success"
+                ? "bg-gradient-to-r from-green-500 to-emerald-500 text-white border-green-400"
+                : toastType === "error"
+                ? "bg-gradient-to-r from-red-500 to-rose-500 text-white border-red-400"
+                : "bg-gradient-to-r from-blue-500 to-indigo-500 text-white border-blue-400"
+            }`}
+          >
+            <span className="text-2xl">
+              {toastType === "success" ? "✓" : toastType === "error" ? "✕" : "ℹ"}
+            </span>
+            <span className="font-medium text-sm">{toastMessage}</span>
           </div>
         </div>
       )}
