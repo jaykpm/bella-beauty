@@ -62,7 +62,8 @@ export const DynamicForm: React.FC<DynamicFormProps> = ({
     onValueChange: (val: any) => void
   ) => {
     const charCount = value ? value.length : 0;
-    const isImageUrl = field.type === "url" && field.name.toLowerCase().includes("image");
+    const isImageUrl =
+      field.type === "url" && field.name.toLowerCase().includes("image");
 
     switch (field.type) {
       case "textarea":
@@ -153,8 +154,13 @@ export const DynamicForm: React.FC<DynamicFormProps> = ({
                     🗑️
                   </button>
                 </div>
-                <p className="text-xs text-gray-500 mt-2 truncate" title={value}>
-                  {value.startsWith('data:') ? '📎 Uploaded image (Base64)' : `🔗 ${value}`}
+                <p
+                  className="text-xs text-gray-500 mt-2 truncate"
+                  title={value}
+                >
+                  {value.startsWith("data:")
+                    ? "📎 Uploaded image (Base64)"
+                    : `🔗 ${value}`}
                 </p>
               </div>
             )}
@@ -215,7 +221,9 @@ export const DynamicForm: React.FC<DynamicFormProps> = ({
   return (
     <div className="space-y-6 p-6">
       <div className="bg-gradient-to-br from-blue-50 to-indigo-50 p-6 rounded-xl border border-blue-100 shadow-sm">
-        <h3 className="font-semibold text-blue-900 mb-2 text-lg">{schema.title}</h3>
+        <h3 className="font-semibold text-blue-900 mb-2 text-lg">
+          {schema.title}
+        </h3>
         {schema.description && (
           <p className="text-sm text-blue-700">{schema.description}</p>
         )}
@@ -700,8 +708,23 @@ export const AdminPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
-  const [toastType, setToastType] = useState<"success" | "error" | "info">("success");
+  const [toastType, setToastType] = useState<"success" | "error" | "info">(
+    "success"
+  );
   const [isCompactMode, setIsCompactMode] = useState(false);
+  const [sectionVisibility, setSectionVisibility] = useState<
+    Record<string, boolean>
+  >({});
+  const [favoriteSections, setFavoriteSections] = useState<string[]>([]);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [showQuickActions, setShowQuickActions] = useState<string | null>(null);
+  const [editHistory, setEditHistory] = useState<
+    Array<{ section: string; time: Date }>
+  >([]);
+  const [collapsedGroups, setCollapsedGroups] = useState<
+    Record<string, boolean>
+  >({});
   useEffect(() => {
     if (content[activeTab as keyof typeof content]) {
       setFormData(content[activeTab as keyof typeof content]);
@@ -715,7 +738,10 @@ export const AdminPage = () => {
     // Auto-save disabled - changes only save when you click Save button
   };
 
-  const showNotification = (message: string, type: "success" | "error" | "info" = "success") => {
+  const showNotification = (
+    message: string,
+    type: "success" | "error" | "info" = "success"
+  ) => {
     setToastMessage(message);
     setToastType(type);
     setShowToast(true);
@@ -729,6 +755,13 @@ export const AdminPage = () => {
       updateContent(activeTab, formData);
       setHasUnsavedChanges(false);
       setLastSaved(new Date());
+
+      // Add to edit history
+      setEditHistory((prev) => [
+        { section: activeTab, time: new Date() },
+        ...prev.slice(0, 9), // Keep last 10 edits
+      ]);
+
       showNotification("Changes saved successfully! ✓", "success");
 
       // Optional: Show success feedback
@@ -740,6 +773,44 @@ export const AdminPage = () => {
       showNotification("Failed to save changes", "error");
       setIsSaving(false);
     }
+  };
+
+  const toggleSectionVisibility = (sectionId: string) => {
+    setSectionVisibility((prev) => ({
+      ...prev,
+      [sectionId]: !prev[sectionId],
+    }));
+    showNotification(
+      sectionVisibility[sectionId]
+        ? "Section published"
+        : "Section set to draft",
+      "info"
+    );
+  };
+
+  const toggleFavorite = (sectionId: string) => {
+    setFavoriteSections((prev) =>
+      prev.includes(sectionId)
+        ? prev.filter((id) => id !== sectionId)
+        : [...prev, sectionId]
+    );
+  };
+
+  const duplicateSection = () => {
+    const newData = { ...formData };
+    updateContent(`${activeTab}_copy`, newData);
+    showNotification("Section duplicated! Switch tabs to see it.", "success");
+  };
+
+  const exportSection = () => {
+    const dataStr = JSON.stringify(formData, null, 2);
+    const dataBlob = new Blob([dataStr], { type: "application/json" });
+    const url = URL.createObjectURL(dataBlob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `${activeTab}-export.json`;
+    link.click();
+    showNotification("Section exported!", "success");
   };
 
   // Keyboard shortcut for save (Ctrl+S)
@@ -784,7 +855,13 @@ export const AdminPage = () => {
   };
 
   const tabs = [
-    { id: "hero", label: "Hero Section", component: Hero, icon: "🏠", keywords: ["banner", "header", "main"] },
+    {
+      id: "hero",
+      label: "Hero Section",
+      component: Hero,
+      icon: "🏠",
+      keywords: ["banner", "header", "main"],
+    },
     {
       id: "trustBadges",
       label: "Trust Badges",
@@ -921,7 +998,8 @@ export const AdminPage = () => {
     return (
       tab.label.toLowerCase().includes(query) ||
       tab.id.toLowerCase().includes(query) ||
-      (tab.keywords && tab.keywords.some((kw: string) => kw.toLowerCase().includes(query)))
+      (tab.keywords &&
+        tab.keywords.some((kw: string) => kw.toLowerCase().includes(query)))
     );
   });
 
@@ -1050,9 +1128,13 @@ export const AdminPage = () => {
                   Edit content on the left, see live preview on the right
                 </p>
                 <div className="hidden lg:flex items-center gap-1 text-xs text-gray-500 bg-white px-2 py-1 rounded-lg border border-gray-200">
-                  <kbd className="px-1.5 py-0.5 bg-gray-100 rounded text-xs font-mono">Ctrl</kbd>
+                  <kbd className="px-1.5 py-0.5 bg-gray-100 rounded text-xs font-mono">
+                    Ctrl
+                  </kbd>
                   <span>+</span>
-                  <kbd className="px-1.5 py-0.5 bg-gray-100 rounded text-xs font-mono">S</kbd>
+                  <kbd className="px-1.5 py-0.5 bg-gray-100 rounded text-xs font-mono">
+                    S
+                  </kbd>
                   <span className="ml-1">to save</span>
                 </div>
               </div>
@@ -1174,7 +1256,8 @@ export const AdminPage = () => {
             </div>
             {searchQuery && (
               <p className="text-xs text-gray-600 mt-2">
-                {filteredTabs.length} section{filteredTabs.length !== 1 ? 's' : ''} found
+                {filteredTabs.length} section
+                {filteredTabs.length !== 1 ? "s" : ""} found
               </p>
             )}
           </div>
@@ -1211,7 +1294,9 @@ export const AdminPage = () => {
             ) : (
               <div className="p-6 text-gray-500 text-center bg-gradient-to-br from-gray-50 to-blue-50 rounded-xl m-6">
                 <div className="text-4xl mb-3">📝</div>
-                <p className="font-medium">No schema defined for this section.</p>
+                <p className="font-medium">
+                  No schema defined for this section.
+                </p>
               </div>
             )}
           </div>
@@ -1361,7 +1446,11 @@ export const AdminPage = () => {
             }`}
           >
             <span className="text-2xl">
-              {toastType === "success" ? "✓" : toastType === "error" ? "✕" : "ℹ"}
+              {toastType === "success"
+                ? "✓"
+                : toastType === "error"
+                ? "✕"
+                : "ℹ"}
             </span>
             <span className="font-medium text-sm">{toastMessage}</span>
           </div>

@@ -1,4 +1,5 @@
 import "../styles/globals.css";
+import "../styles/modern-admin.css";
 import type { AppProps } from "next/app";
 import { TinaProvider } from "@/contexts/TinaContext";
 
