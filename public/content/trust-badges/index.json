@@ -1,24 +1,30 @@
 {
+  "title": "Trust Badges",
   "badges": [
     {
-      "image": "https://c.animaapp.com/mgrzhz36mRAJyZ/assets/trust-badge-1.svg",
-      "alt": "WordPress Compatible"
+      "id": "1",
+      "imageUrl": "https://c.animaapp.com/mgrzhz36mRAJyZ/assets/badge-1.svg",
+      "altText": "Premium Quality",
+      "text": "dwdwdwd",
+      "icon": "dwdwd"
     },
     {
-      "image": "https://c.animaapp.com/mgrzhz36mRAJyZ/assets/trust-badge-2.svg",
-      "alt": "Responsive Design"
+      "id": "2",
+      "imageUrl": "https://c.animaapp.com/mgrzhz36mRAJyZ/assets/badge-2.svg",
+      "altText": "Trusted Brand",
+      "text": "wdwdw"
     },
     {
-      "image": "https://c.animaapp.com/mgrzhz36mRAJyZ/assets/trust-badge-3.svg",
-      "alt": "SEO Optimized"
+      "id": "3",
+      "imageUrl": "https://c.animaapp.com/mgrzhz36mRAJyZ/assets/badge-3.svg",
+      "altText": "Customer Satisfaction",
+      "text": "wd",
+      "icon": "wdd"
     },
     {
-      "image": "https://c.animaapp.com/mgrzhz36mRAJyZ/assets/trust-badge-4.svg",
-      "alt": "Fast Loading"
-    },
-    {
-      "image": "https://c.animaapp.com/mgrzhz36mRAJyZ/assets/trust-badge-5.svg",
-      "alt": "Premium Support"
+      "text": "",
+      "icon": ""
     }
-  ]
+  ],
+  "description": "dwdwddwd"
 }

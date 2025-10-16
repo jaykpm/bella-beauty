@@ -29,7 +29,14 @@ import { MobileFirstSection } from "@/sections/MobileFirstSection";
 
 export const AdminPage = () => {
   const { content, updateContent } = useTina();
-  const { gitStatus, isCommitting, lastCommitResult, commitAndPush, checkGitStatus, clearLastResult } = useGit();
+  const {
+    gitStatus,
+    isCommitting,
+    lastCommitResult,
+    commitAndPush,
+    checkGitStatus,
+    clearLastResult,
+  } = useGit();
   const [activeTab, setActiveTab] = useState("hero");
   const [formData, setFormData] = useState<any>({});
   const [commitMessage, setCommitMessage] = useState("");
@@ -59,13 +66,13 @@ export const AdminPage = () => {
       updateContent(activeTab, formData);
       setHasUnsavedChanges(false);
       setLastSaved(new Date());
-      
+
       // Optional: Show success feedback
       setTimeout(() => {
         setIsSaving(false);
       }, 500);
     } catch (error) {
-      console.error('Save failed:', error);
+      console.error("Save failed:", error);
       setIsSaving(false);
     }
   };
@@ -73,7 +80,7 @@ export const AdminPage = () => {
   // Keyboard shortcut for save (Ctrl+S)
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.ctrlKey && e.key === 's') {
+      if (e.ctrlKey && e.key === "s") {
         e.preventDefault();
         if (hasUnsavedChanges) {
           handleManualSave();
@@ -81,8 +88,8 @@ export const AdminPage = () => {
       }
     };
 
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, [hasUnsavedChanges, formData, activeTab]);
 
   const handleCommitAndPush = async () => {
@@ -91,8 +98,11 @@ export const AdminPage = () => {
       return;
     }
 
-    const result = await commitAndPush(commitMessage, gitStatus?.currentBranch || 'main');
-    
+    const result = await commitAndPush(
+      commitMessage,
+      gitStatus?.currentBranch || "main"
+    );
+
     if (result.success) {
       setCommitMessage("");
       setShowCommitDialog(false);
@@ -110,33 +120,138 @@ export const AdminPage = () => {
 
   const tabs = [
     { id: "hero", label: "Hero Section", component: Hero, icon: "🏠" },
-    { id: "trustBadges", label: "Trust Badges", component: TrustBadges, icon: "🛡️" },
-    { id: "demoShowcase", label: "Demo Showcase", component: DemoShowcase, icon: "🖥️" },
-    { id: "crossCompatibility", label: "Cross Compatibility", component: CrossCompatibilitySection, icon: "🔗" },
-    { id: "refundPolicy", label: "Refund Policy", component: RefundPolicy, icon: "💰" },
-    { id: "colorPalettes", label: "Color Palettes", component: ColorPalettes, icon: "🎨" },
-    { id: "performanceSection", label: "Performance", component: PerformanceSection, icon: "⚡" },
-    { id: "keyFeatures", label: "Key Features", component: KeyFeatures, icon: "⭐" },
-    { id: "blocksGallery", label: "Blocks Gallery", component: BlocksGallery, icon: "🧱" },
-    { id: "beforeAfterSection", label: "Before/After", component: BeforeAfterSection, icon: "🔄" },
-    { id: "customizationSection", label: "Customization", component: CustomizationSection, icon: "🛠️" },
-    { id: "postTypesSection", label: "Post Types", component: PostTypesSection, icon: "📝" },
-    { id: "detailsSection", label: "Details", component: DetailsSection, icon: "📋" },
-    { id: "technicalSection", label: "Technical", component: TechnicalSection, icon: "⚙️" },
-    { id: "elementorExtension", label: "Elementor", component: ElementorExtension, icon: "🔧" },
-    { id: "layoutsGallery", label: "Layouts", component: LayoutsGallery, icon: "📐" },
-    { id: "installationWizard", label: "Installation", component: InstallationWizard, icon: "🧙" },
-    { id: "templateBuilder", label: "Templates", component: TemplateBuilder, icon: "🏗️" },
-    { id: "headerVariations", label: "Headers", component: HeaderVariations, icon: "📄" },
-    { id: "mobileFirstSection", label: "Mobile First", component: MobileFirstSection, icon: "📱" },
-    { id: "pluginsSection", label: "Plugins", component: PluginsSection, icon: "🔌" },
-    { id: "ctaSection", label: "Call to Action", component: CTASection, icon: "📢" },
+    {
+      id: "trustBadges",
+      label: "Trust Badges",
+      component: TrustBadges,
+      icon: "🛡️",
+    },
+    {
+      id: "demoShowcase",
+      label: "Demo Showcase",
+      component: DemoShowcase,
+      icon: "🖥️",
+    },
+    {
+      id: "crossCompatibility",
+      label: "Cross Compatibility",
+      component: CrossCompatibilitySection,
+      icon: "🔗",
+    },
+    {
+      id: "refundPolicy",
+      label: "Refund Policy",
+      component: RefundPolicy,
+      icon: "💰",
+    },
+    {
+      id: "colorPalettes",
+      label: "Color Palettes",
+      component: ColorPalettes,
+      icon: "🎨",
+    },
+    {
+      id: "performanceSection",
+      label: "Performance",
+      component: PerformanceSection,
+      icon: "⚡",
+    },
+    {
+      id: "keyFeatures",
+      label: "Key Features",
+      component: KeyFeatures,
+      icon: "⭐",
+    },
+    {
+      id: "blocksGallery",
+      label: "Blocks Gallery",
+      component: BlocksGallery,
+      icon: "🧱",
+    },
+    {
+      id: "beforeAfterSection",
+      label: "Before/After",
+      component: BeforeAfterSection,
+      icon: "🔄",
+    },
+    {
+      id: "customizationSection",
+      label: "Customization",
+      component: CustomizationSection,
+      icon: "🛠️",
+    },
+    {
+      id: "postTypesSection",
+      label: "Post Types",
+      component: PostTypesSection,
+      icon: "📝",
+    },
+    {
+      id: "detailsSection",
+      label: "Details",
+      component: DetailsSection,
+      icon: "📋",
+    },
+    {
+      id: "technicalSection",
+      label: "Technical",
+      component: TechnicalSection,
+      icon: "⚙️",
+    },
+    {
+      id: "elementorExtension",
+      label: "Elementor",
+      component: ElementorExtension,
+      icon: "🔧",
+    },
+    {
+      id: "layoutsGallery",
+      label: "Layouts",
+      component: LayoutsGallery,
+      icon: "📐",
+    },
+    {
+      id: "installationWizard",
+      label: "Installation",
+      component: InstallationWizard,
+      icon: "🧙",
+    },
+    {
+      id: "templateBuilder",
+      label: "Templates",
+      component: TemplateBuilder,
+      icon: "🏗️",
+    },
+    {
+      id: "headerVariations",
+      label: "Headers",
+      component: HeaderVariations,
+      icon: "📄",
+    },
+    {
+      id: "mobileFirstSection",
+      label: "Mobile First",
+      component: MobileFirstSection,
+      icon: "📱",
+    },
+    {
+      id: "pluginsSection",
+      label: "Plugins",
+      component: PluginsSection,
+      icon: "🔌",
+    },
+    {
+      id: "ctaSection",
+      label: "Call to Action",
+      component: CTASection,
+      icon: "📢",
+    },
     { id: "settings", label: "Site Settings", component: null, icon: "⚙️" },
   ];
 
   const renderPreview = () => {
-    const currentTab = tabs.find(tab => tab.id === activeTab);
-    
+    const currentTab = tabs.find((tab) => tab.id === activeTab);
+
     // Show preview for settings (special case)
     if (activeTab === "settings") {
       return (
@@ -153,27 +268,41 @@ export const AdminPage = () => {
                   </button>
                 </div>
               </div>
-              <h1 className="text-4xl font-bold mb-2">{formData.siteName || "Your Site Name"}</h1>
-              <p className="text-xl text-blue-100">{formData.siteDescription || "Your site description"}</p>
+              <h1 className="text-4xl font-bold mb-2">
+                {formData.siteName || "Your Site Name"}
+              </h1>
+              <p className="text-xl text-blue-100">
+                {formData.siteDescription || "Your site description"}
+              </p>
             </div>
             <div className="mt-6 p-6 bg-white rounded-lg shadow">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Global Settings Preview</h3>
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                Global Settings Preview
+              </h3>
               <div className="space-y-3 text-sm">
                 <div className="flex justify-between py-2 border-b">
                   <span className="text-gray-600">Site Name:</span>
-                  <span className="font-medium text-gray-900">{formData.siteName || "Not set"}</span>
+                  <span className="font-medium text-gray-900">
+                    {formData.siteName || "Not set"}
+                  </span>
                 </div>
                 <div className="flex justify-between py-2 border-b">
                   <span className="text-gray-600">Description:</span>
-                  <span className="font-medium text-gray-900">{formData.siteDescription || "Not set"}</span>
+                  <span className="font-medium text-gray-900">
+                    {formData.siteDescription || "Not set"}
+                  </span>
                 </div>
                 <div className="flex justify-between py-2 border-b">
                   <span className="text-gray-600">Logo URL:</span>
-                  <span className="font-medium text-gray-900 truncate max-w-xs">{formData.logo || "Not set"}</span>
+                  <span className="font-medium text-gray-900 truncate max-w-xs">
+                    {formData.logo || "Not set"}
+                  </span>
                 </div>
                 <div className="flex justify-between py-2">
                   <span className="text-gray-600">Purchase Link:</span>
-                  <span className="font-medium text-gray-900 truncate max-w-xs">{formData.purchaseLink || "Not set"}</span>
+                  <span className="font-medium text-gray-900 truncate max-w-xs">
+                    {formData.purchaseLink || "Not set"}
+                  </span>
                 </div>
               </div>
             </div>
@@ -181,7 +310,7 @@ export const AdminPage = () => {
         </div>
       );
     }
-    
+
     // If no component exists, show a generic preview
     if (!currentTab?.component) {
       return (
@@ -194,10 +323,14 @@ export const AdminPage = () => {
                   {formData.title || "Section Title"}
                 </h2>
                 {formData.subtitle && (
-                  <p className="text-xl text-gray-600 mb-4">{formData.subtitle}</p>
+                  <p className="text-xl text-gray-600 mb-4">
+                    {formData.subtitle}
+                  </p>
                 )}
                 {formData.description && (
-                  <p className="text-gray-700 max-w-2xl mx-auto">{formData.description}</p>
+                  <p className="text-gray-700 max-w-2xl mx-auto">
+                    {formData.description}
+                  </p>
                 )}
                 {formData.buttonText && (
                   <button className="mt-6 bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors">
@@ -208,14 +341,15 @@ export const AdminPage = () => {
             </div>
             <div className="mt-6 p-6 bg-white rounded-lg shadow">
               <p className="text-sm text-gray-600 text-center">
-                💡 This is a preview of your content. The actual component will render with these values.
+                💡 This is a preview of your content. The actual component will
+                render with these values.
               </p>
             </div>
           </div>
         </div>
       );
     }
-    
+
     const Component = currentTab.component;
     return (
       <div className="w-full">
@@ -240,19 +374,36 @@ export const AdminPage = () => {
               <div className="flex items-center gap-4 mt-2">
                 {gitStatus && (
                   <div className="flex items-center gap-2">
-                    <div className={`w-2 h-2 rounded-full ${gitStatus.hasChanges ? 'bg-orange-500' : 'bg-green-500'}`}></div>
+                    <div
+                      className={`w-2 h-2 rounded-full ${
+                        gitStatus.hasChanges ? "bg-orange-500" : "bg-green-500"
+                      }`}
+                    ></div>
                     <span className="text-sm text-gray-500">
-                      {gitStatus.currentBranch && `Branch: ${gitStatus.currentBranch} • `}
-                      {gitStatus.hasChanges ? `${gitStatus.changedFiles?.length || 0} file(s) changed` : 'No changes'}
+                      {gitStatus.currentBranch &&
+                        `Branch: ${gitStatus.currentBranch} • `}
+                      {gitStatus.hasChanges
+                        ? `${
+                            gitStatus.changedFiles?.length || 0
+                          } file(s) changed`
+                        : "No changes"}
                     </span>
                   </div>
                 )}
-                
+
                 {/* Save Status */}
                 <div className="flex items-center gap-2">
-                  <div className={`w-2 h-2 rounded-full ${hasUnsavedChanges ? 'bg-yellow-500' : 'bg-blue-500'}`}></div>
+                  <div
+                    className={`w-2 h-2 rounded-full ${
+                      hasUnsavedChanges ? "bg-yellow-500" : "bg-blue-500"
+                    }`}
+                  ></div>
                   <span className="text-sm text-gray-500">
-                    {hasUnsavedChanges ? 'Unsaved changes' : lastSaved ? `Saved ${lastSaved.toLocaleTimeString()}` : 'All saved'}
+                    {hasUnsavedChanges
+                      ? "Unsaved changes"
+                      : lastSaved
+                      ? `Saved ${lastSaved.toLocaleTimeString()}`
+                      : "All saved"}
                   </span>
                 </div>
               </div>
@@ -263,7 +414,11 @@ export const AdminPage = () => {
                 onClick={handleManualSave}
                 disabled={isSaving || !hasUnsavedChanges}
                 className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
-                title={hasUnsavedChanges ? "Save changes (Ctrl+S)" : "No changes to save"}
+                title={
+                  hasUnsavedChanges
+                    ? "Save changes (Ctrl+S)"
+                    : "No changes to save"
+                }
               >
                 {isSaving ? (
                   <>
@@ -338,17 +493,23 @@ export const AdminPage = () => {
               {activeTab === "hero" && (
                 <div className="space-y-4">
                   <div className="bg-blue-50 p-4 rounded-lg">
-                    <h3 className="font-medium text-blue-900 mb-2">🏠 Hero Section</h3>
-                    <p className="text-sm text-blue-700">Edit the main banner content that visitors see first</p>
+                    <h3 className="font-medium text-blue-900 mb-2">
+                      🏠 Hero Section
+                    </h3>
+                    <p className="text-sm text-blue-700">
+                      Edit the main banner content that visitors see first
+                    </p>
                   </div>
-                  
+
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       Main Title
                     </label>
                     <textarea
                       value={formData.title || ""}
-                      onChange={(e) => handleInputChange("title", e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange("title", e.target.value)
+                      }
                       rows={3}
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
                       placeholder="Enter the main headline..."
@@ -361,7 +522,9 @@ export const AdminPage = () => {
                     </label>
                     <textarea
                       value={formData.subtitle || ""}
-                      onChange={(e) => handleInputChange("subtitle", e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange("subtitle", e.target.value)
+                      }
                       rows={2}
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
                       placeholder="Enter the subtitle..."
@@ -375,7 +538,9 @@ export const AdminPage = () => {
                     <input
                       type="text"
                       value={formData.buttonText || ""}
-                      onChange={(e) => handleInputChange("buttonText", e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange("buttonText", e.target.value)
+                      }
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
                       placeholder="e.g., Purchase Now"
                     />
@@ -388,7 +553,9 @@ export const AdminPage = () => {
                     <input
                       type="url"
                       value={formData.buttonLink || ""}
-                      onChange={(e) => handleInputChange("buttonLink", e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange("buttonLink", e.target.value)
+                      }
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
                       placeholder="https://..."
                     />
@@ -401,7 +568,9 @@ export const AdminPage = () => {
                     <input
                       type="text"
                       value={formData.secondaryText || ""}
-                      onChange={(e) => handleInputChange("secondaryText", e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange("secondaryText", e.target.value)
+                      }
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
                       placeholder="e.g., Take your website to the next level"
                     />
@@ -414,7 +583,9 @@ export const AdminPage = () => {
                     <input
                       type="text"
                       value={formData.secondaryButtonText || ""}
-                      onChange={(e) => handleInputChange("secondaryButtonText", e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange("secondaryButtonText", e.target.value)
+                      }
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
                       placeholder="e.g., View Demos"
                     />
@@ -427,7 +598,9 @@ export const AdminPage = () => {
                     <input
                       type="url"
                       value={formData.backgroundImage || ""}
-                      onChange={(e) => handleInputChange("backgroundImage", e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange("backgroundImage", e.target.value)
+                      }
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
                       placeholder="https://..."
                     />
@@ -438,10 +611,14 @@ export const AdminPage = () => {
               {activeTab === "ctaSection" && (
                 <div className="space-y-4">
                   <div className="bg-green-50 p-4 rounded-lg">
-                    <h3 className="font-medium text-green-900 mb-2">📢 Call to Action</h3>
-                    <p className="text-sm text-green-700">Edit the final conversion section</p>
+                    <h3 className="font-medium text-green-900 mb-2">
+                      📢 Call to Action
+                    </h3>
+                    <p className="text-sm text-green-700">
+                      Edit the final conversion section
+                    </p>
                   </div>
-                  
+
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       CTA Title
@@ -449,7 +626,9 @@ export const AdminPage = () => {
                     <input
                       type="text"
                       value={formData.title || ""}
-                      onChange={(e) => handleInputChange("title", e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange("title", e.target.value)
+                      }
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
                       placeholder="e.g., Ready to Transform Your Business?"
                     />
@@ -461,7 +640,9 @@ export const AdminPage = () => {
                     </label>
                     <textarea
                       value={formData.subtitle || ""}
-                      onChange={(e) => handleInputChange("subtitle", e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange("subtitle", e.target.value)
+                      }
                       rows={3}
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
                       placeholder="Enter compelling description..."
@@ -475,7 +656,9 @@ export const AdminPage = () => {
                     <input
                       type="text"
                       value={formData.buttonText || ""}
-                      onChange={(e) => handleInputChange("buttonText", e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange("buttonText", e.target.value)
+                      }
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
                       placeholder="e.g., Get Started Now"
                     />
@@ -488,7 +671,9 @@ export const AdminPage = () => {
                     <input
                       type="url"
                       value={formData.buttonLink || ""}
-                      onChange={(e) => handleInputChange("buttonLink", e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange("buttonLink", e.target.value)
+                      }
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
                       placeholder="https://..."
                     />
@@ -499,10 +684,14 @@ export const AdminPage = () => {
               {activeTab === "keyFeatures" && (
                 <div className="space-y-4">
                   <div className="bg-purple-50 p-4 rounded-lg">
-                    <h3 className="font-medium text-purple-900 mb-2">⭐ Key Features</h3>
-                    <p className="text-sm text-purple-700">Edit the main features section</p>
+                    <h3 className="font-medium text-purple-900 mb-2">
+                      ⭐ Key Features
+                    </h3>
+                    <p className="text-sm text-purple-700">
+                      Edit the main features section
+                    </p>
                   </div>
-                  
+
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       Section Title
@@ -510,7 +699,9 @@ export const AdminPage = () => {
                     <input
                       type="text"
                       value={formData.sectionTitle || ""}
-                      onChange={(e) => handleInputChange("sectionTitle", e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange("sectionTitle", e.target.value)
+                      }
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
                       placeholder="e.g., Key Features"
                     />
@@ -522,7 +713,9 @@ export const AdminPage = () => {
                     </label>
                     <textarea
                       value={formData.sectionSubtitle || ""}
-                      onChange={(e) => handleInputChange("sectionSubtitle", e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange("sectionSubtitle", e.target.value)
+                      }
                       rows={2}
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
                       placeholder="Brief description of the features..."
@@ -531,7 +724,9 @@ export const AdminPage = () => {
 
                   <div className="bg-gray-50 p-4 rounded-lg">
                     <p className="text-sm text-gray-600">
-                      💡 Individual features are managed through the content files. This section controls the overall section title and subtitle.
+                      💡 Individual features are managed through the content
+                      files. This section controls the overall section title and
+                      subtitle.
                     </p>
                   </div>
                 </div>
@@ -540,10 +735,14 @@ export const AdminPage = () => {
               {activeTab === "settings" && (
                 <div className="space-y-4">
                   <div className="bg-gray-50 p-4 rounded-lg">
-                    <h3 className="font-medium text-gray-900 mb-2">⚙️ Site Settings</h3>
-                    <p className="text-sm text-gray-700">Global website settings</p>
+                    <h3 className="font-medium text-gray-900 mb-2">
+                      ⚙️ Site Settings
+                    </h3>
+                    <p className="text-sm text-gray-700">
+                      Global website settings
+                    </p>
                   </div>
-                  
+
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       Site Name
@@ -551,7 +750,9 @@ export const AdminPage = () => {
                     <input
                       type="text"
                       value={formData.siteName || ""}
-                      onChange={(e) => handleInputChange("siteName", e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange("siteName", e.target.value)
+                      }
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
                       placeholder="Your website name"
                     />
@@ -563,7 +764,9 @@ export const AdminPage = () => {
                     </label>
                     <textarea
                       value={formData.siteDescription || ""}
-                      onChange={(e) => handleInputChange("siteDescription", e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange("siteDescription", e.target.value)
+                      }
                       rows={3}
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
                       placeholder="Brief description for SEO..."
@@ -577,7 +780,9 @@ export const AdminPage = () => {
                     <input
                       type="url"
                       value={formData.logo || ""}
-                      onChange={(e) => handleInputChange("logo", e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange("logo", e.target.value)
+                      }
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
                       placeholder="https://..."
                     />
@@ -590,7 +795,9 @@ export const AdminPage = () => {
                     <input
                       type="url"
                       value={formData.purchaseLink || ""}
-                      onChange={(e) => handleInputChange("purchaseLink", e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange("purchaseLink", e.target.value)
+                      }
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
                       placeholder="https://..."
                     />
@@ -601,11 +808,17 @@ export const AdminPage = () => {
               {/* Trust Badges Section */}
               {activeTab === "trustBadges" && (
                 <div className="space-y-4">
+                  {/* Header */}
                   <div className="bg-blue-50 p-4 rounded-lg">
-                    <h3 className="font-medium text-blue-900 mb-2">🛡️ Trust Badges</h3>
-                    <p className="text-sm text-blue-700">Edit trust indicators and badges</p>
+                    <h3 className="font-medium text-blue-900 mb-2">
+                      🛡️ Trust Badges
+                    </h3>
+                    <p className="text-sm text-blue-700">
+                      Edit trust indicators and badges
+                    </p>
                   </div>
-                  
+
+                  {/* Title */}
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       Section Title
@@ -613,29 +826,108 @@ export const AdminPage = () => {
                     <input
                       type="text"
                       value={formData.title || ""}
-                      onChange={(e) => handleInputChange("title", e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange("title", e.target.value)
+                      }
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
                       placeholder="e.g., Trusted by Thousands"
                     />
                   </div>
 
+                  {/* Description */}
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       Description
                     </label>
                     <textarea
                       value={formData.description || ""}
-                      onChange={(e) => handleInputChange("description", e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange("description", e.target.value)
+                      }
                       rows={3}
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
                       placeholder="Describe your trust indicators..."
                     />
                   </div>
 
-                  <div className="bg-gray-50 p-4 rounded-lg">
-                    <p className="text-sm text-gray-600">
-                      💡 Individual badges are managed through the content files.
-                    </p>
+                  {/* Dynamic Badges List */}
+                  <div className="space-y-3">
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Badges
+                    </label>
+
+                    {formData.badges?.length > 0 ? (
+                      formData.badges.map((badge: any, index: any) => (
+                        <div
+                          key={index}
+                          className="flex items-center gap-3 bg-gray-50 p-3 rounded-lg"
+                        >
+                          <input
+                            type="text"
+                            value={badge.text}
+                            onChange={(e) => {
+                              const updatedBadges: any = [...formData.badges];
+                              updatedBadges[index].text = e.target.value;
+                              handleInputChange("badges", updatedBadges);
+                            }}
+                            placeholder="Badge text (e.g., 100% Secure)"
+                            className="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          />
+
+                          <input
+                            type="text"
+                            value={badge.icon || ""}
+                            onChange={(e) => {
+                              const updatedBadges: any = [...formData.badges];
+                              updatedBadges[index].icon = e.target.value;
+                              handleInputChange("badges", updatedBadges);
+                            }}
+                            placeholder="Icon URL or name"
+                            className="w-1/3 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          />
+
+                          <button
+                            onClick={() => {
+                              const updatedBadges = formData.badges.filter(
+                                (_: any, i: any) => i !== index
+                              );
+                              handleInputChange("badges", updatedBadges);
+                            }}
+                            className="text-red-600 hover:text-red-800 text-sm"
+                          >
+                            ✕
+                          </button>
+                        </div>
+                      ))
+                    ) : (
+                      <p className="text-sm text-gray-500">
+                        No badges added yet.
+                      </p>
+                    )}
+
+                    {/* Add new badge */}
+                    <button
+                      onClick={() => {
+                        const newBadges: any = [
+                          ...(formData.badges || []),
+                          { text: "", icon: "" },
+                        ];
+                        handleInputChange("badges", newBadges);
+                      }}
+                      className="px-4 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700"
+                    >
+                      ➕ Add Badge
+                    </button>
+                  </div>
+
+                  {/* Save */}
+                  <div className="pt-4 border-t mt-4">
+                    {/* <button
+                      onClick={handleSave}
+                      className="px-6 py-2 bg-green-600 text-white text-sm font-medium rounded-lg hover:bg-green-700"
+                    >
+                      💾 Save Changes
+                    </button> */}
                   </div>
                 </div>
               )}
@@ -644,10 +936,14 @@ export const AdminPage = () => {
               {activeTab === "demoShowcase" && (
                 <div className="space-y-4">
                   <div className="bg-purple-50 p-4 rounded-lg">
-                    <h3 className="font-medium text-purple-900 mb-2">🖥️ Demo Showcase</h3>
-                    <p className="text-sm text-purple-700">Edit demo presentation section</p>
+                    <h3 className="font-medium text-purple-900 mb-2">
+                      🖥️ Demo Showcase
+                    </h3>
+                    <p className="text-sm text-purple-700">
+                      Edit demo presentation section
+                    </p>
                   </div>
-                  
+
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       Section Title
@@ -655,7 +951,9 @@ export const AdminPage = () => {
                     <input
                       type="text"
                       value={formData.title || ""}
-                      onChange={(e) => handleInputChange("title", e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange("title", e.target.value)
+                      }
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
                       placeholder="e.g., Explore Demo Variations"
                     />
@@ -667,7 +965,9 @@ export const AdminPage = () => {
                     </label>
                     <textarea
                       value={formData.subtitle || ""}
-                      onChange={(e) => handleInputChange("subtitle", e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange("subtitle", e.target.value)
+                      }
                       rows={2}
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
                       placeholder="Brief description..."
@@ -681,7 +981,9 @@ export const AdminPage = () => {
                     <input
                       type="text"
                       value={formData.buttonText || ""}
-                      onChange={(e) => handleInputChange("buttonText", e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange("buttonText", e.target.value)
+                      }
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
                       placeholder="e.g., View All Demos"
                     />
@@ -693,10 +995,14 @@ export const AdminPage = () => {
               {activeTab === "crossCompatibility" && (
                 <div className="space-y-4">
                   <div className="bg-green-50 p-4 rounded-lg">
-                    <h3 className="font-medium text-green-900 mb-2">🔗 Cross Compatibility</h3>
-                    <p className="text-sm text-green-700">Edit compatibility information</p>
+                    <h3 className="font-medium text-green-900 mb-2">
+                      🔗 Cross Compatibility
+                    </h3>
+                    <p className="text-sm text-green-700">
+                      Edit compatibility information
+                    </p>
                   </div>
-                  
+
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       Section Title
@@ -704,7 +1010,9 @@ export const AdminPage = () => {
                     <input
                       type="text"
                       value={formData.title || ""}
-                      onChange={(e) => handleInputChange("title", e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange("title", e.target.value)
+                      }
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
                       placeholder="e.g., Works With Everything"
                     />
@@ -716,7 +1024,9 @@ export const AdminPage = () => {
                     </label>
                     <textarea
                       value={formData.description || ""}
-                      onChange={(e) => handleInputChange("description", e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange("description", e.target.value)
+                      }
                       rows={3}
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
                       placeholder="Describe compatibility features..."
@@ -729,10 +1039,14 @@ export const AdminPage = () => {
               {activeTab === "refundPolicy" && (
                 <div className="space-y-4">
                   <div className="bg-yellow-50 p-4 rounded-lg">
-                    <h3 className="font-medium text-yellow-900 mb-2">💰 Refund Policy</h3>
-                    <p className="text-sm text-yellow-700">Edit refund policy details</p>
+                    <h3 className="font-medium text-yellow-900 mb-2">
+                      💰 Refund Policy
+                    </h3>
+                    <p className="text-sm text-yellow-700">
+                      Edit refund policy details
+                    </p>
                   </div>
-                  
+
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       Section Title
@@ -740,7 +1054,9 @@ export const AdminPage = () => {
                     <input
                       type="text"
                       value={formData.title || ""}
-                      onChange={(e) => handleInputChange("title", e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange("title", e.target.value)
+                      }
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
                       placeholder="e.g., 30-Day Money Back Guarantee"
                     />
@@ -752,7 +1068,9 @@ export const AdminPage = () => {
                     </label>
                     <textarea
                       value={formData.description || ""}
-                      onChange={(e) => handleInputChange("description", e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange("description", e.target.value)
+                      }
                       rows={4}
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
                       placeholder="Describe your refund policy..."
@@ -765,10 +1083,14 @@ export const AdminPage = () => {
               {activeTab === "colorPalettes" && (
                 <div className="space-y-4">
                   <div className="bg-pink-50 p-4 rounded-lg">
-                    <h3 className="font-medium text-pink-900 mb-2">🎨 Color Palettes</h3>
-                    <p className="text-sm text-pink-700">Edit color scheme options</p>
+                    <h3 className="font-medium text-pink-900 mb-2">
+                      🎨 Color Palettes
+                    </h3>
+                    <p className="text-sm text-pink-700">
+                      Edit color scheme options
+                    </p>
                   </div>
-                  
+
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       Section Title
@@ -776,7 +1098,9 @@ export const AdminPage = () => {
                     <input
                       type="text"
                       value={formData.title || ""}
-                      onChange={(e) => handleInputChange("title", e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange("title", e.target.value)
+                      }
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
                       placeholder="e.g., Beautiful Color Schemes"
                     />
@@ -788,7 +1112,9 @@ export const AdminPage = () => {
                     </label>
                     <textarea
                       value={formData.description || ""}
-                      onChange={(e) => handleInputChange("description", e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange("description", e.target.value)
+                      }
                       rows={2}
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
                       placeholder="Describe color customization..."
@@ -801,10 +1127,14 @@ export const AdminPage = () => {
               {activeTab === "performanceSection" && (
                 <div className="space-y-4">
                   <div className="bg-orange-50 p-4 rounded-lg">
-                    <h3 className="font-medium text-orange-900 mb-2">⚡ Performance</h3>
-                    <p className="text-sm text-orange-700">Edit performance metrics</p>
+                    <h3 className="font-medium text-orange-900 mb-2">
+                      ⚡ Performance
+                    </h3>
+                    <p className="text-sm text-orange-700">
+                      Edit performance metrics
+                    </p>
                   </div>
-                  
+
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       Section Title
@@ -812,7 +1142,9 @@ export const AdminPage = () => {
                     <input
                       type="text"
                       value={formData.title || ""}
-                      onChange={(e) => handleInputChange("title", e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange("title", e.target.value)
+                      }
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
                       placeholder="e.g., Lightning Fast Performance"
                     />
@@ -824,7 +1156,9 @@ export const AdminPage = () => {
                     </label>
                     <textarea
                       value={formData.description || ""}
-                      onChange={(e) => handleInputChange("description", e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange("description", e.target.value)
+                      }
                       rows={3}
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
                       placeholder="Describe performance features..."
@@ -837,10 +1171,14 @@ export const AdminPage = () => {
               {activeTab === "pluginsSection" && (
                 <div className="space-y-4">
                   <div className="bg-indigo-50 p-4 rounded-lg">
-                    <h3 className="font-medium text-indigo-900 mb-2">🔌 Plugins</h3>
-                    <p className="text-sm text-indigo-700">Edit plugins information</p>
+                    <h3 className="font-medium text-indigo-900 mb-2">
+                      🔌 Plugins
+                    </h3>
+                    <p className="text-sm text-indigo-700">
+                      Edit plugins information
+                    </p>
                   </div>
-                  
+
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       Section Title
@@ -848,7 +1186,9 @@ export const AdminPage = () => {
                     <input
                       type="text"
                       value={formData.sectionTitle || ""}
-                      onChange={(e) => handleInputChange("sectionTitle", e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange("sectionTitle", e.target.value)
+                      }
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
                       placeholder="e.g., Included Premium Plugins"
                     />
@@ -860,7 +1200,9 @@ export const AdminPage = () => {
                     </label>
                     <textarea
                       value={formData.description || ""}
-                      onChange={(e) => handleInputChange("description", e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange("description", e.target.value)
+                      }
                       rows={2}
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
                       placeholder="Describe included plugins..."
@@ -869,24 +1211,39 @@ export const AdminPage = () => {
 
                   <div className="bg-gray-50 p-4 rounded-lg">
                     <p className="text-sm text-gray-600">
-                      💡 Individual plugins are managed through the content files.
+                      💡 Individual plugins are managed through the content
+                      files.
                     </p>
                   </div>
                 </div>
               )}
 
               {/* Remaining sections with generic forms */}
-              {["blocksGallery", "beforeAfterSection", "customizationSection", "postTypesSection", 
-                "detailsSection", "technicalSection", "elementorExtension", "layoutsGallery",
-                "installationWizard", "templateBuilder", "headerVariations", "mobileFirstSection"].includes(activeTab) && (
+              {[
+                "blocksGallery",
+                "beforeAfterSection",
+                "customizationSection",
+                "postTypesSection",
+                "detailsSection",
+                "technicalSection",
+                "elementorExtension",
+                "layoutsGallery",
+                "installationWizard",
+                "templateBuilder",
+                "headerVariations",
+                "mobileFirstSection",
+              ].includes(activeTab) && (
                 <div className="space-y-4">
                   <div className="bg-gradient-to-r from-blue-50 to-purple-50 p-4 rounded-lg">
                     <h3 className="font-medium text-gray-900 mb-2">
-                      {tabs.find(t => t.id === activeTab)?.icon} {tabs.find(t => t.id === activeTab)?.label}
+                      {tabs.find((t) => t.id === activeTab)?.icon}{" "}
+                      {tabs.find((t) => t.id === activeTab)?.label}
                     </h3>
-                    <p className="text-sm text-gray-700">Edit this section content</p>
+                    <p className="text-sm text-gray-700">
+                      Edit this section content
+                    </p>
                   </div>
-                  
+
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       Section Title
@@ -894,7 +1251,9 @@ export const AdminPage = () => {
                     <input
                       type="text"
                       value={formData.title || ""}
-                      onChange={(e) => handleInputChange("title", e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange("title", e.target.value)
+                      }
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
                       placeholder="Enter section title..."
                     />
@@ -907,7 +1266,9 @@ export const AdminPage = () => {
                     <input
                       type="text"
                       value={formData.subtitle || ""}
-                      onChange={(e) => handleInputChange("subtitle", e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange("subtitle", e.target.value)
+                      }
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
                       placeholder="Enter subtitle..."
                     />
@@ -919,7 +1280,9 @@ export const AdminPage = () => {
                     </label>
                     <textarea
                       value={formData.description || ""}
-                      onChange={(e) => handleInputChange("description", e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange("description", e.target.value)
+                      }
                       rows={4}
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
                       placeholder="Enter detailed description..."
@@ -933,7 +1296,9 @@ export const AdminPage = () => {
                     <input
                       type="text"
                       value={formData.buttonText || ""}
-                      onChange={(e) => handleInputChange("buttonText", e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange("buttonText", e.target.value)
+                      }
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
                       placeholder="e.g., Learn More"
                     />
@@ -946,7 +1311,9 @@ export const AdminPage = () => {
                     <input
                       type="url"
                       value={formData.buttonLink || ""}
-                      onChange={(e) => handleInputChange("buttonLink", e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange("buttonLink", e.target.value)
+                      }
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
                       placeholder="https://..."
                     />
@@ -954,7 +1321,8 @@ export const AdminPage = () => {
 
                   <div className="bg-blue-50 p-4 rounded-lg">
                     <p className="text-sm text-blue-700">
-                      💡 These are the basic fields. Additional customization options can be added through the content JSON files.
+                      💡 These are the basic fields. Additional customization
+                      options can be added through the content JSON files.
                     </p>
                   </div>
                 </div>
@@ -968,15 +1336,21 @@ export const AdminPage = () => {
           <div className="bg-white border-b border-gray-200 px-6 py-3">
             <div className="flex items-center justify-between">
               <h2 className="text-lg font-medium text-gray-900">
-                Live Preview - {tabs.find(t => t.id === activeTab)?.label}
+                Live Preview - {tabs.find((t) => t.id === activeTab)?.label}
               </h2>
               <div className="flex items-center space-x-2 text-sm text-gray-500">
-                <div className={`w-2 h-2 rounded-full ${hasUnsavedChanges ? 'bg-yellow-400' : 'bg-blue-400'}`}></div>
-                <span>{hasUnsavedChanges ? 'Unsaved changes' : 'Manual save mode'}</span>
+                <div
+                  className={`w-2 h-2 rounded-full ${
+                    hasUnsavedChanges ? "bg-yellow-400" : "bg-blue-400"
+                  }`}
+                ></div>
+                <span>
+                  {hasUnsavedChanges ? "Unsaved changes" : "Manual save mode"}
+                </span>
               </div>
             </div>
           </div>
-          
+
           <div className="flex-1 overflow-auto p-6">
             <div className="bg-white rounded-lg shadow-sm border min-h-full">
               {renderPreview()}
@@ -992,7 +1366,7 @@ export const AdminPage = () => {
             <h3 className="text-lg font-semibold text-gray-900 mb-4">
               Commit & Push Changes
             </h3>
-            
+
             {gitStatus && gitStatus.changedFiles && (
               <div className="mb-4">
                 <p className="text-sm text-gray-600 mb-2">
@@ -1000,7 +1374,10 @@ export const AdminPage = () => {
                 </p>
                 <div className="bg-gray-50 rounded p-2 max-h-32 overflow-y-auto">
                   {gitStatus.changedFiles.map((file, index) => (
-                    <div key={index} className="text-xs text-gray-700 font-mono">
+                    <div
+                      key={index}
+                      className="text-xs text-gray-700 font-mono"
+                    >
                       {file}
                     </div>
                   ))}
@@ -1029,17 +1406,23 @@ export const AdminPage = () => {
             </div>
 
             {lastCommitResult && (
-              <div className={`mb-4 p-3 rounded-lg text-sm ${
-                lastCommitResult.success 
-                  ? 'bg-green-50 text-green-800 border border-green-200' 
-                  : 'bg-red-50 text-red-800 border border-red-200'
-              }`}>
+              <div
+                className={`mb-4 p-3 rounded-lg text-sm ${
+                  lastCommitResult.success
+                    ? "bg-green-50 text-green-800 border border-green-200"
+                    : "bg-red-50 text-red-800 border border-red-200"
+                }`}
+              >
                 <div className="font-medium">{lastCommitResult.message}</div>
                 {lastCommitResult.details && (
-                  <div className="mt-1 text-xs opacity-75">{lastCommitResult.details}</div>
+                  <div className="mt-1 text-xs opacity-75">
+                    {lastCommitResult.details}
+                  </div>
                 )}
                 {lastCommitResult.error && (
-                  <div className="mt-1 text-xs opacity-75">{lastCommitResult.error}</div>
+                  <div className="mt-1 text-xs opacity-75">
+                    {lastCommitResult.error}
+                  </div>
                 )}
               </div>
             )}
