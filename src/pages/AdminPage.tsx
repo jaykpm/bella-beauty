@@ -102,23 +102,60 @@ export const DynamicForm: React.FC<DynamicFormProps> = ({
       case "url":
         return (
           <div className="space-y-2">
-            <input
-              type={field.type}
-              value={value || ""}
-              onChange={(e) => onValueChange(e.target.value)}
-              placeholder={field.placeholder}
-              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm transition-all duration-200 shadow-sm hover:shadow-md"
-            />
+            <div className="flex gap-2">
+              <input
+                type={field.type}
+                value={value || ""}
+                onChange={(e) => onValueChange(e.target.value)}
+                placeholder={field.placeholder}
+                className="flex-1 px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm transition-all duration-200 shadow-sm hover:shadow-md"
+              />
+              {isImageUrl && (
+                <label className="relative cursor-pointer">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file) {
+                        const reader = new FileReader();
+                        reader.onloadend = () => {
+                          onValueChange(reader.result as string);
+                        };
+                        reader.readAsDataURL(file);
+                      }
+                    }}
+                    className="hidden"
+                  />
+                  <div className="px-4 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl hover:from-indigo-700 hover:to-purple-700 transition-all duration-200 shadow-md hover:shadow-lg font-medium text-sm whitespace-nowrap flex items-center gap-2">
+                    📤 Upload
+                  </div>
+                </label>
+              )}
+            </div>
             {isImageUrl && value && (
-              <div className="mt-2 p-2 bg-gray-50 rounded-lg border border-gray-200">
-                <img
-                  src={value}
-                  alt="Preview"
-                  className="max-h-32 rounded-lg object-cover"
-                  onError={(e) => {
-                    e.currentTarget.style.display = "none";
-                  }}
-                />
+              <div className="mt-2 p-3 bg-gradient-to-br from-gray-50 to-blue-50 rounded-xl border border-gray-200">
+                <div className="flex items-start gap-3">
+                  <img
+                    src={value}
+                    alt="Preview"
+                    className="max-h-32 rounded-lg object-cover shadow-md"
+                    onError={(e) => {
+                      e.currentTarget.style.display = "none";
+                    }}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => onValueChange("")}
+                    className="ml-auto text-red-500 hover:text-red-700 text-sm font-medium transition-colors p-2 hover:bg-red-50 rounded-lg"
+                    title="Remove image"
+                  >
+                    🗑️
+                  </button>
+                </div>
+                <p className="text-xs text-gray-500 mt-2 truncate" title={value}>
+                  {value.startsWith('data:') ? '📎 Uploaded image (Base64)' : `🔗 ${value}`}
+                </p>
               </div>
             )}
           </div>
