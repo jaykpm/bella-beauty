@@ -15,7 +15,7 @@ interface Tab {
   id: string;
   label: string;
   icon: any;
-  category: string;
+  category?: string;
 }
 
 interface ModernSidebarProps {
@@ -53,9 +53,9 @@ export const ModernSidebar: React.FC<ModernSidebarProps> = ({
 
   const filteredTabs = searchQuery
     ? tabs.filter(
-        (tab) =>
-          tab.label.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          tab.category.toLowerCase().includes(searchQuery.toLowerCase())
+        (tab: any) =>
+          tab?.label.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          tab?.category.toLowerCase().includes(searchQuery.toLowerCase())
       )
     : tabs;
 
@@ -63,7 +63,9 @@ export const ModernSidebar: React.FC<ModernSidebarProps> = ({
     return (
       <div
         className={`w-16 flex-shrink-0 border-r flex flex-col items-center py-4 space-y-2 h-full ${
-          isDarkMode ? "bg-gray-900 border-gray-800" : "bg-white border-gray-200"
+          isDarkMode
+            ? "bg-gray-900 border-gray-800"
+            : "bg-white border-gray-200"
         }`}
       >
         {filteredTabs.map((tab) => {
@@ -84,7 +86,7 @@ export const ModernSidebar: React.FC<ModernSidebarProps> = ({
               title={tab.label}
             >
               <Icon className="w-5 h-5" />
-              
+
               {/* Tooltip */}
               <div className="absolute left-full ml-2 px-3 py-2 bg-gray-900 text-white text-sm rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap z-50">
                 {tab.label}
@@ -133,7 +135,9 @@ export const ModernSidebar: React.FC<ModernSidebarProps> = ({
                     }`}
                   >
                     <Icon className="w-5 h-5" />
-                    <span className="flex-1 text-left text-sm font-medium">{tab.label}</span>
+                    <span className="flex-1 text-left text-sm font-medium">
+                      {tab.label}
+                    </span>
                     <Star
                       className="w-4 h-4 fill-yellow-400 text-yellow-400 opacity-0 group-hover:opacity-100"
                       onClick={(e) => {
