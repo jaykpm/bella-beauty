@@ -18,9 +18,9 @@ export const TrustBadges = () => {
             <div className="flex flex-row md:flex-col h-full">
               {/* Image */}
               <div className="flex flex-col items-start w-auto mr-5 md:w-full md:mr-0 md:mb-5">
-                <h5 className="hidden md:block relative text-neutral-800 text-xl leading-[29px] mb-[5px]">
+                {/* <h5 className="hidden md:block relative text-neutral-800 text-xl leading-[29px] mb-[5px]">
                   {badge.title}
-                </h5>
+                </h5> */}
                 <figure className="w-full md:w-auto">
                   <img
                     src={badge.imageUrl}
