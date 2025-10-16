@@ -525,7 +525,7 @@ export default defineConfig({
       {
         name: "performanceSection",
         label: "Performance Section",
-        path: "content/performance-section",
+        path: "content/performance",
         format: "json",
         ui: {
           allowedActions: {
@@ -630,7 +630,7 @@ export default defineConfig({
       {
         name: "beforeAfterSection",
         label: "Before/After Section",
-        path: "content/before-after-section",
+        path: "content/before-after",
         format: "json",
         ui: {
           allowedActions: {

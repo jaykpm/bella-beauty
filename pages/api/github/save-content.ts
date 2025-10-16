@@ -36,7 +36,7 @@ export default async function handler(
     keyFeatures: 'public/content/key-features/index.json',
     ctaSection: 'public/content/cta-section/index.json',
     pluginsSection: 'public/content/plugins-section/index.json',
-    beforeAfterSection: 'public/content/before-after-section/index.json',
+    beforeAfterSection: 'public/content/before-after/index.json',
     customizationSection: 'public/content/customization/index.json',
     postTypesSection: 'public/content/post-types/index.json',
     detailsSection: 'public/content/details/index.json',
