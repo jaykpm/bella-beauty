@@ -23,8 +23,8 @@ export const TrustBadges = () => {
                 </h5>
                 <figure className="w-full md:w-auto">
                   <img
-                    src={badge.image}
-                    alt={badge.title}
+                    src={badge.imageUrl}
+                    alt={badge.text}
                     sizes="(max-width: 50px) 100vw, 50px"
                     className="max-w-full rounded-[5px]"
                   />
