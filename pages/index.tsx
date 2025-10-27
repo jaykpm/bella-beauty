@@ -21,6 +21,7 @@ import { HeaderVariations } from "@/sections/HeaderVariations";
 import { PluginsSection } from "@/sections/PluginsSection";
 import { CTASection } from "@/sections/CTASection";
 import Head from "next/head";
+import InsideSection from "@/sections/InsideSection";
 
 export default function HomePage() {
   return (
@@ -29,7 +30,7 @@ export default function HomePage() {
         <title>Bella Beauty - Beauty Clinic WordPress Theme</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
-      
+
       <div className="text-[15px] box-border caret-transparent leading-[21.75px] break-words md:text-lg md:leading-[26.1px]">
         <div className="text-[15px] box-border caret-transparent leading-[21.75px] break-words md:text-lg md:leading-[26.1px]">
           <div className="text-[15px] box-border caret-transparent leading-[21.75px] break-words md:text-lg md:leading-[26.1px]">
@@ -47,7 +48,7 @@ export default function HomePage() {
                     <Hero />
                     <TrustBadges />
                     <DemoShowcase />
-                    
+
                     <CrossCompatibilitySection />
                     <RefundPolicy />
                     <ColorPalettes />
@@ -55,7 +56,7 @@ export default function HomePage() {
                     <KeyFeatures />
                     <BlocksGallery />
                     <BeforeAfterSection />
-                    
+                    <InsideSection />
                     <CustomizationSection />
                     <PostTypesSection />
                     <DetailsSection />
@@ -66,7 +67,7 @@ export default function HomePage() {
                     <TemplateBuilder />
                     <HeaderVariations />
                     <PluginsSection />
-                    
+
                     <CTASection />
                   </div>
                 </div>

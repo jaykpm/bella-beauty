@@ -326,7 +326,7 @@ export const App = () => {
   return (
     <TinaProvider>
       <Router>
-        <div className="text-stone-500 text-[15px] not-italic normal-nums font-light accent-auto bg-white bg-no-repeat box-border caret-transparent block tracking-[normal] leading-[21.75px] list-outside list-disc break-words overflow-x-hidden overflow-y-auto pointer-events-auto text-left indent-[0px] normal-case visible bg-center border-separate font-karla_local md:text-lg md:leading-[26.1px]">
+        <div className="text-stone-500 text-[15px] not-italic normal-nums font-light accent-auto bg-white bg-no-repeat box-border caret-transparent block tracking-[normal] leading-[21.75px] list-outside list-disc break-words overflow-x-hidden pointer-events-auto text-left indent-[0px] normal-case visible bg-center border-separate font-karla_local md:text-lg md:leading-[26.1px]">
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/admin" element={<AdminPage />} />
