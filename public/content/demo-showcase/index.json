@@ -15,18 +15,18 @@
   "text1": "Ready-made website concepts",
   "text2": "The Ultimate Solution",
   "text3": "with 5 Home Pages",
-  "text4": "Choose, click to install ",
+  "text4": "Choose, click to install",
   "text5": "use right away!",
   "demos": [
     {
-      "id": "",
+      "id": "h1",
       "title": "Home One",
       "href": "",
       "imageUrl": "https://bella-beauty.cmsmasters.studio/wp-content/uploads/2024/03/home-1.webp",
       "qrCodeUrl": "https://bella-beauty.cmsmasters.studio/wp-content/uploads/2025/09/qrcode_bella-beauty.cmsmasters.studio.png"
     },
     {
-      "id": "",
+      "id": "h2",
       "title": "Home Two",
       "href": "",
       "imageUrl": "https://bella-beauty.cmsmasters.studio/wp-content/uploads/2024/03/home-2.webp",
