@@ -525,6 +525,14 @@ const schemas: any = {
       { name: "image3", label: "Image 3", type: "url" },
     ],
   },
+  colorPalettes: {
+    title: "Color Palettes",
+    fields: [
+      { name: "title", label: "Title", type: "text" },
+      { name: "image1", label: "Image 1", type: "url" },
+      { name: "image2", label: "Image 2", type: "url" },
+    ],
+  },
 };
 
 const ModernAdminPage = () => {

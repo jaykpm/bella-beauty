@@ -1,8 +1,16 @@
+import { useTina } from "@/contexts/TinaContext";
+
 export const ColorPalettes = () => {
+  const { content } = useTina();
+  const colorPalettes = content.colorPalettes || [];
+
   return (
     <div className="relative text-[15px] box-border caret-transparent flex flex-col leading-[21.75px] max-w-full min-h-[795px] break-words text-start w-full mb-20 px-5 md:text-lg md:leading-[26.1px] md:mb-[120px] md:px-10">
       <div className="text-[15px] items-start box-border caret-transparent gap-x-5 flex flex-col grow flex-wrap h-full leading-[21.75px] max-w-[min(100%,767px)] break-words gap-y-5 w-full mx-auto md:text-lg md:flex-nowrap md:leading-[26.1px] md:max-w-[min(100%,1280px)]">
-        <div className="relative text-[15px] items-center bg-no-repeat bg-cover box-border caret-transparent gap-x-[30px] flex flex-col flex-wrap leading-[21.75px] break-words gap-y-[30px] w-full border border-stone-200 bg-bottom pt-[60px] pb-[520px] rounded-[40px] border-solid md:text-lg md:flex-nowrap md:leading-[26.1px] md:bg-[position:left_50%] md:pt-20 md:pb-[420px]">
+        <div
+          style={{ backgroundImage: `url(${colorPalettes?.image1})` }}
+          className="relative text-[15px] items-center bg-no-repeat bg-cover box-border caret-transparent gap-x-[30px] flex flex-col flex-wrap leading-[21.75px] break-words gap-y-[30px] w-full border border-stone-200 bg-bottom pt-[60px] pb-[520px] rounded-[40px] border-solid md:text-lg md:flex-nowrap md:leading-[26.1px] md:bg-[position:left_50%] md:pt-20 md:pb-[420px]"
+        >
           <div className="relative text-[15px] items-stretch shadow-[rgba(0,0,0,0.05)_0px_4px_40px_0px] box-border caret-transparent gap-x-[30px] flex flex-col flex-wrap leading-[21.75px] break-words gap-y-[30px] w-full px-5 py-[30px] rounded-[40px] md:text-lg md:flex-nowrap md:leading-[26.1px] md:px-[60px] md:py-0">
             <div className="relative text-[15px] box-border caret-transparent gap-x-[30px] leading-[21.75px] max-w-full break-words gap-y-[30px] md:text-lg md:leading-[26.1px]">
               <div className="text-[15px] box-border caret-transparent h-full leading-[21.75px] break-words md:text-lg md:leading-[26.1px]">
@@ -16,39 +24,38 @@ export const ColorPalettes = () => {
             <div className="relative text-[15px] self-center box-border caret-transparent gap-x-[30px] leading-[21.75px] max-w-full break-words gap-y-[30px] text-center w-auto md:text-lg md:leading-[26.1px] md:w-3/5">
               <div className="text-[15px] box-border caret-transparent h-full leading-[21.75px] break-words md:text-lg md:leading-[26.1px]">
                 <h2 className="text-white text-[32px] box-border caret-transparent leading-[36.8px] break-words font-butler_local md:text-[56px] md:leading-[64.4px]">
-                  The theme comes with 8 designer-made color palettes
+                  {colorPalettes?.subtitle}
                 </h2>
               </div>
             </div>
             <div className="relative text-[15px] box-border caret-transparent gap-x-[30px] leading-[21.75px] max-w-full break-words gap-y-[30px] text-center md:text-lg md:leading-[26.1px]">
               <div className="text-[15px] box-border caret-transparent h-full leading-[21.75px] break-words md:text-lg md:leading-[26.1px]">
-                <p className="text-white/80 text-[15px] box-border caret-transparent leading-[21.75px] break-words md:text-lg md:leading-[26.1px]">
-                  Choose one that suits you best or create your own, no
-                  limitations!
+                <p className="text-white/80  text-[15px] box-border caret-transparent leading-[21.75px] break-words md:text-lg md:leading-[26.1px]">
+                  {colorPalettes?.text}
                 </p>
               </div>
             </div>
           </div>
-          <div className="absolute text-[15px] box-border caret-transparent gap-x-[30px] hidden left-[-4%] leading-[21.75px] max-w-full break-words gap-y-[30px] text-center z-[1] top-[48%] md:text-lg md:block md:leading-[26.1px]">
+          {/* <div className="absolute text-[15px] box-border caret-transparent gap-x-[30px] hidden left-[-4%] leading-[21.75px] max-w-full break-words gap-y-[30px] text-center z-[1] top-[48%] md:text-lg md:block md:leading-[26.1px]">
             <div className="text-[15px] box-border caret-transparent h-full leading-[21.75px] break-words md:text-lg md:leading-[26.1px]">
               <img
-                src="https://c.animaapp.com/mgrzhz36mRAJyZ/assets/landing-7-1.webp"
+                src={colorPalettes?.image1}
                 alt=""
                 sizes="(max-width: 173px) 100vw, 173px"
                 className="text-[15px] aspect-[auto_173_/_159] box-border caret-transparent inline-block leading-[21.75px] max-w-full break-words w-[173px] md:text-lg md:leading-[26.1px]"
               />
             </div>
-          </div>
-          <div className="absolute text-[15px] box-border caret-transparent gap-x-[30px] leading-[21.75px] max-w-full break-words right-[-28.2px] gap-y-[30px] text-center z-[1] bottom-[75px] md:text-lg md:leading-[26.1px]">
+          </div> */}
+          {/* <div className="absolute text-[15px] box-border caret-transparent gap-x-[30px] leading-[21.75px] max-w-full break-words right-[-28.2px] gap-y-[30px] text-center z-[1] bottom-[75px] md:text-lg md:leading-[26.1px]">
             <div className="text-[15px] box-border caret-transparent h-full leading-[21.75px] break-words md:text-lg md:leading-[26.1px]">
               <img
-                src="https://theme-dev.cmsmasters.net/dental-clone-landing/wp-content/uploads/sites/166/2024/02/landing-7-2.webp"
+                src={colorPalettes?.image2}
                 title=""
                 alt=""
                 className="text-[15px] box-border caret-transparent inline-block leading-[21.75px] max-w-full break-words md:text-lg md:leading-[26.1px]"
               />
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
