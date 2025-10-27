@@ -22,7 +22,10 @@ export const RefundPolicy = () => {
                         </span>
                         <span className="text-neutral-800 text-[26px] box-border caret-transparent flex flex-col leading-[31.2px] max-w-full break-words w-fit pl-[30px] md:text-[42px] md:leading-[50.4px]">
                           <span className="text-[26px] box-border caret-transparent block leading-[31.2px] break-words md:text-[42px] md:leading-[50.4px]">
-                            {refundPolicy.line1} {refundPolicy.heading}
+                            {refundPolicy.line1}
+                          </span>
+                          <span className="text-[15px] box-border caret-transparent block leading-[31.2px] break-words md:text-[18px] md:leading-[50.4px]">
+                            {refundPolicy.heading}
                           </span>
                           <span className="text-[15px] font-normal box-border caret-transparent block leading-[21.75px] min-w-fit break-words text-left font-karla_local md:text-xl md:leading-[29px]">
                             {refundPolicy.line2}
