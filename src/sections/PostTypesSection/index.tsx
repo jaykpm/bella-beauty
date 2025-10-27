@@ -2,80 +2,49 @@ import { useTina } from "@/contexts/TinaContext";
 
 export const PostTypesSection = () => {
   const { content } = useTina();
-
   const postTypesSection = content.postTypesSection;
 
   return (
-    <div className="relative text-[15px] box-border caret-transparent flex flex-col leading-[21.75px] max-w-full break-words text-start w-full mb-20 px-5 md:text-lg md:leading-[26.1px] md:mb-[120px] md:px-10">
-      <div className="text-[15px] box-border caret-transparent gap-x-[60px] flex grow flex-wrap h-full leading-[21.75px] max-w-[min(100%,767px)] break-words gap-y-[60px] w-full mx-auto md:text-lg md:gap-x-[100px] md:flex-nowrap md:leading-[26.1px] md:max-w-[min(100%,1280px)] md:gap-y-[100px]">
-        <div className="relative text-[15px] box-border caret-transparent gap-x-5 flex flex-col flex-wrap leading-[21.75px] break-words gap-y-5 w-full md:text-lg md:flex-nowrap md:leading-[26.1px] md:w-2/5">
-          <div className="relative text-[15px] box-border caret-transparent gap-x-5 leading-[21.75px] max-w-full break-words gap-y-5 md:text-lg md:leading-[26.1px]">
-            <div className="text-[15px] box-border caret-transparent h-full leading-[21.75px] break-words md:text-lg md:leading-[26.1px]">
-              <div className="text-[15px] box-border caret-transparent leading-[21.75px] break-words md:text-lg md:leading-[26.1px]"></div>
-            </div>
-          </div>
-          <div className="relative text-[15px] box-border caret-transparent gap-x-5 leading-[21.75px] max-w-full break-words gap-y-5 md:text-lg md:leading-[26.1px]">
-            <div className="text-[15px] box-border caret-transparent h-full leading-[21.75px] break-words md:text-lg md:leading-[26.1px]">
-              <div className="text-[15px] box-border caret-transparent leading-[21.75px] break-words md:text-lg md:leading-[26.1px]">
-                <div className="text-[15px] box-border caret-transparent leading-[21.75px] break-words md:text-lg md:leading-[26.1px]">
-                  <div className="text-[15px] box-border caret-transparent leading-[21.75px] break-words md:text-lg md:leading-[26.1px]">
-                    <div className="text-[15px] box-border caret-transparent leading-[21.75px] break-words md:text-lg md:leading-[26.1px]">
-                      <div className="relative text-[15px] items-stretch box-border caret-transparent gap-x-10 flex flex-col flex-wrap leading-[21.75px] max-w-full break-words gap-y-10 w-full mx-auto md:text-lg md:flex-nowrap md:leading-[26.1px]">
-                        <div className="relative text-[15px] box-border caret-transparent gap-x-10 leading-[21.75px] max-w-full break-words gap-y-10 text-left md:text-lg md:leading-[26.1px]">
-                          <div className="text-[15px] box-border caret-transparent h-full leading-[21.75px] break-words md:text-lg md:leading-[26.1px]">
-                            <h2 className="text-neutral-800 text-[32px] box-border caret-transparent leading-[36.8px] break-words font-butler_local md:text-[56px] md:leading-[64.4px]">
-                              {postTypesSection?.title}
-                            </h2>
-                          </div>
-                        </div>
-                        <div className="relative text-[15px] box-border caret-transparent gap-x-10 leading-[21.75px] max-w-full break-words gap-y-10 md:text-lg md:leading-[26.1px]">
-                          <div className="text-[15px] box-border caret-transparent h-full leading-[21.75px] break-words md:text-lg md:leading-[26.1px]">
-                            <div className="text-neutral-400 text-[15px] box-border caret-transparent leading-[21.75px] break-words md:text-lg md:leading-[26.1px]">
-                              {postTypesSection?.description}
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+    <section className="relative w-full mb-20 px-5 md:mb-[120px] md:px-10">
+      <div className="flex flex-wrap md:flex-nowrap gap-x-[60px] gap-y-[60px] max-w-[1280px] mx-auto md:gap-x-[100px] md:gap-y-[100px]">
+        {/* LEFT COLUMN — sticky block */}
+        <div className="w-full md:w-2/5 flex flex-col gap-y-6 md:gap-y-10 md:sticky md:top-10 md:self-start h-fit">
+          <h2 className="text-neutral-800 text-[32px] md:text-[56px] font-butler_local leading-[1.15]">
+            {postTypesSection?.title}
+          </h2>
+          <p className="text-neutral-400 text-[15px] md:text-lg leading-[1.6]">
+            {postTypesSection?.description}
+          </p>
         </div>
-        <div className="relative text-[15px] box-border caret-transparent gap-x-[50px] flex flex-col flex-wrap leading-[21.75px] break-words gap-y-[50px] w-full md:text-lg md:gap-x-20 md:flex-nowrap md:leading-[26.1px] md:gap-y-20 md:w-3/5">
+
+        {/* RIGHT COLUMN — scrollable posts */}
+        <div className="w-full md:w-3/5 flex flex-col gap-y-[50px] md:gap-y-20">
           {postTypesSection?.posts?.map((post: any, index: number) => (
-            <div className="relative text-[15px] box-border caret-transparent flex flex-col leading-[21.75px] break-words w-full md:text-lg md:leading-[26.1px]">
-              <div className="text-[15px] box-border caret-transparent gap-x-5 flex flex-col grow flex-wrap h-full leading-[21.75px] max-w-[min(100%,767px)] break-words gap-y-5 w-full mx-auto md:text-lg md:flex-nowrap md:leading-[26.1px] md:max-w-[min(100%,1280px)]">
-                <div className="relative text-[15px] box-border caret-transparent gap-x-5 leading-[21.75px] max-w-full break-words gap-y-5 text-center md:text-lg md:leading-[26.1px]">
-                  <div className="text-[15px] box-border caret-transparent h-full leading-[21.75px] break-words mb-2.5 md:text-lg md:leading-[26.1px]">
-                    <img
-                      src={post?.image}
-                      alt=""
-                      sizes="(max-width: 716px) 100vw, 716px"
-                      className="text-[15px] aspect-[auto_716_/_449] box-border caret-transparent inline-block leading-[21.75px] max-w-full break-words w-full md:text-lg md:leading-[26.1px]"
-                    />
-                  </div>
-                </div>
-                <div className="relative text-[15px] box-border caret-transparent gap-x-5 leading-[21.75px] max-w-full break-words gap-y-5 text-center w-[680px] md:text-lg md:leading-[26.1px]">
-                  <div className="text-[15px] box-border caret-transparent h-full leading-[21.75px] break-words md:text-lg md:leading-[26.1px]">
-                    <h3 className="text-neutral-800 text-[26px] box-border caret-transparent leading-[31.2px] break-words font-butler_local md:text-[42px] md:leading-[50.4px]">
-                      {post?.title}
-                    </h3>
-                  </div>
-                </div>
-                <div className="relative text-[15px] self-center box-border caret-transparent gap-x-5 leading-[21.75px] max-w-full break-words gap-y-5 text-center w-[90%] md:text-lg md:leading-[26.1px]">
-                  <div className="text-[15px] box-border caret-transparent h-full leading-[21.75px] break-words md:text-lg md:leading-[26.1px]">
-                    <p className="text-[15px] box-border caret-transparent leading-[21.75px] break-words md:text-lg md:leading-[26.1px]">
-                      {post?.description}
-                    </p>
-                  </div>
-                </div>
-              </div>
+            <div
+              key={index}
+              className="flex flex-col items-center text-center gap-y-5"
+            >
+              {post?.image && (
+                <img
+                  src={post.image}
+                  alt={post.title || ""}
+                  className="w-full max-w-[716px] mb-2.5"
+                />
+              )}
+              {post?.title && (
+                <h3 className="text-neutral-800 text-[26px] md:text-[42px] font-butler_local leading-[1.2]">
+                  {post.title}
+                </h3>
+              )}
+              {post?.description && (
+                <p className="w-[90%] md:w-[680px] text-neutral-600 text-[15px] md:text-lg leading-[1.6]">
+                  {post.description}
+                </p>
+              )}
             </div>
           ))}
         </div>
       </div>
-    </div>
+    </section>
   );
 };

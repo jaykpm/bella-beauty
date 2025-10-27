@@ -7,7 +7,7 @@ export const TemplateBuilder = () => {
   return (
     <div className="relative text-[15px] box-border caret-transparent flex flex-col leading-[21.75px] max-w-full break-words text-start w-full mb-20 px-5 md:text-lg md:leading-[26.1px] md:mb-[120px] md:px-10">
       <div className="text-[15px] box-border caret-transparent gap-x-[60px] flex grow flex-wrap h-full leading-[21.75px] max-w-[min(100%,767px)] break-words gap-y-[60px] w-full mx-auto md:text-lg md:gap-x-[100px] md:flex-nowrap md:leading-[26.1px] md:max-w-[min(100%,1280px)] md:gap-y-[100px]">
-        <div className="relative text-[15px] box-border caret-transparent gap-x-5 flex flex-col flex-wrap leading-[21.75px] break-words gap-y-5 w-full md:text-lg md:flex-nowrap md:leading-[26.1px] md:w-2/5">
+        <div className="relative text-[15px] box-border caret-transparent gap-x-5 flex flex-col flex-wrap leading-[21.75px] break-words gap-y-5 w-full md:text-lg md:flex-nowrap md:leading-[26.1px] md:w-2/5 md:sticky md:top-10 md:self-start md:h-fit">
           <div className="relative text-[15px] box-border caret-transparent gap-x-5 leading-[21.75px] max-w-full break-words gap-y-5 w-auto md:text-lg md:leading-[26.1px] md:w-[440px]">
             <div className="text-[15px] box-border caret-transparent h-full leading-[21.75px] break-words md:text-lg md:leading-[26.1px]">
               <div className="text-[15px] box-border caret-transparent leading-[21.75px] break-words md:text-lg md:leading-[26.1px]">
