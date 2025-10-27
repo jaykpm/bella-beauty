@@ -22,6 +22,7 @@ import { PluginsSection } from "@/sections/PluginsSection";
 import { CTASection } from "@/sections/CTASection";
 import Head from "next/head";
 import InsideSection from "@/sections/InsideSection";
+import { CustomizationFeaturesSection } from "@/sections/CustomizationFeaturesSection";
 
 export default function HomePage() {
   return (
@@ -57,6 +58,7 @@ export default function HomePage() {
                     <BlocksGallery />
                     <BeforeAfterSection />
                     <InsideSection />
+                    <CustomizationFeaturesSection />
                     <CustomizationSection />
                     <PostTypesSection />
                     <DetailsSection />

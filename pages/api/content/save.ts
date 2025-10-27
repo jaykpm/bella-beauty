@@ -78,6 +78,7 @@ export default async function handler(
       templateBuilder: 'public/content/template-builder/index.json',
       headerVariations: 'public/content/header-variations/index.json',
       mobileFirstSection: 'public/content/mobile-first-section/index.json',
+      customizationFeaturesSection: 'public/content/customization-features-section/index.json',
     };
 
     const filePath = sectionFileMap[section];

@@ -54,6 +54,7 @@ export default async function handler(
     crossCompatibilitySection: 'public/content/cross-compatibility/index.json',
     demoShowcase: 'public/content/demo-showcase/index.json',
     performance: 'public/content/performance/index.json',
+    customizationFeaturesSection: 'public/content/customization-features-section/index.json',
 
 
   };

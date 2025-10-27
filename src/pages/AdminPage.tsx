@@ -26,6 +26,7 @@ import { InstallationWizard } from "@/sections/InstallationWizard";
 import { TemplateBuilder } from "@/sections/TemplateBuilder";
 import { HeaderVariations } from "@/sections/HeaderVariations";
 import { MobileFirstSection } from "@/sections/MobileFirstSection";
+import { CustomizationFeaturesSection } from "@/sections/CustomizationFeaturesSection";
 
 type Field = {
   name: string;
@@ -687,6 +688,24 @@ const schemas: any = {
       },
     ],
   },
+  customizationFeaturesSection: {
+    title: "Customization Features Section",
+    fields: [
+      { name: "sectionId", label: "Section ID", type: "text" },
+      { name: "title", label: "Title", type: "text" },
+      { name: "subtitle", label: "Subtitle", type: "text" },
+      { name: "description", label: "Description", type: "text" },
+      { name: "image", label: "Image", type: "url" },
+      { name: "title2", label: "Title 2", type: "text" },
+      { name: "subtitle2", label: "Subtitle 2", type: "text" },
+      { name: "description2", label: "Description 2", type: "text" },
+      { name: "image2", label: "Image 2", type: "url" },
+      { name: "title3", label: "Title 3", type: "text" },
+      { name: "subtitle3", label: "Subtitle 3", type: "text" },
+      { name: "description3", label: "Description 3", type: "text" },
+      { name: "image3", label: "Image 3", type: "url" },
+    ],
+  },
 };
 export const AdminPage = () => {
   const { content, updateContent } = useTina();
@@ -989,6 +1008,12 @@ export const AdminPage = () => {
       icon: "📢",
     },
     { id: "settings", label: "Site Settings", component: null, icon: "⚙️" },
+    {
+      id: "customizationFeaturesSection",
+      label: "Customization Features",
+      component: CustomizationFeaturesSection,
+      icon: "🛠️",
+    },
   ];
 
   // Filter tabs based on search query

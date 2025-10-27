@@ -27,6 +27,7 @@ interface ContentData {
   templateBuilder?: any;
   headerVariations?: any;
   mobileFirstSection?: any;
+  customizationFeaturesSection?: any;
 }
 
 interface TinaContextType {
@@ -73,6 +74,8 @@ export const TinaProvider: React.FC<{ children: React.ReactNode }> = ({
             installationWizardRes,
             templateBuilderRes,
             headerVariationsRes,
+            mobileFirstSectionRes,
+            customizationFeaturesSectionRes,
           ] = await Promise.all([
             fetch("/content/hero/index.json").catch(() => null),
             fetch("/content/settings/index.json").catch(() => null),
@@ -94,6 +97,10 @@ export const TinaProvider: React.FC<{ children: React.ReactNode }> = ({
             fetch("/content/installation-wizard/index.json").catch(() => null),
             fetch("/content/template-builder/index.json").catch(() => null),
             fetch("/content/header-variations/index.json").catch(() => null),
+            fetch("/content/mobile-first-section/index.json").catch(() => null),
+            fetch("/content/customization-features-section/index.json").catch(
+              () => null
+            ),
           ]);
 
           const defaultContent: ContentData = {
@@ -333,6 +340,36 @@ export const TinaProvider: React.FC<{ children: React.ReactNode }> = ({
                   ],
                   footerNote:
                     "and probably any other layout you can imagine...",
+                },
+            mobileFirstSection: mobileFirstSectionRes
+              ? await mobileFirstSectionRes.json()
+              : {
+                  title: "Mobile First",
+                  description:
+                    "Ready variety of layouts for products pages, lookbook, blog posts and other pages.",
+                  posts: [],
+                },
+            customizationFeaturesSection: customizationFeaturesSectionRes
+              ? await customizationFeaturesSectionRes.json()
+              : {
+                  sectionTitle: "Customize everything",
+                  sectionSubtitle: "WHEN EDITING AN ELEMENT",
+                  description:
+                    "Rich editing and customization options let set your imagination free - edit or create new... anything!",
+                  features: [
+                    {
+                      name: "Family",
+                      value: "Default",
+                    },
+                    {
+                      name: "Size",
+                      value: "16",
+                    },
+                    {
+                      name: "Style",
+                      value: "Normal",
+                    },
+                  ],
                 },
           };
 
