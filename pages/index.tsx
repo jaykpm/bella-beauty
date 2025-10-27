@@ -23,6 +23,7 @@ import { CTASection } from "@/sections/CTASection";
 import Head from "next/head";
 import InsideSection from "@/sections/InsideSection";
 import { CustomizationFeaturesSection } from "@/sections/CustomizationFeaturesSection";
+import { ScrollToTop } from "@/components/ScrollToTop";
 
 export default function HomePage() {
   return (
@@ -78,6 +79,9 @@ export default function HomePage() {
           </div>
         </main>
       </div>
+
+      {/* Scroll to Top Button */}
+      <ScrollToTop />
     </>
   );
 }
