@@ -48,12 +48,11 @@ export const TinaProvider: React.FC<{ children: React.ReactNode }> = ({
     // Load content from localStorage or fetch from JSON files
     const loadContent = async () => {
       try {
-        const savedContent = localStorage.getItem("tinaContent");
-        if (savedContent) {
-          setContent(JSON.parse(savedContent));
-        } else {
-          // Load default content from JSON files
-          const [
+        // Clear localStorage on every reload to fetch fresh data
+        localStorage.removeItem("tinaContent");
+        
+        // Always fetch fresh content from JSON files
+        const [
             heroRes,
             settingsRes,
             trustBadgesRes,
@@ -373,9 +372,8 @@ export const TinaProvider: React.FC<{ children: React.ReactNode }> = ({
                 },
           };
 
-          setContent(defaultContent);
-          localStorage.setItem("tinaContent", JSON.stringify(defaultContent));
-        }
+        setContent(defaultContent);
+        // Don't save to localStorage so we always fetch fresh data on reload
       } catch (error) {
         console.error("Error loading content:", error);
         // Fallback to minimal content
