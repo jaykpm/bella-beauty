@@ -59,8 +59,8 @@ export default function HomePage() {
                     <BlocksGallery />
                     <BeforeAfterSection />
                     <InsideSection />
-                    <CustomizationFeaturesSection />
                     <CustomizationSection />
+                    <CustomizationFeaturesSection />
                     <PostTypesSection />
                     <DetailsSection />
                     <TechnicalSection />
