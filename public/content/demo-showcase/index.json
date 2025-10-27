@@ -11,26 +11,5 @@
   "additionalText": "Take your website to the next level.",
   "secondaryText": " ffwefwefwefrfr",
   "secondaryButtonText": "rfrfrf",
-  "image": "https://bella-beauty.cmsmasters.studio/wp-content/uploads/2024/02/number-1.svg",
-  "text1": "Ready-made website concepts",
-  "text2": "The Ultimate Solution",
-  "text3": "with 5 Home Pages",
-  "text4": "Choose, click to install",
-  "text5": "use right away!",
-  "demos": [
-    {
-      "id": "h1",
-      "title": "Home One",
-      "href": "",
-      "imageUrl": "https://bella-beauty.cmsmasters.studio/wp-content/uploads/2024/03/home-1.webp",
-      "qrCodeUrl": "https://bella-beauty.cmsmasters.studio/wp-content/uploads/2025/09/qrcode_bella-beauty.cmsmasters.studio.png"
-    },
-    {
-      "id": "h2",
-      "title": "Home Two",
-      "href": "",
-      "imageUrl": "https://bella-beauty.cmsmasters.studio/wp-content/uploads/2024/03/home-2.webp",
-      "qrCodeUrl": "https://bella-beauty.cmsmasters.studio/wp-content/uploads/2025/09/qrcode_bella-beauty.cmsmasters.studio-1.png"
-    }
-  ]
+  "image": "https://bella-beauty.cmsmasters.studio/wp-content/uploads/2024/02/number-1.svg"
 }
