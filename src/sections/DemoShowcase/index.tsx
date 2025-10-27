@@ -56,20 +56,21 @@ export const DemoShowcase = () => {
         </div>
       </div>
       <div className="text-[15px] box-border caret-transparent gap-x-[30px] leading-[21.75px] break-words gap-y-[30px] w-6/12 relative md:text-lg md:leading-[26.1px] md:w-6/12">
-        <Swiper
-          modules={[Autoplay]}
-          direction="vertical"
-          slidesPerView={1}
-          loop={true}
-          autoplay={{
-            delay: 0,
-            disableOnInteraction: false,
-            pauseOnMouseEnter: true,
-          }}
-          speed={8000}
-          className="h-[484px]"
-        >
-          {demoShowcase.demos?.map((item: any, index: number) => (
+        <DemoCard items={demoShowcase.demos} />
+        {/* {demoShowcase.demos?.map((item: any, index: number) => (
+          <Swiper
+            modules={[Autoplay]}
+            direction="vertical"
+            slidesPerView={1}
+            loop={true}
+            autoplay={{
+              delay: 0,
+              disableOnInteraction: false,
+              pauseOnMouseEnter: true,
+            }}
+            speed={8000}
+            className="h-[484px]"
+          >
             <SwiperSlide key={index}>
               <div className="relative text-[15px] box-border caret-transparent gap-x-[30px] leading-[21.75px] max-w-full break-words gap-y-[30px] md:text-lg md:leading-[26.1px]">
                 <div className="text-[15px] box-border caret-transparent h-full leading-[21.75px] break-words md:text-lg md:leading-[26.1px]">
@@ -102,38 +103,36 @@ export const DemoShowcase = () => {
                 </div>
               </div>
             </SwiperSlide>
-          ))}
-        </Swiper>
-        
-        {/* QR Code - Static, always visible */}
-        {demoShowcase.demos && demoShowcase.demos[0] && (
-          <div className="absolute text-[15px] box-border caret-transparent gap-x-[30px] leading-[21.75px] max-w-full break-words gap-y-[30px] text-center w-[110px] z-[1] right-5 bottom-[75px] md:text-lg md:leading-[26.1px] md:bottom-[85px]">
-            <div className="text-[15px] box-border caret-transparent h-full leading-[21.75px] break-words md:text-lg md:leading-[26.1px]">
-              <img
-                src={demoShowcase.demos[0].qrCodeUrl}
-                alt=""
-                sizes={demoShowcase.demos[0].qrCodeSizes}
-                className="text-[15px] aspect-[auto_450_/_450] shadow-[rgba(0,0,0,0.2)_0px_0px_40px_0px] box-border caret-transparent inline-block leading-[21.75px] max-w-full break-words w-[450px] rounded-[20px] md:text-lg md:leading-[26.1px]"
-              />
-            </div>
-          </div>
-        )}
-        
-        {/* Title - Static, always visible */}
-        {demoShowcase.demos && demoShowcase.demos[0] && (
-          <div className="relative text-[15px] box-border caret-transparent gap-x-[30px] leading-[21.75px] max-w-full break-words gap-y-[30px] mt-5 md:text-lg md:leading-[26.1px]">
-            <div className="text-[15px] box-border caret-transparent h-full leading-[21.75px] break-words md:text-lg md:leading-[26.1px]">
-              <h4 className="text-neutral-800 text-xl box-border caret-transparent leading-[25px] break-words text-center font-butler_local md:text-3xl md:leading-[37.5px]">
-                <a
-                  href={demoShowcase.demos[0].href}
-                  className="text-xl box-border caret-transparent leading-[25px] break-words md:text-3xl md:leading-[37.5px]"
-                >
-                  {demoShowcase.demos[0].title}
-                </a>
-              </h4>
-            </div>
-          </div>
-        )}
+
+            {demoShowcase.demos && item && (
+              <div className="absolute text-[15px] box-border caret-transparent gap-x-[30px] leading-[21.75px] max-w-full break-words gap-y-[30px] text-center w-[110px] z-[1] right-5 bottom-[75px] md:text-lg md:leading-[26.1px] md:bottom-[85px]">
+                <div className="text-[15px] box-border caret-transparent h-full leading-[21.75px] break-words md:text-lg md:leading-[26.1px]">
+                  <img
+                    src={item.qrCodeUrl}
+                    alt=""
+                    sizes={item.qrCodeSizes}
+                    className="text-[15px] aspect-[auto_450_/_450] shadow-[rgba(0,0,0,0.2)_0px_0px_40px_0px] box-border caret-transparent inline-block leading-[21.75px] max-w-full break-words w-[450px] rounded-[20px] md:text-lg md:leading-[26.1px]"
+                  />
+                </div>
+              </div>
+            )}
+
+            {demoShowcase.demos && item && (
+              <div className="relative text-[15px] box-border caret-transparent gap-x-[30px] leading-[21.75px] max-w-full break-words gap-y-[30px] mt-5 md:text-lg md:leading-[26.1px]">
+                <div className="text-[15px] box-border caret-transparent h-full leading-[21.75px] break-words md:text-lg md:leading-[26.1px]">
+                  <h4 className="text-neutral-800 text-xl box-border caret-transparent leading-[25px] break-words text-center font-butler_local md:text-3xl md:leading-[37.5px]">
+                    <a
+                      href={item.href}
+                      className="text-xl box-border caret-transparent leading-[25px] break-words md:text-3xl md:leading-[37.5px]"
+                    >
+                      {item.title}
+                    </a>
+                  </h4>
+                </div>
+              </div>
+            )}
+          </Swiper>
+        ))} */}
       </div>
     </div>
   );
