@@ -77,7 +77,7 @@ export default async function handler(
       installationWizard: 'public/content/installation-wizard/index.json',
       templateBuilder: 'public/content/template-builder/index.json',
       headerVariations: 'public/content/header-variations/index.json',
-      mobileFirstSection: 'public/content/mobile-first-section/index.json',
+      // mobileFirstSection: 'public/content/mobile-first-section/index.json',
       customizationFeaturesSection: 'public/content/customization-features-section/index.json',
     };
 

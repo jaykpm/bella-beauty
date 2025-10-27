@@ -26,7 +26,7 @@ interface ContentData {
   installationWizard?: any;
   templateBuilder?: any;
   headerVariations?: any;
-  mobileFirstSection?: any;
+  // mobileFirstSection?: any;
   customizationFeaturesSection?: any;
 }
 
@@ -341,14 +341,14 @@ export const TinaProvider: React.FC<{ children: React.ReactNode }> = ({
                   footerNote:
                     "and probably any other layout you can imagine...",
                 },
-            mobileFirstSection: mobileFirstSectionRes
-              ? await mobileFirstSectionRes.json()
-              : {
-                  title: "Mobile First",
-                  description:
-                    "Ready variety of layouts for products pages, lookbook, blog posts and other pages.",
-                  posts: [],
-                },
+            // mobileFirstSection: mobileFirstSectionRes
+            //   ? await mobileFirstSectionRes.json()
+            //   : {
+            //       title: "Mobile First",
+            //       description:
+            //         "Ready variety of layouts for products pages, lookbook, blog posts and other pages.",
+            //       posts: [],
+            //     },
             customizationFeaturesSection: customizationFeaturesSectionRes
               ? await customizationFeaturesSectionRes.json()
               : {

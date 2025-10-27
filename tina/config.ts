@@ -1145,48 +1145,48 @@ export default defineConfig({
           },
         ],
       },
-      {
-        name: "mobileFirstSection",
-        label: "Mobile First Section",
-        path: "content/mobile-first-section",
-        format: "json",
-        ui: {
-          allowedActions: {
-            create: false,
-            delete: false,
-          },
-        },
-        fields: [
-          {
-            type: "string",
-            name: "sectionTitle",
-            label: "Section Title",
-          },
-          {
-            type: "string",
-            name: "sectionSubtitle",
-            label: "Section Subtitle",
-          },
-          {
-            type: "object",
-            name: "features",
-            label: "Mobile Features",
-            list: true,
-            fields: [
-              {
-                type: "string",
-                name: "title",
-                label: "Feature Title",
-              },
-              {
-                type: "string",
-                name: "description",
-                label: "Description",
-              },
-            ],
-          },
-        ],
-      },
+      // {
+      //   name: "mobileFirstSection",
+      //   label: "Mobile First Section",
+      //   path: "content/mobile-first-section",
+      //   format: "json",
+      //   ui: {
+      //     allowedActions: {
+      //       create: false,
+      //       delete: false,
+      //     },
+      //   },
+      //   fields: [
+      //     {
+      //       type: "string",
+      //       name: "sectionTitle",
+      //       label: "Section Title",
+      //     },
+      //     {
+      //       type: "string",
+      //       name: "sectionSubtitle",
+      //       label: "Section Subtitle",
+      //     },
+      //     {
+      //       type: "object",
+      //       name: "features",
+      //       label: "Mobile Features",
+      //       list: true,
+      //       fields: [
+      //         {
+      //           type: "string",
+      //           name: "title",
+      //           label: "Feature Title",
+      //         },
+      //         {
+      //           type: "string",
+      //           name: "description",
+      //           label: "Description",
+      //         },
+      //       ],
+      //     },
+      //   ],
+      // },
       {
         name: "settings",
         label: "Site Settings",

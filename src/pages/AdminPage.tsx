@@ -989,12 +989,12 @@ export const AdminPage = () => {
       component: HeaderVariations,
       icon: "📄",
     },
-    {
-      id: "mobileFirstSection",
-      label: "Mobile First",
-      component: MobileFirstSection,
-      icon: "📱",
-    },
+    // {
+    //   id: "mobileFirstSection",
+    //   label: "Mobile First",
+    //   component: MobileFirstSection,
+    //   icon: "📱",
+    // },
     {
       id: "pluginsSection",
       label: "Plugins",
