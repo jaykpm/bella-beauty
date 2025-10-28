@@ -27,7 +27,7 @@ const ElementorSection = ({
                 isEven ? "slideInRightFull" : "slideInLeftFull"
               } 0.8s ease-out `
             : "none",
-          // opacity: isInView ? 1 : 0,
+          opacity: isInView ? 1 : 0,
         }}
       >
         <img
