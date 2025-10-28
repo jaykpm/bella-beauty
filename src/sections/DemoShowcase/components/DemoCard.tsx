@@ -1,3 +1,5 @@
+import { useRef, useEffect, useState } from "react";
+
 export type DemoCardProps = {
   containerVariant?: string;
   items: Array<{
@@ -10,15 +12,38 @@ export type DemoCardProps = {
   }>;
 };
 
-export const DemoCard = (props: DemoCardProps) => {
+const DemoCardItem = ({ item, index }: { item: any; index: number }) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const [isInView, setIsInView] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsInView(true);
+          if (ref.current) observer.unobserve(ref.current);
+        }
+      },
+      { threshold: 0.2 }
+    );
+
+    if (ref.current) observer.observe(ref.current);
+
+    return () => {
+      if (ref.current) observer.unobserve(ref.current);
+    };
+  }, []);
+
   return (
-    // <div className={props.containerVariant || ""}>
-    <>
-      {props.items?.map((item, index) => (
-        <div
-          key={index}
-          className="text-[15px] box-border caret-transparent  gap-x-[30px] leading-[21.75px] break-words gap-y-[30px] md:text-lg md:leading-[26.1px] relative flex flex-col flex-wrap w-6/12 md:flex-nowrap md:w-6/12"
-        >
+    <div
+      ref={ref}
+      className="text-[15px] box-border caret-transparent  gap-x-[30px] leading-[21.75px] break-words gap-y-[30px] md:text-lg md:leading-[26.1px] relative flex flex-col flex-wrap w-6/12 md:flex-nowrap md:w-6/12"
+      style={{
+        animation: isInView ? `slideInRight 0.8s ease-out forwards` : "none",
+        animationDelay: `${index * 0.15}s`,
+        opacity: isInView ? 1 : 0,
+      }}
+    >
           <div className="relative text-[15px] box-border caret-transparent gap-x-[30px] leading-[21.75px] max-w-full break-words gap-y-[30px] md:text-lg md:leading-[26.1px]">
             <div className="text-[15px] box-border caret-transparent h-full leading-[21.75px] break-words md:text-lg md:leading-[26.1px]">
               <figure className="relative text-[15px] box-border caret-transparent leading-[21.75px] break-words md:text-lg md:leading-[26.1px]">
@@ -65,7 +90,15 @@ export const DemoCard = (props: DemoCardProps) => {
               </h4>
             </div>
           </div>
-        </div>
+    </div>
+  );
+};
+
+export const DemoCard = (props: DemoCardProps) => {
+  return (
+    <>
+      {props.items?.map((item, index) => (
+        <DemoCardItem key={index} item={item} index={index} />
       ))}
     </>
   );

@@ -75,6 +75,7 @@ export const TinaProvider: React.FC<{ children: React.ReactNode }> = ({
           headerVariationsRes,
           customizationFeaturesSectionRes,
           colorPalettesRes,
+          demoShowcaseRes,
         ] = await Promise.all([
           fetch("/content/hero/index.json").catch(() => null),
           fetch("/content/settings/index.json").catch(() => null),
@@ -100,6 +101,7 @@ export const TinaProvider: React.FC<{ children: React.ReactNode }> = ({
             () => null
           ),
           fetch("/content/color-palettes/index.json").catch(() => null),
+          fetch("/content/demo-showcase/index.json").catch(() => null),
         ]);
 
         const defaultContent: ContentData = {
@@ -374,6 +376,24 @@ export const TinaProvider: React.FC<{ children: React.ReactNode }> = ({
                 title: "Color Palettes",
                 image1: "",
                 image2: "",
+              },
+          demoShowcase: demoShowcaseRes
+            ? await demoShowcaseRes.json()
+            : {
+                backgroundImage: "",
+                overlayOpacity: 0.1,
+                overlayColor: "#000000",
+                title:
+                  "Create your Aesthetic Medical Clinic website with Bella Beauty",
+                subtitle: "Elementor Based Beauty Clinic WordPress Theme\n\n",
+                buttonText: "PURCHASE NOW",
+                buttonLink: "https://1.envato.market/cmsmasters-bella-beau",
+                viewDemosText: "View Demos",
+                viewDemosLink: "#demos",
+                additionalText: "Take your website to the next level.",
+                secondaryText: "ffwefwefwefrfr",
+                secondaryButtonText: "rfrfrf",
+                image: "",
               },
         };
 

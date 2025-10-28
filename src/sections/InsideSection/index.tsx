@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Check } from "lucide-react";
+import { useInView } from "@/hooks/useInView";
 
 const cards = [
   {
@@ -30,16 +31,10 @@ const cards = [
 ];
 
 export default function InsideSection() {
-  const [visible, setVisible] = useState(false);
-
-  // Trigger animation on mount
-  useEffect(() => {
-    const timeout = setTimeout(() => setVisible(true), 100);
-    return () => clearTimeout(timeout);
-  }, []);
+  const { ref, isInView } = useInView({ threshold: 0.2 });
 
   return (
-    <section className="py-16 bg-white text-center overflow-hidden">
+    <section ref={ref} className="py-16 bg-white text-center overflow-hidden">
       <h2 className="text-3xl md:text-4xl font-light mb-12 text-gray-800">
         What else is inside?
       </h2>
@@ -50,7 +45,7 @@ export default function InsideSection() {
             key={card.title}
             className={`relative bg-rose-50 rounded-2xl shadow-sm flex-1 p-8 text-left transform transition-all duration-700 ease-out
               ${
-                visible
+                isInView
                   ? "translate-y-0 opacity-100"
                   : "translate-y-16 opacity-0"
               }`}

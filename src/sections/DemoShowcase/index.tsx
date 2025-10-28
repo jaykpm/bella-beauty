@@ -1,28 +1,27 @@
 import { useTina } from "@/contexts/TinaContext";
 import { DemoCard } from "@/sections/DemoShowcase/components/DemoCard";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay } from "swiper/modules";
-
-// Import Swiper styles
-import "swiper/css";
+import { useInView } from "@/hooks/useInView";
 
 export const DemoShowcase = () => {
   const { content } = useTina();
   const demoShowcase = content.demoShowcase || [];
-  console.log({ demoShowcase });
+  const { ref, isInView } = useInView({ threshold: 0.2 });
 
   return (
     <div
+      ref={ref}
       style={{ display: "flex", flexWrap: "wrap" }}
       className="relative text-[15px] box-border caret-transparent gap-x-0 flex flex-wrap leading-[21.75px] max-w-full break-words gap-y-[60px] w-full mb-[60px] px-5 md:text-lg  md:flex-nowrap md:leading-[26.1px] md:gap-y-20 md:mb-[90px] md:px-[60px]"
     >
-      <div className=" relative text-[15px] box-border caret-transparent gap-x-0 flex flex-col flex-wrap leading-[21.75px] break-words gap-y-0 w-6/12 md:text-lg md:flex-nowrap md:leading-[26.1px] md:w-6/12">
-        <div className="relative text-[15px] box-border caret-transparent gap-x-0 leading-[21.75px] max-w-full break-words gap-y-0 md:text-lg md:leading-[26.1px]">
-          <div className="text-[15px] box-border caret-transparent h-full leading-[21.75px] break-words md:text-lg md:leading-[26.1px]">
-            <div className="text-[15px] box-border caret-transparent leading-[21.75px] break-words md:text-lg md:leading-[26.1px]"></div>
-          </div>
-        </div>
-        <div className="relative text-[15px] box-border caret-transparent gap-x-0 leading-[21.75px] max-w-full break-words gap-y-0 md:text-lg md:leading-[26.1px]">
+      <div className="relative text-[15px] box-border caret-transparent gap-x-0 flex flex-col flex-wrap leading-[21.75px] break-words gap-y-0 w-6/12 md:text-lg md:flex-nowrap md:leading-[26.1px] md:w-6/12">
+        {/* ✅ Animated image block */}
+        <div
+          className="relative text-[15px] box-border caret-transparent gap-x-0 leading-[21.75px] max-w-full break-words gap-y-0 md:text-lg md:leading-[26.1px] transition-all duration-1000 ease-out"
+          style={{
+            animation: isInView ? "zoomIn 1s ease forwards" : "none",
+            opacity: isInView ? 1 : 0,
+          }}
+        >
           <div className="text-[15px] box-border caret-transparent h-full leading-[21.75px] break-words md:text-lg md:leading-[26.1px]">
             <img
               src={demoShowcase.image}
@@ -31,6 +30,8 @@ export const DemoShowcase = () => {
             />
           </div>
         </div>
+
+        {/* Text sections below remain unchanged */}
         <div className="relative text-[15px] box-border caret-transparent gap-x-0 leading-[21.75px] max-w-full break-words gap-y-0 md:text-lg md:leading-[26.1px]">
           <div className="text-[15px] box-border caret-transparent h-full leading-[21.75px] break-words -mt-5 mb-[30px] md:text-lg md:leading-[26.1px]">
             <h6 className="text-neutral-400 text-[11px] font-normal box-border caret-transparent tracking-[2px] leading-[17.05px] break-words uppercase md:text-[15px] md:leading-[23.25px]">
@@ -38,6 +39,7 @@ export const DemoShowcase = () => {
             </h6>
           </div>
         </div>
+
         <div className="relative text-[15px] box-border caret-transparent gap-x-0 leading-[21.75px] max-w-full break-words gap-y-0 md:text-lg md:leading-[26.1px]">
           <div className="text-[15px] box-border caret-transparent h-full leading-[21.75px] break-words mb-[30px] md:text-lg md:leading-[26.1px]">
             <h2 className="text-neutral-800 text-[32px] box-border caret-transparent leading-[36.8px] break-words font-butler_local md:text-[56px] md:leading-[64.4px]">
@@ -47,6 +49,7 @@ export const DemoShowcase = () => {
             </h2>
           </div>
         </div>
+
         <div className="relative text-[15px] box-border caret-transparent gap-x-0 leading-[21.75px] max-w-full break-words gap-y-0 md:text-lg md:leading-[26.1px]">
           <div className="text-[15px] box-border caret-transparent h-full leading-[21.75px] break-words md:text-lg md:leading-[26.1px]">
             <p className="text-[15px] box-border caret-transparent leading-[21.75px] break-words md:text-lg md:leading-[26.1px]">
@@ -55,6 +58,7 @@ export const DemoShowcase = () => {
           </div>
         </div>
       </div>
+
       <div className="text-[15px] box-border caret-transparent gap-x-[30px] leading-[21.75px] break-words gap-y-[30px] w-6/12 relative md:text-lg md:leading-[26.1px] md:w-6/12">
         <DemoCard items={demoShowcase.demos} />
         {/* {demoShowcase.demos?.map((item: any, index: number) => (
