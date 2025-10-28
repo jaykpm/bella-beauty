@@ -36,7 +36,10 @@ export const PerformanceSection = () => {
   }, [targetScore, isInView]);
 
   return (
-    <div ref={ref} className="relative text-[15px] box-border flex flex-col leading-[21.75px] max-w-full text-start w-full mb-20 px-5 md:text-lg md:leading-[26.1px] md:mb-[120px] md:px-10">
+    <div
+      ref={ref}
+      className="relative text-[15px] box-border flex flex-col leading-[21.75px] max-w-full text-start w-full mb-20 px-5 md:text-lg md:leading-[26.1px] md:mb-[120px] md:px-10"
+    >
       <div className="flex flex-wrap md:flex-nowrap gap-y-10 md:gap-x-40 mx-auto max-w-screen-xl items-center">
         {/* LEFT SIDE CONTENT */}
         <div className="flex flex-col gap-5 w-full md:w-[48%]">
@@ -68,11 +71,12 @@ export const PerformanceSection = () => {
 
         {/* RIGHT SIDE IMAGE + BOTTOM SCORE SECTION */}
         <div
+          className="relative w-full md:w-[52%] flex flex-col items-center transition-opacity duration-1000"
           style={{
             animation: isInView ? "slideInUp 1s ease" : "none",
-            opacity: isInView ? 1 : 0,
+            // opacity: isInView ? 1 : 0,
+            transitionDelay: `${1 * 100}ms`,
           }}
-          className="relative w-full md:w-[52%] flex flex-col items-center transition-opacity duration-1000"
         >
           {/* Image */}
           <div className="relative w-full">
@@ -87,7 +91,14 @@ export const PerformanceSection = () => {
           </div>
 
           {/* Bottom Overlay Section */}
-          <div className="relative -ml-[15rem] -mt-10  bg-[#8B4B56] text-white rounded-2xl shadow-lg flex items-center justify-between w-[85%] md:w-[80%] px-6 py-4">
+          <div
+            className="relative -ml-[15rem] -mt-10  bg-[#8B4B56] text-white rounded-2xl shadow-lg flex items-center justify-between w-[85%] md:w-[80%] px-6 py-4"
+            style={{
+              animation: isInView ? "slideInUp 2s ease" : "none",
+              // opacity: isInView ? 1 : 0,
+              transitionDelay: `${2 * 500}ms`,
+            }}
+          >
             {/* Left: Lightning icon + Score */}
             <div className="flex items-center gap-3">
               <img
@@ -109,7 +120,9 @@ export const PerformanceSection = () => {
               <div className="relative w-full h-2 bg-white/30 rounded-full overflow-hidden">
                 <div
                   className="absolute top-0 left-0 h-2 bg-white rounded-full transition-all duration-100 ease-out"
-                  style={{ width: `${progress}%` }}
+                  style={{
+                    width: `${progress}%`,
+                  }}
                 ></div>
               </div>
             </div>
