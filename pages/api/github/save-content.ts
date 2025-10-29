@@ -60,6 +60,10 @@ export default async function handler(
   };
 
   const filePath = sectionFileMap[section];
+  console.log({
+    section,
+    filePath
+  });
 
   // Check for required environment variables
   if (!process.env.GITHUB_TOKEN || !process.env.GITHUB_OWNER || !process.env.GITHUB_REPO) {

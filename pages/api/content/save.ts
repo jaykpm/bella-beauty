@@ -81,7 +81,14 @@ export default async function handler(
       customizationFeaturesSection: 'public/content/customization-features-section/index.json',
     };
 
+
     const filePath = sectionFileMap[section];
+
+    console.log({
+      section,
+      filePath
+    });
+
     if (!filePath) {
       return res.status(400).json({
         success: false,
