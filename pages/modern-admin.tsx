@@ -872,6 +872,13 @@ const ModernAdminPage = () => {
     );
   });
 
+  // autu save on formdata change
+  useEffect(() => {
+    if (hasUnsavedChanges) {
+      handleManualSave();
+    }
+  }, [formData]);
+
   return (
     <div
       className={`min-h-screen ${
@@ -1009,7 +1016,7 @@ const ModernAdminPage = () => {
               </button>
 
               {/* Save Button */}
-              <button
+              {/* <button
                 onClick={handleManualSave}
                 disabled={isSaving || !hasUnsavedChanges}
                 className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg hover:from-blue-700 hover:to-indigo-700 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl"
@@ -1025,12 +1032,22 @@ const ModernAdminPage = () => {
                     <span className="hidden sm:inline">Save</span>
                   </>
                 )}
-              </button>
+              </button> */}
 
               {/* button for commit and push */}
               <button
                 onClick={() => setShowCommitDialog(true)}
-                disabled={isCommitting || !hasUnsavedChanges}
+                // can commit if there use made changes  or auto save is enabled
+                //why this its disable when my content auto saved
+                disabled={
+                  isCommitting ||
+                  (gitStatus &&
+                  gitStatus.changedFiles &&
+                  gitStatus.changedFiles.length === 0
+                    ? true
+                    : false && !hasUnsavedChanges)
+                }
+                //
                 className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg hover:from-blue-700 hover:to-indigo-700 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl"
               >
                 {isCommitting ? (
@@ -1041,7 +1058,13 @@ const ModernAdminPage = () => {
                 ) : (
                   <>
                     {/* <GitBranch className="w-4 h-4" /> */}
-                    <span className="hidden sm:inline">Upload Changes</span>
+                    <span className="hidden sm:inline">
+                      {" "}
+                      Upload{" "}
+                      <span className="text-sm">
+                        {`( ${gitStatus?.changedFiles?.length || 0} Changes ) `}
+                      </span>
+                    </span>
                   </>
                 )}
               </button>
