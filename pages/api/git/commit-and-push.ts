@@ -16,9 +16,7 @@ export default async function handler(
   res: NextApiResponse<GitResponse>
 ) {
   // Disable Git operations in production unless explicitly enabled
-  if (
-    // process.env.NODE_ENV === 'production' &&
-    process.env.ENABLE_ADMIN !== 'true') {
+  if (process.env.NODE_ENV === 'production' && process.env.ENABLE_ADMIN !== 'true') {
     return res.status(403).json({
       success: false,
       message: 'Git operations disabled in production',
@@ -46,13 +44,13 @@ export default async function handler(
 
   try {
     // In production (especially serverless), Git may not be available
-    // if (process.env.NODE_ENV === 'production') {
-    //   return res.status(400).json({
-    //     success: false,
-    //     message: 'Git operations not available in production',
-    //     error: 'Git commands are not available in serverless production environments'
-    //   });
-    // }
+    if (process.env.NODE_ENV === 'production') {
+      return res.status(400).json({
+        success: false,
+        message: 'Git operations not available in production',
+        error: 'Git commands are not available in serverless production environments'
+      });
+    }
 
     // Check if we're in a git repository
     await execAsync('git status');
@@ -86,13 +84,13 @@ export default async function handler(
     console.error('Git operation failed:', error);
 
     // In production, return a safe response instead of error
-    // if (process.env.NODE_ENV === 'production') {
-    //   return res.status(400).json({
-    //     success: false,
-    //     message: 'Git operations not available in production',
-    //     error: 'Git commands are not available in serverless production environments'
-    //   });
-    // }
+    if (process.env.NODE_ENV === 'production') {
+      return res.status(400).json({
+        success: false,
+        message: 'Git operations not available in production',
+        error: 'Git commands are not available in serverless production environments'
+      });
+    }
 
     if (error.message.includes('nothing to commit')) {
       return res.status(200).json({
