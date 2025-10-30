@@ -17,24 +17,28 @@ export const CustomizationFeaturesSection = () => {
       >
         {/* Card 1 - Change fonts */}
         <div
-          className={`relative text-[15px] box-border caret-transparent flex flex-col leading-[21.75px] break-words bg-[#faf3f3] rounded-[20px] p-8 w-full md:text-lg md:leading-[26.1px] md:w-1/3
+          className={`relative text-[15px] box-border caret-transparent flex flex-col leading-[21.75px] break-words bg-[#faf3f3] rounded-[20px] p-10 w-full min-h-[450px] md:text-lg md:leading-[26.1px] md:w-1/3 md:p-12 md:min-h-[520px]
            transform transition-all duration-700 ease-out
         ${isInView ? "translate-y-0 opacity-100" : "translate-y-16 opacity-0"}
           `}
           style={{ transitionDelay: `${1 * 100}ms` }}
         >
-          <div className="relative mb-6 h-[200px]">
-            <img src={customizationFeaturesSection?.image} alt="" />
+          <div className="relative mb-8 h-[240px] overflow-hidden flex items-center justify-center">
+            <img 
+              src={customizationFeaturesSection?.image} 
+              alt="" 
+              className="w-full h-full object-contain"
+            />
           </div>
 
           <div className="mt-auto">
-            <h3 className="text-neutral-800 text-xl font-bold mb-2">
+            <h3 className="text-neutral-800 text-2xl font-bold mb-3">
               {customizationFeaturesSection?.title}
             </h3>
-            <p className="text-[#a78b8b] text-xs uppercase tracking-wider mb-3">
+            <p className="text-[#a78b8b] text-xs uppercase tracking-wider mb-4">
               {customizationFeaturesSection?.subtitle}
             </p>
-            <p className="text-neutral-600 text-sm leading-relaxed">
+            <p className="text-neutral-600 text-base leading-relaxed">
               {customizationFeaturesSection?.description}
             </p>
           </div>
@@ -42,24 +46,28 @@ export const CustomizationFeaturesSection = () => {
 
         {/* Card 2 - Change colors */}
         <div
-          className={`relative text-[15px] box-border caret-transparent flex flex-col leading-[21.75px] break-words bg-[#8b6b6b] rounded-[20px] p-8 w-full md:text-lg md:leading-[26.1px] md:w-1/3
+          className={`relative text-[15px] box-border caret-transparent flex flex-col leading-[21.75px] break-words bg-[#8b6b6b] rounded-[20px] p-10 w-full min-h-[450px] md:text-lg md:leading-[26.1px] md:w-1/3 md:p-12 md:min-h-[520px]
            transform transition-all duration-700 ease-out
         ${isInView ? "translate-y-0 opacity-100" : "translate-y-16 opacity-0"}
           `}
           style={{ transitionDelay: `${2 * 100}ms` }}
         >
-          <div className="relative mb-6 h-[200px]">
-            <img src={customizationFeaturesSection?.image2} alt="" />
+          <div className="relative mb-8 h-[240px] overflow-hidden flex items-center justify-center">
+            <img 
+              src={customizationFeaturesSection?.image2} 
+              alt="" 
+              className="w-full h-full object-contain"
+            />
           </div>
 
           <div className="mt-auto">
-            <h3 className="text-white text-xl font-bold mb-2">
+            <h3 className="text-white text-2xl font-bold mb-3">
               {customizationFeaturesSection?.title2}
             </h3>
-            <p className="text-white/70 text-xs uppercase tracking-wider mb-3">
+            <p className="text-white/70 text-xs uppercase tracking-wider mb-4">
               {customizationFeaturesSection?.subtitle2}
             </p>
-            <p className="text-white/90 text-sm leading-relaxed">
+            <p className="text-white/90 text-base leading-relaxed">
               {customizationFeaturesSection?.description2}
             </p>
           </div>
@@ -67,23 +75,27 @@ export const CustomizationFeaturesSection = () => {
 
         {/* Card 3 - Customize everything */}
         <div
-          className={`relative text-[15px] box-border caret-transparent flex flex-col leading-[21.75px] break-words bg-[#faf3f3] rounded-[20px] p-8 w-full md:text-lg md:leading-[26.1px] md:w-1/3
+          className={`relative text-[15px] box-border caret-transparent flex flex-col leading-[21.75px] break-words bg-[#faf3f3] rounded-[20px] p-10 w-full min-h-[450px] md:text-lg md:leading-[26.1px] md:w-1/3 md:p-12 md:min-h-[520px]
            transform transition-all duration-700 ease-out
         ${isInView ? "translate-y-0 opacity-100" : "translate-y-16 opacity-0"}
           `}
           style={{ transitionDelay: `${3 * 100}ms` }}
         >
-          <div className="relative mb-6 h-[200px]">
-            <img src={customizationFeaturesSection?.image3} alt="" />
+          <div className="relative mb-8 h-[240px] overflow-hidden flex items-center justify-center">
+            <img 
+              src={customizationFeaturesSection?.image3} 
+              alt="" 
+              className="w-full h-full object-contain"
+            />
           </div>
           <div className="mt-auto">
-            <h3 className="text-neutral-800 text-xl font-bold mb-2">
+            <h3 className="text-neutral-800 text-2xl font-bold mb-3">
               {customizationFeaturesSection?.title3}
             </h3>
-            <p className="text-[#a78b8b] text-xs uppercase tracking-wider mb-3">
+            <p className="text-[#a78b8b] text-xs uppercase tracking-wider mb-4">
               {customizationFeaturesSection?.subtitle3}
             </p>
-            <p className="text-neutral-600 text-sm leading-relaxed">
+            <p className="text-neutral-600 text-base leading-relaxed">
               {customizationFeaturesSection?.description3}
             </p>
           </div>
