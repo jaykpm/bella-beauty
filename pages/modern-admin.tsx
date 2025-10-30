@@ -1036,7 +1036,7 @@ const ModernAdminPage = () => {
 
               {/* button for commit and push */}
               <button
-                onClick={() => setShowCommitDialog(true)}
+                onClick={() => updateContent(activeTab, formData)}
                 // can commit if there use made changes  or auto save is enabled
                 //why this its disable when my content auto saved
                 disabled={
