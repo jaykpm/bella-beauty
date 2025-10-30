@@ -1060,9 +1060,11 @@ const ModernAdminPage = () => {
                     {/* <GitBranch className="w-4 h-4" /> */}
                     <span className="hidden sm:inline">
                       {" "}
-                      Upload{" "}
+                      Save
                       <span className="text-sm">
-                        {`( ${gitStatus?.changedFiles?.length || 0} Changes ) `}
+                        {/* {`(
+                         ${gitStatus?.changedFiles?.length || 0} 
+                         Changes ) `} */}
                       </span>
                     </span>
                   </>
