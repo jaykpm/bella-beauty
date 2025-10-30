@@ -1,5 +1,4 @@
 import { NavMenu } from "@/sections/Header/components/NavMenu";
-import { MobileMenuToggle } from "@/sections/Header/components/MobileMenuToggle";
 
 export const DesktopNavigation = () => {
   return (
@@ -7,7 +6,6 @@ export const DesktopNavigation = () => {
       <div className="relative text-[15px] box-border caret-transparent gap-x-5 leading-[21.75px] max-w-full min-h-0 break-words gap-y-5 md:text-lg md:leading-[26.1px] md:min-h-[auto]">
         <div className="text-[15px] box-border caret-transparent h-full leading-[21.75px] break-words md:text-lg md:leading-[26.1px]">
           <NavMenu />
-          <MobileMenuToggle />
           <nav
             aria-label="Menu"
             className="relative text-[15px] box-border caret-transparent hidden leading-[21.75px] break-words z-[999] md:text-lg md:leading-[26.1px]"
